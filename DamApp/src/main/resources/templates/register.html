@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<div th:replace="~{fragments/commons::nav}"></div>
+
+<div class="wrapper">
+    <div class="container">
+        <div class="registration-form">
+            <h2 class="text-center form-title">Регистрация</h2>
+            <form
+                    th:method="POST"
+                    th:action="@{/register}"
+                    th:object="${registerData}"
+            >
+                <div class="form-group mb-3">
+                    <label for="firstName" class="required-field">Име</label>
+                    <input
+                            th:errorclass="'is-invalid alert-danger'"
+                            th:field="*{firstName}"
+                            type="text"
+                            class="form-control"
+                            id="firstName"
+                            name="firstName">
+                    <span class="invalid-feedback text-danger"
+                          th:if="${#fields.hasErrors('firstName')}"
+                          th:errors="*{firstName}"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="lastName" class="required-field">Фамилия</label>
+                    <input
+                            th:errorclass="'is-invalid alert-danger'"
+                            th:field="*{lastName}"
+                            type="text"
+                            class="form-control"
+                            id="lastName"
+                            name="lastName">
+                    <small class="invalid-feedback text-danger"
+                           th:if="${#fields.hasErrors('lastName')}"
+                           th:errors="*{lastName}"></small>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="email" class="required-field">Имейл</label>
+                    <input
+                            th:errorclass="'is-invalid alert-danger'"
+                            th:field="*{email}"
+                            type="text"
+                            class="form-control"
+                            id="email"
+                            name="email">
+                    <span class="invalid-feedback text-danger"
+                          th:if="${#fields.hasErrors('email')}"
+                          th:errors="*{email}"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password" class="required-field">Парола</label>
+                    <input
+                            th:errorclass="'is-invalid alert-danger'"
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password">
+                    <span class="invalid-feedback text-danger"
+                          th:if="${#fields.hasErrors('password')}"
+                          th:errors="*{password}"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="confirmPassword" class="required-field">Потвърди паролата</label>
+                    <input
+                            th:errorclass="'is-invalid alert-danger'"
+                            type="password"
+                            class="form-control"
+                            id="confirmPassword"
+                            name="confirmPassword">
+                    <span class="invalid-feedback text-danger"
+                          th:if="${#fields.hasErrors('confirmPassword')}"
+                          th:errors="*{confirmPassword}"></span>
+                </div>
+
+<!--                TODO: to fixed message when password and confirmPass do not match-->
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <span class="invalid-feedback text-danger" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></span>
+                </div>
+
+                <button type="submit" class="btn custom-btn btn-block">Регистрация</button>
+                <div th:if="${errorMessage}" class="error-message">
+                    <p th:text="${errorMessage}" class="error-text"></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <th:block th:replace="~{fragments/footer::footer}"></th:block>
+    </footer>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

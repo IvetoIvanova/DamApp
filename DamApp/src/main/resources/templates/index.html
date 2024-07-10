@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="bg"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAM.BG</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body class="default-bg">
+<div class="wrapper">
+    <header>
+        <th:block th:replace="~{fragments/commons::nav}"></th:block>
+    </header>
+    <div class="main-content">
+        <div class="container mt-4">
+            <h1 class="text-center" sec:authorize="!isAuthenticated()">Добре дошли в DAM.BG!</h1>
+
+            <div class="container mt-4" sec:authorize="isAuthenticated()">
+                <h1 class="text-center">Добре дошли в DAM.BG,
+                    <th:block th:text="${welcomeMessage}"></th:block>
+                    !
+                </h1>
+            </div>
+            <p class="lead text-center  mt-3">Тук, в нашето общо онлайн пространство, ви предлагаме възможността да
+                споделите излишъка от вашата градина и да откриете нови продукти, отгледани с любов и грижа.</p>
+            <p class="lead text-center">Нашата мисия е да свържем хората, които ценят качествената и натурална
+                продукция. Искаме да насърчим обмяната на знания и ресурси между градинарите, да подпомогнем
+                устойчивото земеделие и да създадем една по-свързана и споделена общност.</p>
+            <h4 class="lead text-center" sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}">Влезте</a>
+                , ако имате акаунт или се
+                <a th:href="@{/register}">регистрирайте</a>
+                сега, за да започнете да споделяте и разменяте продукти!
+                Споделете своята реколта, открийте нови приятели и се наслаждавайте на плодовете на вашия труд!
+            </h4>
+            <div class="lead text-center">
+                <img src="/images/logo.png" alt="Лого на платформата" class="img-fluid logo-small">
+            </div>
+
+        </div>
+    </div>
+    <footer>
+        <th:block th:replace="~{fragments/footer::footer}"></th:block>
+    </footer>
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/scrollToTop.js"></script>
+</body>
+</html>

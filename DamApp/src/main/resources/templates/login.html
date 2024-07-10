@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<header>
+    <th:block th:replace="~{fragments/commons::nav(activeLink=${'login'})}"></th:block>
+</header>
+<div class="wrapper">
+    <div class="container">
+        <div class="registration-form">
+            <h2 class="text-center form-title">Вход</h2>
+            <form
+                    th:method="post"
+                    th:action="@{/login}"
+            >
+                <div class="form-group">
+                    <label for="email">Имейл</label>
+                    <input type="text" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Парола</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+
+                <!--                    <p class="errors alert alert-danger">-->
+                <!--                        Невалиден имейл или парола.-->
+                <!--                    </p>-->
+
+                <button type="submit" class="btn custom-btn btn-block">Вход</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <th:block th:replace="~{fragments/footer::footer}"></th:block>
+    </footer>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
