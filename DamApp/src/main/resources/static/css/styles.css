@@ -199,3 +199,28 @@ body.default-bg {
     color: #fff;
     background-color: #28a745;
 }
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.dropdown-item-btn {
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+    display: block;
+    color: #495057;
+}
+
+.dropdown-item-form {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
