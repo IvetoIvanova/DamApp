@@ -7,21 +7,20 @@ import bg.softuni.damapp.model.enums.UserRoleEnum;
 import bg.softuni.damapp.repository.RoleRepository;
 import bg.softuni.damapp.repository.UserRepository;
 import bg.softuni.damapp.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
-
 @Service
 public class UserServiceImpl implements UserService {
-
+    private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository) {
+        this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -30,27 +29,19 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void registerUser(UserRegisterDTO userRegisterDTO) {
-        User user = new User();
-        user.setEmail(userRegisterDTO.getEmail());
-        user.setFirstName(userRegisterDTO.getFirstName());
-        user.setLastName(userRegisterDTO.getLastName());
-        user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
-
-        UserRole role;
-        if (userRepository.count() == 0) {
-            // Първият регистриран става АДМИН
-            role = roleRepository.findByRole(UserRoleEnum.ADMIN)
-                    .orElseThrow(() -> new RuntimeException("Admin role not found"));
-        } else {
-            // Всички следващи потребители ще бъдат с роля USER
-            role = roleRepository.findByRole(UserRoleEnum.USER)
-                    .orElseThrow(() -> new RuntimeException("User role not found"));
-        }
-
-        List<UserRole> roles = Collections.singletonList(role);
-        user.setRoles(roles);
+        User user = map(userRegisterDTO);
+        UserRole userRole = roleRepository.findByRole(UserRoleEnum.USER);
+        user.getRoles().add(userRole);
 
         userRepository.save(user);
+    }
+
+    private User map(UserRegisterDTO userRegisterDTO) {
+        User mappedEntity = modelMapper.map(userRegisterDTO, User.class);
+
+        mappedEntity.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
+
+        return mappedEntity;
     }
 }
 
