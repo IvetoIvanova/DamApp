@@ -24,7 +24,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link text-dark" href="/admin">АДМИН</a>
+                    <a class="nav-link text-dark"
+                       href="/admin"
+                       th:text="#{nav_bar_admin}">
+                        АДМИН
+                    </a>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="!isAuthenticated()">
                     <a class="nav-link dropdown-toggle text-dark"
@@ -33,7 +37,8 @@
                        role="button"
                        data-toggle="dropdown"
                        aria-haspopup="true"
-                       aria-expanded="false">
+                       aria-expanded="false"
+                       th:text="#{nav_bar_category}">
                         Категории
                     </a>
                     <div class="dropdown-menu" aria-labelledby="categoryDropdown">
@@ -47,13 +52,25 @@
                     </div>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link text-dark" th:href="@{/login}">Вход</a>
+                    <a class="nav-link text-dark"
+                       th:href="@{/login}"
+                       th:text="#{nav_bar_login}">
+                        Вход
+                    </a>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link text-dark" th:href="@{/register}">Регистрация</a>
+                    <a class="nav-link text-dark"
+                       th:href="@{/register}"
+                       th:text="#{nav_bar_register}">
+                        Регистрация
+                    </a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link text-dark" href="/messages">Съобщения</a>
+                    <a class="nav-link text-dark"
+                       href="/messages"
+                       th:text="#{nav_bar_messages}">
+                        Съобщения
+                    </a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link text-dark" href="#"><i class="fas fa-heart"></i></a>
@@ -69,7 +86,7 @@
                         <a class="dropdown-item" href="/messages">Съобщения</a>
                         <a class="dropdown-item" href="/favorites">Любими продукти</a>
 
-<!--                        TODO: to fix the exit button styles-->
+                        <!--                        TODO: to fix the exit button styles-->
                         <a class="dropdown-item">
                             <form th:method="post"
                                   th:action="@{/logout}" class="dropdown-item-form">
@@ -79,7 +96,25 @@
                     </div>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link text-dark" th:href="@{/advertisement-add}">Добави обява</a>
+                    <a class="nav-link text-dark"
+                       th:href="@{/advertisement-add}"
+                       th:text="#{nav_bar_add_advertisement}">
+                        Добави обява
+                    </a>
+                </li>
+
+                <!--                        TODO: fix the styles-->
+                <li class="nav-item">
+                    <form th:method="GET">
+                        <label class="text-white" for="lang" th:text="#{nav_bar_language}">Език</label>
+                        <select
+                                id="lang"
+                                name="lang"
+                                onchange="this.form.submit()">
+                            <option value="bg_BG" th:selected="${#locale.toString() == 'bg_BG'}">Български</option>
+                            <option value="en_US" th:selected="${#locale.toString() == 'en_US'}">English</option>
+                        </select>
+                    </form>
                 </li>
             </ul>
         </div>
