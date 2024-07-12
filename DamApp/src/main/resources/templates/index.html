@@ -16,25 +16,25 @@
     </header>
     <div class="main-content">
         <div class="container mt-4">
-            <h1 class="text-center" sec:authorize="!isAuthenticated()">Добре дошли в DAM.BG!</h1>
+            <h1 class="text-center" sec:authorize="!isAuthenticated()" th:text="#{home_welcome}">Добре дошли в DAM.BG!</h1>
 
             <div class="container mt-4" sec:authorize="isAuthenticated()">
-                <h1 class="text-center">Добре дошли в DAM.BG,
+                <h1 class="text-center" th:text="#{home_welcome_is_auth}">Добре дошли в DAM.BG,
                     <th:block th:text="${welcomeMessage}"></th:block>
                     !
                 </h1>
             </div>
-            <p class="lead text-center  mt-3">Тук, в нашето общо онлайн пространство, ви предлагаме възможността да
+            <p class="lead text-center  mt-3" th:text="#{home_intro}">Тук, в нашето общо онлайн пространство, ви предлагаме възможността да
                 споделите излишъка от вашата градина и да откриете нови продукти, отгледани с любов и грижа.</p>
-            <p class="lead text-center">Нашата мисия е да свържем хората, които ценят качествената и натурална
+            <p class="lead text-center" th:text="#{home_mission}">Нашата мисия е да свържем хората, които ценят качествената и натурална
                 продукция. Искаме да насърчим обмяната на знания и ресурси между градинарите, да подпомогнем
                 устойчивото земеделие и да създадем една по-свързана и споделена общност.</p>
             <h4 class="lead text-center" sec:authorize="!isAuthenticated()">
-                <a th:href="@{/login}">Влезте</a>
-                , ако имате акаунт или се
-                <a th:href="@{/register}">регистрирайте</a>
-                сега, за да започнете да споделяте и разменяте продукти!
-                Споделете своята реколта, открийте нови приятели и се наслаждавайте на плодовете на вашия труд!
+                <a th:href="@{/login}" th:text="#{home_content_login}">Влезте</a>
+                <span th:text="#{home_content_message_part1}">, ако имате акаунт или се</span>
+                <a th:href="@{/register}" th:text="#{home_content_register}">регистрирайте</a>
+                <span th:text="#{home_content_message_part2}">сега, за да започнете да споделяте и разменяте продукти!</span>
+                <span th:text="#{home_content_message_part3}">Споделете своята реколта, открийте нови приятели и се наслаждавайте на плодовете на вашия труд!</span>
             </h4>
             <div class="lead text-center">
                 <img src="/images/logo.png" alt="Лого на платформата" class="img-fluid logo-small">

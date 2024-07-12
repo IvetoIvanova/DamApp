@@ -2,33 +2,33 @@
     <div class="container p-4">
         <div class="row">
             <div class="col-lg-3 col-md-6 mb-4 mb-md-0 footer-content">
-                <h5 class="text-uppercase">За Dam.com</h5>
+                <h5 class="text-uppercase" th:text="#{footer_about_dam}">За Dam.bg</h5>
                 <ul class="list-unstyled mb-0">
-                    <li><a th:href="@{/about-us}" class="text-white">За нас</a></li>
-                    <li><a th:href="@{/terms}" class="text-white">Общи условия</a></li>
-                    <li><a th:href="@{/confidentiality}" class="text-white">Политика за поверителност</a></li>
+                    <li><a th:href="@{/about-us}" class="text-white" th:text="#{footer_about}">За нас</a></li>
+                    <li><a th:href="@{/terms}" class="text-white" th:text="#{footer_terms}">Общи условия</a></li>
+                    <li><a th:href="@{/confidentiality}" class="text-white" th:text="#{footer_privacy}">Политика за поверителност</a></li>
                 </ul>
             </div>
 
             <div class="col-lg-3 col-md-6 mb-4 mb-md-0 footer-content">
-                <h5 class="text-uppercase">Контакти и помощ</h5>
+                <h5 class="text-uppercase" th:text="#{footer_contact_help}">Контакти и помощ</h5>
                 <ul class="list-unstyled mb-0">
-                    <li><a href="/contact" class="text-white">Контакти</a></li>
-                    <li><a href="/" class="text-white">Често задавани въпроси</a></li>
-                    <li><a href="/" class="text-white">Форма за репорт</a></li>
+                    <li><a href="/contact" class="text-white" th:text="#{footer_contact}">Контакти</a></li>
+                    <li><a href="/" class="text-white" th:text="#{footer_faq}">Често задавани въпроси</a></li>
+                    <li><a href="/" class="text-white" th:text="#{footer_report_form}">Форма за репорт</a></li>
                 </ul>
             </div>
 
             <div class="col-lg-3 col-md-6 mb-4 mb-md-0 footer-content">
-                <h5 class="text-uppercase">Бързи връзки</h5>
+                <h5 class="text-uppercase" th:text="#{footer_quick_links}">Бързи връзки</h5>
                 <ul class="list-unstyled mb-0">
-                    <li><a href="/" class="text-white">Начало</a></li>
-                    <li><a href="/ads" class="text-white">Обяви</a></li>
+                    <li><a href="/" class="text-white" th:text="#{footer_home}">Начало</a></li>
+                    <li><a href="/ads" class="text-white" th:text="#{footer_ads}">Обяви</a></li>
                 </ul>
             </div>
 
             <div class="col-lg-3 col-md-6 mb-4 mb-md-0 footer-content">
-                <h5 class="text-uppercase">Последвайте ни</h5>
+                <h5 class="text-uppercase" th:text="#{footer_follow_us}">Последвайте ни</h5>
                 <ul class="list-unstyled mb-0 social-icons">
                     <a href="#" class="text-white"><i class="fab fa-facebook"></i></a>
                     <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div class="text-center p-3 bg-dark text-white footer-bottom">
+    <div class="text-center p-3 bg-dark text-white footer-bottom" th:text="#{footer_copyright}">
         &copy; 2024 Dam.bg Всички права запазени.
     </div>
 </footer>
