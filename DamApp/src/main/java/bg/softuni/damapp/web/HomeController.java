@@ -14,8 +14,8 @@ public class HomeController {
     public String home(@AuthenticationPrincipal UserDetails userDetails,
                        Model model) {
 
-        if (userDetails instanceof DamUserDetails harvestShareUserDetails) {
-            model.addAttribute("welcomeMessage", harvestShareUserDetails.getFullName());
+        if (userDetails instanceof DamUserDetails damUserDetails) {
+            model.addAttribute("welcomeMessage", damUserDetails.getFullName());
         }
 
         return "index";

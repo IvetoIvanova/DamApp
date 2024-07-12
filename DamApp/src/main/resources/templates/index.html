@@ -16,17 +16,20 @@
     </header>
     <div class="main-content">
         <div class="container mt-4">
-            <h1 class="text-center" sec:authorize="!isAuthenticated()" th:text="#{home_welcome}">Добре дошли в DAM.BG!</h1>
+            <h1 class="text-center" sec:authorize="!isAuthenticated()" th:text="#{home_welcome}">Добре дошли в
+                DAM.BG!</h1>
 
             <div class="container mt-4" sec:authorize="isAuthenticated()">
-                <h1 class="text-center" th:text="#{home_welcome_is_auth}">Добре дошли в DAM.BG,
-                    <th:block th:text="${welcomeMessage}"></th:block>
-                    !
+                <h1 class="text-center">
+                    <span th:text="#{home_welcome_is_auth}">Добре дошли в DAM.BG,</span>
+                    <span th:text="${welcomeMessage}"></span>!
                 </h1>
             </div>
-            <p class="lead text-center  mt-3" th:text="#{home_intro}">Тук, в нашето общо онлайн пространство, ви предлагаме възможността да
+            <p class="lead text-center  mt-3" th:text="#{home_intro}">Тук, в нашето общо онлайн пространство, ви
+                предлагаме възможността да
                 споделите излишъка от вашата градина и да откриете нови продукти, отгледани с любов и грижа.</p>
-            <p class="lead text-center" th:text="#{home_mission}">Нашата мисия е да свържем хората, които ценят качествената и натурална
+            <p class="lead text-center" th:text="#{home_mission}">Нашата мисия е да свържем хората, които ценят
+                качествената и натурална
                 продукция. Искаме да насърчим обмяната на знания и ресурси между градинарите, да подпомогнем
                 устойчивото земеделие и да създадем една по-свързана и споделена общност.</p>
             <h4 class="lead text-center" sec:authorize="!isAuthenticated()">

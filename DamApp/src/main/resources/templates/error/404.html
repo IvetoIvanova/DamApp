@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{error_page_not_found}">Страницата не е намерена</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/errors/404styles.css">
+</head>
+<body>
+<div class="container">
+    <img src="/images/error404.png" width="300" height="300" alt="Error 404 Image" />
+    <h1 th:text="#{error_page_not_found}">Страницата не е намерена</h1>
+    <p th:text="#{error_object_not_found}">Страницата, която търсите, не съществува или е била премахната.</p>
+    <a th:href="@{/}" th:text="#{error_go_home}">Върнете се към началната страница</a>
+</div>
+</body>
+</html>
