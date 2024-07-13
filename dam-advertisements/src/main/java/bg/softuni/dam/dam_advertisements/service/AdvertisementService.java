@@ -9,5 +9,9 @@ public interface AdvertisementService {
 
     void createAd(CreateAdDTO createAdDTO);
 
+    void deleteAd(Long adId);
+
+    AdvertisementDTO getAdById(Long id);
+
     List<AdvertisementDTO> getAllAds();
 }

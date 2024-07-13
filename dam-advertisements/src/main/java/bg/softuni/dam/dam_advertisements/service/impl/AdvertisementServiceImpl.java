@@ -26,6 +26,19 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    public void deleteAd(Long adId) {
+        advertisementRepository.deleteById(adId);
+    }
+
+    @Override
+    public AdvertisementDTO getAdById(Long id) {
+        return advertisementRepository
+                .findById(id)
+                .map(AdvertisementServiceImpl::map)
+                .orElseThrow(() -> new IllegalArgumentException("Not found!")); // TODO: fix the exception
+    }
+
+    @Override
     public List<AdvertisementDTO> getAllAds() {
         return advertisementRepository
                 .findAll()
@@ -40,6 +53,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .collect(Collectors.toList());
 
         return new AdvertisementDTO(
+                advertisement.getId(),
                 advertisement.getTitle(),
                 advertisement.getDescription(),
                 advertisement.getCategory(),

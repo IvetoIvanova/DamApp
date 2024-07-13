@@ -6,6 +6,7 @@ import bg.softuni.dam.dam_advertisements.model.enums.Category;
 import java.util.List;
 
 public record AdvertisementDTO(
+        Long id,
         String title,
         String description,
         Category category,

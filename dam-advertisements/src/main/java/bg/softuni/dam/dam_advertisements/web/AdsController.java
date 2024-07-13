@@ -21,6 +21,19 @@ public class AdsController {
         this.advertisementService = advertisementService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AdvertisementDTO> findById(@PathVariable("id") Long id) {
+//        advertisementService.getAdById(id);
+        return ResponseEntity
+                .ok(advertisementService.getAdById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AdvertisementDTO> deleteById(@PathVariable("id") Long id) {
+        advertisementService.deleteAd(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping
     public ResponseEntity<List<AdvertisementDTO>> getAllAds() {
         return ResponseEntity.ok(
