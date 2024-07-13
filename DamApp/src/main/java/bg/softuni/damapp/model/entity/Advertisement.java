@@ -24,8 +24,7 @@ public class Advertisement extends BaseEntity {
     private String location;
     @Column(nullable = false)
     private boolean reserved = false;
-    @NotNull
-    @Column(unique = true)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AdType type;
     @ManyToOne

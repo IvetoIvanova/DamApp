@@ -1,0 +1,13 @@
+{
+  "title" : "Тест1",
+  "description" : "Test description1",
+  "category" : "ПЛОДОВЕ",
+  "quantity" : 1000,
+  "location" : "Пловдив",
+  "reserved" : false,
+  "type" : "ПОДАРЯВА",
+  "imageUrls" : [
+    "https://example.com/image1.jpg",
+    "https://example.com/image2.jpg"
+  ]
+}
