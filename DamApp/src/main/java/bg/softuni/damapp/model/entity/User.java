@@ -15,8 +15,8 @@ public class User extends BaseEntity {
     private String password;
     private String firstName;
     private String lastName;
-    @OneToMany(mappedBy = "addedBy")
-    private List<Advertisement> addedAdvertisements;
+//    @OneToMany(mappedBy = "addedBy")
+//    private List<Advertisement> addedAdvertisements;
     @ManyToMany
     private List<Advertisement> favouriteAdvertisements;
 
@@ -31,7 +31,7 @@ public class User extends BaseEntity {
     private List<UserRole> roles;
 
     public User() {
-        this.addedAdvertisements = new ArrayList<>();
+//        this.addedAdvertisements = new ArrayList<>();
         this.favouriteAdvertisements = new ArrayList<>();
         this.roles = new ArrayList<>();
     }
@@ -79,13 +79,13 @@ public class User extends BaseEntity {
         return this;
     }
 
-    public List<Advertisement> getAddedAdvertisements() {
-        return addedAdvertisements;
-    }
-
-    public void setAddedAdvertisements(List<Advertisement> addedAdvertisements) {
-        this.addedAdvertisements = addedAdvertisements;
-    }
+//    public List<Advertisement> getAddedAdvertisements() {
+//        return addedAdvertisements;
+//    }
+//
+//    public void setAddedAdvertisements(List<Advertisement> addedAdvertisements) {
+//        this.addedAdvertisements = addedAdvertisements;
+//    }
 
     public List<Advertisement> getFavouriteAdvertisements() {
         return favouriteAdvertisements;

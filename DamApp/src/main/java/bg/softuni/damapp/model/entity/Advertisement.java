@@ -27,9 +27,9 @@ public class Advertisement extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AdType type;
-    @ManyToOne
-    private User addedBy;
-    @OneToMany(mappedBy = "advertisement")
+//    @ManyToOne
+//    private User addedBy;
+    @OneToMany(mappedBy = "advertisement", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Image> images;
 
     public Advertisement() {
@@ -68,13 +68,13 @@ public class Advertisement extends BaseEntity {
         this.type = type;
     }
 
-    public User getAddedBy() {
-        return addedBy;
-    }
-
-    public void setAddedBy(User addedBy) {
-        this.addedBy = addedBy;
-    }
+//    public User getAddedBy() {
+//        return addedBy;
+//    }
+//
+//    public void setAddedBy(User addedBy) {
+//        this.addedBy = addedBy;
+//    }
 
     public List<Image> getImages() {
         return images;
