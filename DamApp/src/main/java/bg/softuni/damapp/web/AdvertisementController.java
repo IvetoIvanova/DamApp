@@ -4,6 +4,8 @@ import bg.softuni.damapp.model.dto.CreateAdDTO;
 import bg.softuni.damapp.service.AdvertisementService;
 import bg.softuni.damapp.service.CloudStorageService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,7 +23,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/advertisement-add")
 public class AdvertisementController {
-    //    private static final Logger LOGGER = LoggerFactory.getLogger(AdvertisementController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdvertisementController.class);
     private final AdvertisementService advertisementService;
     private final CloudStorageService cloudStorageService;
 
@@ -36,7 +38,7 @@ public class AdvertisementController {
         if (!model.containsAttribute("advertisementData")) {
             model.addAttribute("advertisementData", new CreateAdDTO());
         }
-//        model.addAttribute("advertisementData", new CreateAdDTO());
+
         return "advertisement-add";
     }
 
@@ -62,12 +64,12 @@ public class AdvertisementController {
             createAdDTO.setImageUrls(imageUrls);
             createAdDTO.setReserved(false);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("An error occurred while uploading the image", e);
             return "redirect:/advertisement-add";
         }
 
         advertisementService.createAd(createAdDTO);
-        return "redirect:/";
+        return "redirect:/list-advertisements";
     }
 
 }
