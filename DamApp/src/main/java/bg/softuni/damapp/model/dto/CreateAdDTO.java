@@ -6,7 +6,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static bg.softuni.damapp.util.Constants.NOT_EMPTY;
@@ -26,13 +28,26 @@ public class CreateAdDTO {
     @NotNull(message = NOT_EMPTY)
     private String location;
     @NotNull(message = NOT_EMPTY)
-    private Boolean reserved;
+    private Boolean reserved = false;
     @NotNull(message = NOT_EMPTY)
     private AdType type;
     @NotNull(message = NOT_EMPTY)
-    private List<String> imageUrls;
+    private List<String> imageUrls = new ArrayList<>();
+    private List<MultipartFile> images = new ArrayList<>();
 
     public CreateAdDTO() {
+    }
+
+    public CreateAdDTO(String title, String description, Category category, Integer quantity, String location, Boolean reserved, AdType type, List<String> imageUrls, List<MultipartFile> images) {
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.quantity = quantity;
+        this.location = location;
+        this.reserved = reserved;
+        this.type = type;
+        this.imageUrls = imageUrls;
+        this.images=images;
     }
 
     public CreateAdDTO(String title, String description, Category category, Integer quantity, String location, Boolean reserved, AdType type, List<String> imageUrls) {
@@ -108,5 +123,13 @@ public class CreateAdDTO {
 
     public void setImageUrls(List<String> imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    public List<MultipartFile> getImages() {
+        return images;
+    }
+
+    public void setImages(List<MultipartFile> images) {
+        this.images = images;
     }
 }

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Advertisement</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<header>
+    <th:block th:replace="~{fragments/commons::nav}"></th:block>
+</header>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2>Добави обява</h2>
+        <form
+                th:method="post"
+                th:action="@{/advertisement-add}"
+                th:object="${advertisementData}"
+                enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title" class="required-field">Заглавие</label>
+                <input
+                        th:field="*{title}"
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="description" class="required-field">Описание</label>
+                <textarea
+                        th:field="*{description}"
+                        class="form-control"
+                        id="description"
+                        name="description"
+                        rows="3" required>
+                </textarea>
+            </div>
+            <div class="form-group">
+                <label for="category" class="required-field">Категория</label>
+                <select
+                        id="category"
+                        class="form-control"
+                        name="category"
+                        th:field="*{category}"
+                >
+                    <!--                    onchange="updateQuantityLabel()"-->
+                    <option value="" selected disabled>Изберете категория</option>
+                    <option value="ПЛОДОВЕ">Плодове</option>
+                    <option value="ЗЕЛЕНЧУЦИ">Зеленчуци</option>
+                    <option value="ПОДПРАВКИ">Подправки</option>
+                    <option value="РАЗСАД">Разсад</option>
+                    <option value="ЦВЕТЯ">Цветя</option>
+                    <option value="СЕМЕНА">Семена</option>
+                    <option value="ДРУГИ">Други</option>
+                </select>
+                <div th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="text-danger"></div>
+            </div>
+            <div class="form-group">
+                <label for="quantity" class="required-field">Количество:</label>
+                <input type="number"
+                       class="form-control"
+                       id="quantity"
+                       th:field="*{quantity}" required>
+                <small id="quantityUnit" class="form-text text-muted">г.</small>
+                <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="city" class="required-field">Населено място</label>
+                <input
+                        th:field="*{location}"
+                        type="text"
+                        class="form-control"
+                        id="city"
+                        name="city" required>
+                <div id="citySuggestions" class="list-group"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="type" class="required-field">Тип</label>
+                <select
+                        th:field="*{type}"
+                        id="type"
+                        class="form-control"
+                        name="type">
+                    <option value="" selected disabled>Изберете тип на обявата</option>
+                    <option value="ПОДАРЯВА">Подарява</option>
+                    <option value="РАЗМЕНЯ">Разменя</option>
+                    <option value="ТЪРСИ">Търси</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="imageUpload" class="required-field">Качете снимки (максимум 6)</label>
+                <div id="imagePreviews"></div>
+                <input
+                        th:field="*{images}"
+                        type="file"
+                        class="form-control-file"
+                        id="imageUpload"
+                        name="images"
+                        accept="image/*" multiple>
+            </div>
+            <button type="submit" class="btn btn-success">Добави обявата</button>
+        </form>
+    </div>
+    <footer>
+        <th:block th:replace="~{fragments/footer::footer}"></th:block>
+    </footer>
+
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#imageUpload').on('change', function () {
+            const files = Array.from(this.files);
+            const imagePreviews = $('#imagePreviews');
+
+            imagePreviews.empty();
+
+            files.forEach(function (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const imagePreview = '<div class="image-preview">' +
+                        '<img src="' + e.target.result + '" alt="Preview">' +
+                        '</div>';
+                    imagePreviews.append(imagePreview);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/scrollToTop.js"></script>
+<script src="/js/location-autocomplete.js"></script>
+</body>
+</html>

@@ -31,8 +31,17 @@ logging:
       nodeValue: WARN
     blog: WARN
 
+ads:
+  api:
+    baseUrl: "http://localhost:8081"
+
 geonames:
   username: ${g_username}
+
+cloudinary:
+  cloud_name: ${cloud_name}
+  api_key: ${api_key}
+  api_secret: ${api_secret}
 
 server:
   port: 8080
