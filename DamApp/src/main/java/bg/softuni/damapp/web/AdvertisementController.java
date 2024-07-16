@@ -9,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -70,6 +67,15 @@ public class AdvertisementController {
 
         advertisementService.createAd(createAdDTO);
         return "redirect:/list-advertisements";
+    }
+
+    @GetMapping("/{id}")
+    public String adDetails(@PathVariable("id") Long id,
+                               Model model) {
+
+        model.addAttribute("adDetails", advertisementService.getAdDetails(id));
+
+        return "advertisement-details";
     }
 
 }

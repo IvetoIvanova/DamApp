@@ -22,7 +22,7 @@ public class AdsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AdvertisementDTO> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<AdvertisementDTO> getById(@PathVariable("id") Long id) {
 //        advertisementService.getAdById(id);
         return ResponseEntity
                 .ok(advertisementService.getAdById(id));

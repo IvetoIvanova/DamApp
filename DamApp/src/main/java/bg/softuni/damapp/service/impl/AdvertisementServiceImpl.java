@@ -1,5 +1,6 @@
 package bg.softuni.damapp.service.impl;
 
+import bg.softuni.damapp.model.dto.AdDetailsDTO;
 import bg.softuni.damapp.model.dto.AdSummaryDTO;
 import bg.softuni.damapp.model.dto.CreateAdDTO;
 import bg.softuni.damapp.service.AdvertisementService;
@@ -41,6 +42,16 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .uri("http://localhost:8081/ads")
                 .body(adDTO)
                 .retrieve();
+    }
+
+    @Override
+    public AdDetailsDTO getAdDetails(Long id) {
+        return advertisementRestClient
+                .get()
+                .uri("http://localhost:8081/ads/{id}", id)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(AdDetailsDTO.class);
     }
 
     @Override

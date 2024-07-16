@@ -27,7 +27,7 @@
                     <!--                    TODO: add creationDate-->
                     <!--                    <p class="card-text">Дата на създаване: <span th:text="${ad.creationDate}">Дата</span></p>-->
                     <span class="badge badge-warning" th:if="${ad.reserved}">Reserved</span>
-                    <a th:href="@{/advertisements/{id}(id=${ad.id})}" class="btn btn-primary">View Details</a>
+                    <a th:href="@{/advertisement-add/{id}(id=*{ad.id()})}" class="btn btn-primary">View Details</a>
                 </div>
             </div>
         </div>
