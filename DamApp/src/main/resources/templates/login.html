@@ -2,7 +2,7 @@
 <html lang="bg" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Вход</title>
+    <title th:text="#{login_title}">Вход</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -22,7 +22,7 @@
 <div class="wrapper">
     <div class="container">
         <div class="registration-form">
-            <h2 class="text-center form-title">Вход</h2>
+            <h2 class="text-center form-title" th:text="#{login_title}">Вход</h2>
             <form
                     th:method="post"
                     th:action="@{/login}"
@@ -32,19 +32,25 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Имейл</label>
+                    <label for="email" th:text="#{login_email}">Имейл</label>
                     <input type="text" class="form-control" id="email" name="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Парола</label>
+                    <label for="password" th:text="#{login_password}">Парола</label>
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input large-checkbox" id="remember-me" name="remember-me">
-                    <label class="form-check-label ml-2 mt-1" for="remember-me">Запомни ме</label>
+                    <label class="form-check-label ml-2 mt-1" for="remember-me" th:text="#{login_rememberMe}">Запомни
+                        ме</label>
                 </div>
-                <button type="submit" class="btn custom-btn btn-block">Вход</button>
+                <button type="submit" class="btn custom-btn btn-block" th:text="#{login_button}">Вход</button>
             </form>
+            <div class="mt-3">
+                <span th:text="#{login_noAccount}">Нямаш акаунт? Не се тревожи! Можеш да си създадеш </span>
+                <a th:href="@{/register}" th:text="#{login_createAccount}"> тук</a>
+                .
+            </div>
         </div>
     </div>
     <footer>
