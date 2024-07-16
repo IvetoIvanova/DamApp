@@ -1,6 +1,7 @@
 package bg.softuni.damapp.model.dto;
 
 import bg.softuni.damapp.validation.annotations.PasswordMatches;
+import bg.softuni.damapp.validation.annotations.UniqueEmail;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -17,6 +18,7 @@ public class UserRegisterDTO {
     private String lastName;
     @NotBlank(message = NOT_EMPTY)
     @Email(message = INVALID_EMAIL)
+    @UniqueEmail
     private String email;
     @NotBlank(message = NOT_EMPTY)
     @Size(min = 8, message = PASSWORD_SIZE)

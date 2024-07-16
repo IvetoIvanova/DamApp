@@ -36,6 +36,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public boolean isEmailUnique(String email) {
+        return userRepository.findByEmail(email).isEmpty();
+    }
+
     private User map(UserRegisterDTO userRegisterDTO) {
         User mappedEntity = modelMapper.map(userRegisterDTO, User.class);
 

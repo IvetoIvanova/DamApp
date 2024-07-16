@@ -83,12 +83,6 @@
                           th:if="${#fields.hasErrors('confirmPassword')}"
                           th:errors="*{confirmPassword}"></span>
                 </div>
-
-<!--                TODO: to fixed message when password and confirmPass do not match-->
-                <div th:if="${#fields.hasGlobalErrors()}">
-                    <span class="invalid-feedback text-danger" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></span>
-                </div>
-
                 <button type="submit" class="btn custom-btn btn-block">Регистрация</button>
                 <div th:if="${errorMessage}" class="error-message">
                     <p th:text="${errorMessage}" class="error-text"></p>
