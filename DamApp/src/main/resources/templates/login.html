@@ -6,6 +6,14 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .large-checkbox {
+            width: 23px;
+            height: 23px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -19,6 +27,10 @@
                     th:method="post"
                     th:action="@{/login}"
             >
+                <div th:if="${loginError}" class="alert alert-danger text-center">
+                    <p th:text="${loginError}"></p>
+                </div>
+
                 <div class="form-group">
                     <label for="email">Имейл</label>
                     <input type="text" class="form-control" id="email" name="email" required>
@@ -27,11 +39,10 @@
                     <label for="password">Парола</label>
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
-
-                <!--                    <p class="errors alert alert-danger">-->
-                <!--                        Невалиден имейл или парола.-->
-                <!--                    </p>-->
-
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input large-checkbox" id="remember-me" name="remember-me">
+                    <label class="form-check-label ml-2 mt-1" for="remember-me">Запомни ме</label>
+                </div>
                 <button type="submit" class="btn custom-btn btn-block">Вход</button>
             </form>
         </div>

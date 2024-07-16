@@ -31,6 +31,10 @@ logging:
       nodeValue: WARN
     blog: WARN
 
+security:
+  remembered:
+    key: ${remember_me_key}
+
 ads:
   api:
     baseUrl: "http://localhost:8081"

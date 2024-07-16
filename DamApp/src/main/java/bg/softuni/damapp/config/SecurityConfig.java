@@ -2,6 +2,7 @@ package bg.softuni.damapp.config;
 
 import bg.softuni.damapp.repository.UserRepository;
 import bg.softuni.damapp.service.impl.DamUserDetailsService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${security.remembered.key}")
+    private String rememberMeKey;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -32,7 +36,15 @@ public class SecurityConfig {
                                 .usernameParameter("email")
                                 .passwordParameter("password")
                                 .defaultSuccessUrl("/", true)
-                                .failureForwardUrl("/login-error")
+                                .failureUrl("/login?error=true")
+                )
+                .rememberMe(rememberMe ->
+                                rememberMe
+                                        .key(rememberMeKey)
+                                        .rememberMeParameter("remember-me")
+                                        .rememberMeCookieName("remember-me")
+                                        .tokenValiditySeconds(7 * 24 * 60 * 60)
+//                                .useSecureCookie(true)
                 )
                 .logout(
                         logout ->
