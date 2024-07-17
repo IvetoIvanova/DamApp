@@ -81,4 +81,12 @@ public class AdvertisementController {
         return "advertisement-details";
     }
 
+    @DeleteMapping("/{id}")
+    public String deleteAd(@PathVariable("id") Long id) {
+
+        advertisementService.deleteAd(id);
+
+        return "redirect:/list-advertisements";
+    }
+
 }

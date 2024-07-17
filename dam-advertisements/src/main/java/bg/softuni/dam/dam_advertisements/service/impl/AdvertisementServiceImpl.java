@@ -6,6 +6,7 @@ import bg.softuni.dam.dam_advertisements.model.entity.Advertisement;
 import bg.softuni.dam.dam_advertisements.model.entity.Image;
 import bg.softuni.dam.dam_advertisements.repository.AdvertisementRepository;
 import bg.softuni.dam.dam_advertisements.service.AdvertisementService;
+import bg.softuni.dam.dam_advertisements.service.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +22,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void createAd(CreateAdDTO createAdDTO) {
-        advertisementRepository.save(map(createAdDTO));
+    public AdvertisementDTO createAd(CreateAdDTO createAdDTO) {
+        Advertisement advertisement = advertisementRepository.save(map(createAdDTO));
+        return map(advertisement);
     }
 
     @Override
@@ -35,7 +37,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         return advertisementRepository
                 .findById(id)
                 .map(AdvertisementServiceImpl::map)
-                .orElseThrow(() -> new IllegalArgumentException("Not found!")); // TODO: fix the exception
+                .orElseThrow(ObjectNotFoundException::new);
     }
 
     @Override

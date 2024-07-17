@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AdvertisementService {
 
-    void createAd(CreateAdDTO createAdDTO);
+    AdvertisementDTO createAd(CreateAdDTO createAdDTO);
 
     void deleteAd(Long adId);
 

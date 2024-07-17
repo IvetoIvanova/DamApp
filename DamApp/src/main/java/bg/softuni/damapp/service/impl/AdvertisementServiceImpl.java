@@ -68,4 +68,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 });
     }
 
+    @Override
+    public void deleteAd(long adId) {
+//        advertisementRepository.deleteById(adId);
+    }
+
 }

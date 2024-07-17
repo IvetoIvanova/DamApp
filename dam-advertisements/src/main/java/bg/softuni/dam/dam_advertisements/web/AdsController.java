@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -23,7 +24,6 @@ public class AdsController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AdvertisementDTO> getById(@PathVariable("id") Long id) {
-//        advertisementService.getAdById(id);
         return ResponseEntity
                 .ok(advertisementService.getAdById(id));
     }
@@ -31,7 +31,9 @@ public class AdsController {
     @DeleteMapping("/{id}")
     public ResponseEntity<AdvertisementDTO> deleteById(@PathVariable("id") Long id) {
         advertisementService.deleteAd(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
     @GetMapping
@@ -45,8 +47,16 @@ public class AdsController {
     public ResponseEntity<AdvertisementDTO> createAdvertisement(@RequestBody CreateAdDTO createAdDTO) {
         LOGGER.info("Going to create an ad {}", createAdDTO);
 
-        advertisementService.createAd(createAdDTO);
-        return ResponseEntity.ok().build();
+        AdvertisementDTO advertisementDTO = advertisementService.createAd(createAdDTO);
+
+        return ResponseEntity.
+                created(
+                        ServletUriComponentsBuilder
+                                .fromCurrentRequest()
+                                .path("/{id}")
+                                .buildAndExpand(advertisementDTO.id())
+                                .toUri()
+                ).body(advertisementDTO);
     }
 
 }

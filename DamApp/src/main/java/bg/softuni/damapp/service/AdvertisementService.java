@@ -14,5 +14,7 @@ public interface AdvertisementService {
     AdDetailsDTO getAdDetails(Long id);
 
     List<AdSummaryDTO> getAllAds();
-//    Page<AdSummaryDTO> findAll(Pageable pageable);
+
+    //    Page<AdSummaryDTO> findAll(Pageable pageable);
+    void deleteAd(long adId);
 }
