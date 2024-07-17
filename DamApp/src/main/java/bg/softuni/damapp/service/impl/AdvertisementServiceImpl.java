@@ -34,7 +34,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 createAdDTO.getTitle(), createAdDTO.getDescription(),
                 createAdDTO.getCategory(), createAdDTO.getQuantity(),
                 createAdDTO.getLocation(), createAdDTO.getReserved(),
-                createAdDTO.getType(), createAdDTO.getImageUrls()
+                createAdDTO.getType(), createAdDTO.getImageUrls(),
+                createAdDTO.getContactPhone(), createAdDTO.getPublishedAt()
         );
 
         advertisementRestClient

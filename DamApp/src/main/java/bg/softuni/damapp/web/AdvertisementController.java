@@ -29,6 +29,11 @@ public class AdvertisementController {
         this.cloudStorageService = cloudStorageService;
     }
 
+//    @ModelAttribute("advertisementData")
+//    public CreateAdDTO createAdDTO() {
+//        return new CreateAdDTO();
+//    }
+
     @GetMapping
     public String showAddAdvertisementForm(Model model) {
 
@@ -40,15 +45,14 @@ public class AdvertisementController {
     }
 
     @PostMapping
-    public String createAd(
-            @Valid CreateAdDTO createAdDTO,
-            @RequestParam("images") MultipartFile[] images,
-            BindingResult bindingResult,
-            RedirectAttributes rAtt) {
+    public String createAd(@Valid CreateAdDTO createAdDTO,
+                           @RequestParam("images") MultipartFile[] images,
+                           BindingResult bindingResult,
+                           RedirectAttributes rAtt) {
 
         if (bindingResult.hasErrors()) {
-            rAtt.addFlashAttribute("advertisementData", createAdDTO);
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.advertisementData", bindingResult);
+            rAtt.addFlashAttribute("advertisementData", createAdDTO);
             return "redirect:/advertisement-add";
         }
 
@@ -70,8 +74,7 @@ public class AdvertisementController {
     }
 
     @GetMapping("/{id}")
-    public String adDetails(@PathVariable("id") Long id,
-                               Model model) {
+    public String adDetails(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute("adDetails", advertisementService.getAdDetails(id));
 

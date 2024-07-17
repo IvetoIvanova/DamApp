@@ -61,7 +61,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 advertisement.getLocation(),
                 advertisement.isReserved(),
                 advertisement.getType(),
-                imageUrls
+                imageUrls,
+                advertisement.getContactPhone(),
+                advertisement.getPublishedAt()
         );
     }
 
@@ -76,6 +78,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         advertisement.setLocation(createAdDTO.location());
         advertisement.setReserved(createAdDTO.reserved());
         advertisement.setType(createAdDTO.type());
+        advertisement.setContactPhone(createAdDTO.contactPhone());
+        advertisement.setPublishedAt(createAdDTO.publishedAt());
 
         List<Image> images = createAdDTO.imageUrls().stream()
                 .map(url -> {

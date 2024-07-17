@@ -3,8 +3,7 @@ package bg.softuni.damapp.model.entity;
 import bg.softuni.damapp.model.enums.AdType;
 import bg.softuni.damapp.model.enums.Category;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,11 @@ public class Advertisement extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AdType type;
-//    @ManyToOne
+    @Column(nullable = false)
+    private String contactPhone;
+    @Column(nullable = false)
+    private LocalDateTime publishedAt;
+    //    @ManyToOne
 //    private User addedBy;
     @OneToMany(mappedBy = "advertisement", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Image> images;
@@ -106,6 +109,27 @@ public class Advertisement extends BaseEntity {
 
     public void setLocation(String city) {
         this.location = city;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    public LocalDateTime getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(LocalDateTime publishedAt) {
+        this.publishedAt = publishedAt;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.publishedAt = LocalDateTime.now();
     }
 }
 

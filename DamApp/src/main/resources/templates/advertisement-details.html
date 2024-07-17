@@ -43,9 +43,15 @@
             <p th:text="${adDetails.description}">Описание</p>
             <p>Категория: <span th:text="${adDetails.category}">Категория</span></p>
             <p>Тип: <span th:text="${adDetails.type}">Тип</span></p>
-            <!--   TODO:         <p>Дата на създаване: <span th:text="${ad.creationDate}">Дата</span></p>-->
             <p>Количество: <span th:text="${adDetails.quantity}">Количество</span></p>
             <p>Населено място: <span th:text="${adDetails.location}">Населено място</span></p>
+            <p>Телефон за контакти: <span th:text="${adDetails.contactPhone()}">Телефон за контакти</span></p>
+            <div>
+                <span th:text="#{ad_details_published}"></span>
+                <span th:text="${#temporals.format(adDetails.publishedAt, 'dd.MM.yyyy')}"></span>
+                <span th:text="#{ad_details_publishedAt}"></span>
+                <span th:text="${#temporals.format(adDetails.publishedAt, 'HH:mm')}"></span>
+            </div>
             <!-- TODO:           <p>Публикувано от: <span th:text="${ad.author.firstName} + ' ' + ${ad.author.lastName}">Автор</span></p>-->
             <span class="badge badge-warning" th:if="${adDetails.reserved}">Reserved</span>
             <!--      TODO:      <a th:href="@{/messages/send/{id}(id=${ad.author.id})}" class="btn btn-primary">Изпрати съобщение</a>-->

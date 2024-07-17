@@ -2,12 +2,10 @@ package bg.softuni.damapp.model.dto;
 
 import bg.softuni.damapp.model.enums.AdType;
 import bg.softuni.damapp.model.enums.Category;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,14 +29,25 @@ public class CreateAdDTO {
     private Boolean reserved = false;
     @NotNull(message = NOT_EMPTY)
     private AdType type;
+    @NotBlank(message = NOT_EMPTY)
+    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$",
+            message = "Форматът на телефонния номер е невалиден. " +
+                    "Трябва да съдържа само цифри," +
+                    " интервали, скоби, тирета и точки, и да бъде между 7 и 25 знака.")
+    @NotBlank(message = NOT_EMPTY)
+    private String contactPhone;
+    private LocalDateTime publishedAt;
     @NotNull(message = NOT_EMPTY)
     private List<String> imageUrls = new ArrayList<>();
     private List<MultipartFile> images = new ArrayList<>();
 
     public CreateAdDTO() {
+        this.publishedAt = LocalDateTime.now();
     }
 
-    public CreateAdDTO(String title, String description, Category category, Integer quantity, String location, Boolean reserved, AdType type, List<String> imageUrls, List<MultipartFile> images) {
+    public CreateAdDTO(String title, String description, Category category, Integer quantity,
+                       String location, Boolean reserved, AdType type, List<String> imageUrls,
+                       List<MultipartFile> images, String contactPhone, LocalDateTime publishedAt) {
         this.title = title;
         this.description = description;
         this.category = category;
@@ -47,10 +56,14 @@ public class CreateAdDTO {
         this.reserved = reserved;
         this.type = type;
         this.imageUrls = imageUrls;
-        this.images=images;
+        this.images = images;
+        this.contactPhone = contactPhone;
+        this.publishedAt = publishedAt;
     }
 
-    public CreateAdDTO(String title, String description, Category category, Integer quantity, String location, Boolean reserved, AdType type, List<String> imageUrls) {
+    public CreateAdDTO(String title, String description, Category category, Integer quantity,
+                       String location, Boolean reserved, AdType type, List<String> imageUrls,
+                       String contactPhone, LocalDateTime publishedAt) {
         this.title = title;
         this.description = description;
         this.category = category;
@@ -59,6 +72,8 @@ public class CreateAdDTO {
         this.reserved = reserved;
         this.type = type;
         this.imageUrls = imageUrls;
+        this.contactPhone = contactPhone;
+        this.publishedAt = publishedAt;
     }
 
     public String getTitle() {
@@ -131,5 +146,21 @@ public class CreateAdDTO {
 
     public void setImages(List<MultipartFile> images) {
         this.images = images;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    public LocalDateTime getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(LocalDateTime publishedAt) {
+        this.publishedAt = publishedAt;
     }
 }

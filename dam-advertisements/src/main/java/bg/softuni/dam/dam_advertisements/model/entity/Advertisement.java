@@ -4,6 +4,7 @@ import bg.softuni.dam.dam_advertisements.model.enums.AdType;
 import bg.softuni.dam.dam_advertisements.model.enums.Category;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,10 @@ public class Advertisement {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AdType type;
+    @Column(nullable = false)
+    private String contactPhone;
+    @Column(nullable = false)
+    private LocalDateTime publishedAt;
     @OneToMany(mappedBy = "advertisement", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Image> imageUrls;
 
@@ -106,5 +111,26 @@ public class Advertisement {
 
     public void setImageUrls(List<Image> imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    public LocalDateTime getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(LocalDateTime publishedAt) {
+        this.publishedAt = publishedAt;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.publishedAt = LocalDateTime.now();
     }
 }

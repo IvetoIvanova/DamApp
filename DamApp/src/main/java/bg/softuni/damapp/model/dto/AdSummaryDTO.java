@@ -3,6 +3,7 @@ package bg.softuni.damapp.model.dto;
 import bg.softuni.damapp.model.enums.AdType;
 import bg.softuni.damapp.model.enums.Category;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record AdSummaryDTO(
@@ -12,7 +13,7 @@ public record AdSummaryDTO(
         String location,
         Boolean reserved,
         AdType type,
-        List<String> imageUrls
+        List<String> imageUrls,
+        LocalDateTime publishedAt
 ) {
-//    TODO:Date creationDate;
 }
