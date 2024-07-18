@@ -16,6 +16,8 @@ public class Advertisement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
+    private Long ownerId;
+    @Column(nullable = false)
     private String title;
     @Column(nullable = false)
     private String description;
@@ -47,6 +49,14 @@ public class Advertisement {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getTitle() {

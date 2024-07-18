@@ -43,6 +43,12 @@ public class AdsController {
         );
     }
 
+    @GetMapping("/user/{ownerId}")
+    public ResponseEntity<List<AdvertisementDTO>> getAdvertisementsByOwnerId(@PathVariable("ownerId") Long ownerId) {
+        List<AdvertisementDTO> ads = advertisementService.getAdvertisementsByOwnerId(ownerId);
+        return ResponseEntity.ok(ads);
+    }
+
     @PostMapping
     public ResponseEntity<AdvertisementDTO> createAdvertisement(@RequestBody CreateAdDTO createAdDTO) {
         LOGGER.info("Going to create an ad {}", createAdDTO);

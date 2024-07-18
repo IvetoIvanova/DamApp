@@ -40,6 +40,7 @@ public class CreateAdDTO {
     @NotNull(message = NOT_EMPTY)
     private List<String> imageUrls = new ArrayList<>();
     private List<MultipartFile> images = new ArrayList<>();
+    private Long ownerId;
 
     public CreateAdDTO() {
         this.publishedAt = LocalDateTime.now();
@@ -63,7 +64,7 @@ public class CreateAdDTO {
 
     public CreateAdDTO(String title, String description, Category category, Integer quantity,
                        String location, Boolean reserved, AdType type, List<String> imageUrls,
-                       String contactPhone, LocalDateTime publishedAt) {
+                       String contactPhone, LocalDateTime publishedAt, Long ownerId) {
         this.title = title;
         this.description = description;
         this.category = category;
@@ -74,6 +75,7 @@ public class CreateAdDTO {
         this.imageUrls = imageUrls;
         this.contactPhone = contactPhone;
         this.publishedAt = publishedAt;
+        this.ownerId = ownerId;
     }
 
     public String getTitle() {
@@ -162,5 +164,13 @@ public class CreateAdDTO {
 
     public void setPublishedAt(LocalDateTime publishedAt) {
         this.publishedAt = publishedAt;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 }

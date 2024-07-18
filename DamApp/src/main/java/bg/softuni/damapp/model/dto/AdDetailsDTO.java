@@ -17,6 +17,7 @@ public record AdDetailsDTO(
         AdType type,
         List<String> imageUrls,
         String contactPhone,
-        LocalDateTime publishedAt
+        LocalDateTime publishedAt,
+        Long ownerId
 ) {
 }

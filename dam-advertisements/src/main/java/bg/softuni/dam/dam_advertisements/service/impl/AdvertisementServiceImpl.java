@@ -49,6 +49,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .toList();
     }
 
+    @Override
+    public List<AdvertisementDTO> getAdvertisementsByOwnerId(Long ownerId) {
+        return advertisementRepository
+                .findByOwnerId(ownerId)
+                .stream()
+                .map(AdvertisementServiceImpl::map)
+                .toList();
+    }
+
     private static AdvertisementDTO map(Advertisement advertisement) {
         List<String> imageUrls = advertisement.getImageUrls().stream()
                 .map(Image::getUrl)
@@ -65,7 +74,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 advertisement.getType(),
                 imageUrls,
                 advertisement.getContactPhone(),
-                advertisement.getPublishedAt()
+                advertisement.getPublishedAt(),
+                advertisement.getOwnerId()
         );
     }
 
@@ -82,6 +92,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         advertisement.setType(createAdDTO.type());
         advertisement.setContactPhone(createAdDTO.contactPhone());
         advertisement.setPublishedAt(createAdDTO.publishedAt());
+        advertisement.setOwnerId(createAdDTO.ownerId());
 
         List<Image> images = createAdDTO.imageUrls().stream()
                 .map(url -> {

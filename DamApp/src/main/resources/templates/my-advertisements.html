@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Моите обяви</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<header>
+    <th:block th:replace="~{fragments/commons::nav}"></th:block>
+</header>
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Моите обяви</h1>
+
+    <div th:if="${myAds.isEmpty()}">
+        <p>Няма намерени обяви.</p>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Заглавие</th>
+            <th>Описание</th>
+            <th>Дата на публикуване</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ad : ${myAds}">
+            <td th:text="${ad.title}">Заглавие</td>
+            <td th:text="${ad.description}">Описание</td>
+            <td th:text="${#temporals.format(ad.publishedAt, 'dd MMM yyyy в HH:mm')}">Дата на публикуване</td>
+            <td>
+                <!--                th:action="@{/my-advertisement/delete-ad/{id}(id=${ad.id})}"-->
+                <!--                th:method="post"-->
+                <form>
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" class="btn btn-danger">Изтрий</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer>
+    <th:block th:replace="~{fragments/footer::footer}"></th:block>
+</footer>
+
+<div class="scroll-to-top" id="scrollToTop">
+    <i class="fas fa-arrow-up"></i>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/scrollToTop.js"></script>
+</body>
+</html>

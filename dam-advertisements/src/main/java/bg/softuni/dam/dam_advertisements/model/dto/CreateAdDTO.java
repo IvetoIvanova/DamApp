@@ -28,7 +28,8 @@ public record CreateAdDTO(
                 "Трябва да съдържа само цифри, интервали, скоби, тирета и точки, и да бъде между 7 и 25 знака.")
         @NotBlank(message = "Това поле е задължително.") String contactPhone,
         @NotNull(message = "Това поле е задължително.")
-        LocalDateTime publishedAt
+        LocalDateTime publishedAt,
+        Long ownerId
 ) {
     public CreateAdDTO {
         publishedAt = LocalDateTime.now();

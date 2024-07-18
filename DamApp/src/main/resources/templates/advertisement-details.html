@@ -55,6 +55,12 @@
             <!-- TODO:           <p>Публикувано от: <span th:text="${ad.author.firstName} + ' ' + ${ad.author.lastName}">Автор</span></p>-->
             <span class="badge badge-warning" th:if="${adDetails.reserved}">Reserved</span>
             <!--      TODO:      <a th:href="@{/messages/send/{id}(id=${ad.author.id})}" class="btn btn-primary">Изпрати съобщение</a>-->
+            <!--            <div th:if="${adDetails.owner.id == #authentication.principal.id or #authentication.principal.authorities.contains('ROLE_ADMIN')}">-->
+            <!--                <form th:action="@{/advertisement/delete/{id}(id=${adDetails.id()})}" method="post">-->
+            <!--                    <input type="hidden" name="_method" value="delete"/>-->
+            <!--                    <button type="submit" class="btn btn-danger">Delete</button>-->
+            <!--                </form>-->
+            <!--            </div>-->
         </div>
     </div>
 </div>

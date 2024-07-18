@@ -1,5 +1,6 @@
 package bg.softuni.damapp.service.impl;
 
+import bg.softuni.damapp.model.dto.UserDTO;
 import bg.softuni.damapp.model.dto.UserRegisterDTO;
 import bg.softuni.damapp.model.entity.User;
 import bg.softuni.damapp.model.entity.UserRole;
@@ -8,6 +9,7 @@ import bg.softuni.damapp.repository.RoleRepository;
 import bg.softuni.damapp.repository.UserRepository;
 import bg.softuni.damapp.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,12 +43,28 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email).isEmpty();
     }
 
+    @Override
+    public UserDTO findByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Потребителят не е намерен."));
+        return convertToDTO(user);
+    }
+
     private User map(UserRegisterDTO userRegisterDTO) {
         User mappedEntity = modelMapper.map(userRegisterDTO, User.class);
 
         mappedEntity.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
 
         return mappedEntity;
+    }
+
+    private UserDTO convertToDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        return userDTO;
     }
 }
 

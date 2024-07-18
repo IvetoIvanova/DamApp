@@ -35,7 +35,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 createAdDTO.getCategory(), createAdDTO.getQuantity(),
                 createAdDTO.getLocation(), createAdDTO.getReserved(),
                 createAdDTO.getType(), createAdDTO.getImageUrls(),
-                createAdDTO.getContactPhone(), createAdDTO.getPublishedAt()
+                createAdDTO.getContactPhone(), createAdDTO.getPublishedAt(),
+                createAdDTO.getOwnerId()
         );
 
         advertisementRestClient
@@ -69,8 +70,21 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void deleteAd(long adId) {
-//        advertisementRepository.deleteById(adId);
+    public List<AdDetailsDTO> getMyAds(Long ownerId) {
+        LOGGER.info("Get my ads...");
+
+        return advertisementRestClient
+                .get()
+                .uri("http://localhost:8081/ads/user/" + ownerId)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
     }
+
+//    @Override
+//    public void deleteAd(long adId) {
+////        advertisementRepository.deleteById(adId);
+//    }
 
 }
