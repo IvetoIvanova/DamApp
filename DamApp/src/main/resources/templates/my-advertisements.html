@@ -6,6 +6,17 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        table {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        td, th {
+            word-wrap: break-word;
+            /*white-space: pre-wrap;*/
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -18,12 +29,15 @@
         <p>Няма намерени обяви.</p>
     </div>
 
-    <table class="table table-bordered">
+    <table class="table table-bordered border-dark">
         <thead>
         <tr>
             <th>Заглавие</th>
             <th>Описание</th>
+            <th>Категория</th>
+            <th>Тип</th>
             <th>Дата на публикуване</th>
+            <th>Статус</th>
             <th>Действия</th>
         </tr>
         </thead>
@@ -31,13 +45,29 @@
         <tr th:each="ad : ${myAds}">
             <td th:text="${ad.title}">Заглавие</td>
             <td th:text="${ad.description}">Описание</td>
+            <td th:text="${ad.category}">Категория</td>
+            <td th:text="${ad.type}">Тип</td>
             <td th:text="${#temporals.format(ad.publishedAt, 'dd MMM yyyy в HH:mm')}">Дата на публикуване</td>
+            <td>
+                <span th:if="${ad.reserved}" class="badge badge-warning">Резервирана</span>
+                <span th:if="${!ad.reserved}" class="badge badge-success">Свободна</span>
+            </td>
             <td>
                 <!--                th:action="@{/my-advertisement/delete-ad/{id}(id=${ad.id})}"-->
                 <!--                th:method="post"-->
                 <form>
                     <input type="hidden" name="_method" value="delete"/>
                     <button type="submit" class="btn btn-danger">Изтрий</button>
+                </form>
+                <form th:action="@{/my-advertisements/reserve-ad/{id}(id=${ad.id})}"
+                      th:method="post"
+                      th:if="${!ad.reserved}">
+                    <button type="submit" class="btn btn-warning mt-2">Резервирай</button>
+                </form>
+                <form th:action="@{/my-advertisements/unreserve-ad/{id}(id=${ad.id})}"
+                      th:method="post"
+                      th:if="${ad.reserved}">
+                    <button type="submit" class="btn btn-secondary mt-2">Отмени резервацията</button>
                 </form>
             </td>
         </tr>

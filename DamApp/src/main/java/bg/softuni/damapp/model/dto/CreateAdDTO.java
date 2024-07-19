@@ -13,10 +13,10 @@ import static bg.softuni.damapp.util.Constants.NOT_EMPTY;
 
 public class CreateAdDTO {
     @NotBlank(message = NOT_EMPTY)
-    @Size(min = 2, max = 100, message = "Заглавието трябва да е между 2 и 100 знака.")
+    @Size(min = 2, max = 50, message = "Заглавието трябва да е между 2 и 50 знака.")
     private String title;
     @NotBlank(message = NOT_EMPTY)
-    @Size(min = 10, max = 1000, message = "Описанието трябва да е между 10 и 1000 знака.")
+    @Size(min = 10, max = 255, message = "Описанието трябва да е между 10 и 255 знака.")
     private String description;
     @NotNull(message = NOT_EMPTY)
     private Category category;

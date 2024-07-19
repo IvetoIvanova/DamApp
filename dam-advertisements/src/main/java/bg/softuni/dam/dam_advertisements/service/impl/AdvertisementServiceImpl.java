@@ -6,10 +6,13 @@ import bg.softuni.dam.dam_advertisements.model.entity.Advertisement;
 import bg.softuni.dam.dam_advertisements.model.entity.Image;
 import bg.softuni.dam.dam_advertisements.repository.AdvertisementRepository;
 import bg.softuni.dam.dam_advertisements.service.AdvertisementService;
+import bg.softuni.dam.dam_advertisements.service.exception.AccessDeniedException;
 import bg.softuni.dam.dam_advertisements.service.exception.ObjectNotFoundException;
+import bg.softuni.dam.dam_advertisements.service.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,6 +59,38 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .stream()
                 .map(AdvertisementServiceImpl::map)
                 .toList();
+    }
+
+    @Override
+    public void reserveAdvertisement(Long id, Long userId) {
+        Optional<Advertisement> advertisementOpt = advertisementRepository.findById(id);
+        if (advertisementOpt.isPresent()) {
+            Advertisement advertisement = advertisementOpt.get();
+            if (advertisement.getOwnerId().equals(userId)) {
+                advertisement.setReserved(true);
+                advertisementRepository.save(advertisement);
+            } else {
+                throw new AccessDeniedException("Вие не сте собственикът на тази обява!");
+            }
+        } else {
+            throw new ResourceNotFoundException("Обявата не е намерена.");
+        }
+    }
+
+    @Override
+    public void unreserveAdvertisement(Long id, Long userId) {
+        Optional<Advertisement> advertisementOpt = advertisementRepository.findById(id);
+        if (advertisementOpt.isPresent()) {
+            Advertisement advertisement = advertisementOpt.get();
+            if (advertisement.getOwnerId().equals(userId)) {
+                advertisement.setReserved(false);
+                advertisementRepository.save(advertisement);
+            } else {
+                throw new AccessDeniedException("Вие не сте собственикът на тази обява!");
+            }
+        } else {
+            throw new ResourceNotFoundException("Обявата не е намерена.");
+        }
     }
 
     private static AdvertisementDTO map(Advertisement advertisement) {

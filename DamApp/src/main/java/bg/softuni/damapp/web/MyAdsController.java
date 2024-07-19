@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -33,4 +35,29 @@ public class MyAdsController {
         }
         return "my-advertisements";
     }
+
+    @PostMapping("/reserve-ad/{id}")
+    public String reserveAd(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        UserDTO user = userService.findByEmail(email);
+
+        advertisementService.reserveAdvertisement(id, user.getId());
+        return "redirect:/my-advertisements";
+    }
+
+    @PostMapping("/unreserve-ad/{id}")
+    public String unreserveAd(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        UserDTO user = userService.findByEmail(email);
+
+        advertisementService.unreserveAdvertisement(id, user.getId());
+        return "redirect:/my-advertisements";
+    }
+
+//    @PostMapping("/delete-ad/{id}")
+//    public String deleteAd(@PathVariable Long id, Principal principal) {
+//        String userEmail = principal.getName();
+//        advertisementService.deleteAdvertisement(id, userEmail);
+//        return "redirect:/my-advertisements";
+//    }
 }

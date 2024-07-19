@@ -6,6 +6,11 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .img-blur {
+            filter: blur(5px);
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -18,14 +23,17 @@
              th:each="ad : ${allAds}"
         >
             <div class="card">
-                <img th:src="${ad.imageUrls[0]}" class="card-img-top" alt="Обява">
+                <img th:src="${ad.imageUrls[0]}" class="card-img-top" alt="Обява"
+                     th:classappend="${ad.reserved} ? 'img-blur' : ''"
+                />
                 <div class="card-body">
                     <h5 class="card-title" th:text="${ad.title}">Заглавие</h5>
+                    <span class="badge badge-warning" th:if="${ad.reserved}">Reserved</span>
                     <p class="card-text">Категория: <span th:text="${ad.category}">Категория</span></p>
                     <p class="card-text">Тип: <span th:text="${ad.type()}">Тип</span></p>
                     <p class="card-text">Населено място: <span th:text="${ad.location}">Град</span></p>
-                    <p class="card-text">Публикувано на: <span th:text="${#temporals.format(ad.publishedAt, 'dd MMMM yyyy')}">Дата</span></p>
-                    <span class="badge badge-warning" th:if="${ad.reserved}">Reserved</span>
+                    <p class="card-text">Публикувано на: <span
+                            th:text="${#temporals.format(ad.publishedAt, 'dd MMMM yyyy')}">Дата</span></p>
                     <a th:href="@{/advertisement-add/{id}(id=*{ad.id()})}" class="btn btn-primary">View Details</a>
                 </div>
             </div>

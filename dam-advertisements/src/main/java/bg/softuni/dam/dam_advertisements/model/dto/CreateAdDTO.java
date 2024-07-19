@@ -10,10 +10,10 @@ import java.util.List;
 
 public record CreateAdDTO(
         @NotNull(message = "Това поле е задължително.")
-        @Size(min = 2, max = 100, message = "Заглавието трябва да е между 2 и 100 знака.")
+        @Size(min = 2, max = 50, message = "Заглавието трябва да е между 2 и 50 знака.")
         String title,
         @NotNull(message = "Това поле е задължително.")
-        @Size(min = 10, max = 1000, message = "Описанието трябва да е между 10 и 1000 знака.")
+        @Size(min = 10, max = 255, message = "Описанието трябва да е между 10 и 255 знака.")
         String description,
         @NotNull(message = "Това поле е задължително.") Category category,
         @NotNull(message = "Това поле е задължително.")

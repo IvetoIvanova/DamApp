@@ -49,6 +49,24 @@ public class AdsController {
         return ResponseEntity.ok(ads);
     }
 
+    @PostMapping("/reserve/{id}")
+    public ResponseEntity<Void> reserveAdvertisement(@PathVariable("id") Long id, @RequestParam("userId") Long userId) {
+        advertisementService.reserveAdvertisement(id, userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/unreserve/{id}")
+    public ResponseEntity<Void> unreserveAdvertisement(@PathVariable("id") Long id, @RequestParam("userId") Long userId) {
+        advertisementService.unreserveAdvertisement(id, userId);
+        return ResponseEntity.noContent().build();
+    }
+
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteAdvertisement(@PathVariable Long id, @RequestParam("userId") Long userId) {
+//        advertisementService.deleteAdvertisement(id, userId);
+//        return ResponseEntity.noContent().build();
+//    }
+
     @PostMapping
     public ResponseEntity<AdvertisementDTO> createAdvertisement(@RequestBody CreateAdDTO createAdDTO) {
         LOGGER.info("Going to create an ad {}", createAdDTO);

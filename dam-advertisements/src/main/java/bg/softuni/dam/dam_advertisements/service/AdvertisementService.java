@@ -16,6 +16,8 @@ public interface AdvertisementService {
     List<AdvertisementDTO> getAllAds();
 
     List<AdvertisementDTO> getAdvertisementsByOwnerId(Long ownerId);
+    void reserveAdvertisement(Long id, Long userId);
+    void unreserveAdvertisement(Long id, Long userId);
 
 //    boolean deleteAdvertisement(Long id, Long userId);
 }
