@@ -47,5 +47,12 @@ cloudinary:
   api_key: ${api_key}
   api_secret: ${api_secret}
 
+jwt:
+  secret: ${jwt_key}
+  expiration: ${jwt_expiration}
+
+admin:
+  password: ${admin_password}
+
 server:
   port: 8080

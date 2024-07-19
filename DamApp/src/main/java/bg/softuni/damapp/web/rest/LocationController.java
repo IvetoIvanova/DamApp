@@ -2,6 +2,7 @@ package bg.softuni.damapp.web.rest;
 
 import bg.softuni.damapp.model.dto.LocationDTO;
 import bg.softuni.damapp.service.LocationService;
+import bg.softuni.damapp.validation.annotations.WarnIfPerformanceExceeds;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,9 @@ public class LocationController {
         this.locationService = locationService;
     }
 
+    @WarnIfPerformanceExceeds(
+            timeInMillis = 1000
+    )
     @GetMapping("/api/locations")
     public ResponseEntity<List<LocationDTO>> getLocations(@RequestParam String query) {
         List<LocationDTO> locations = locationService.getLocations(query);

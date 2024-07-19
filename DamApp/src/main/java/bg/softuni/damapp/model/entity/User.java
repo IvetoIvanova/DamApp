@@ -1,9 +1,14 @@
 package bg.softuni.damapp.model.entity;
 
+import bg.softuni.damapp.validation.annotations.UUIDSequence;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import static java.sql.Types.VARCHAR;
 
 @Entity
 @Table(name = "users")
@@ -11,11 +16,14 @@ public class User extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String email;
+    @UUIDSequence
+    @JdbcTypeCode(VARCHAR)
+    private UUID uuid;
     @Column(nullable = false)
     private String password;
     private String firstName;
     private String lastName;
-//    @OneToMany(mappedBy = "addedBy")
+    //    @OneToMany(mappedBy = "addedBy")
 //    private List<Advertisement> addedAdvertisements;
     @ManyToMany
     private List<Advertisement> favouriteAdvertisements;
@@ -93,6 +101,14 @@ public class User extends BaseEntity {
 
     public void setFavouriteAdvertisements(List<Advertisement> favouriteAdvertisements) {
         this.favouriteAdvertisements = favouriteAdvertisements;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 }
 

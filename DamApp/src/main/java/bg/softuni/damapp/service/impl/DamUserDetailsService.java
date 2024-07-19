@@ -30,6 +30,7 @@ public class DamUserDetailsService implements UserDetailsService {
 
     private static UserDetails map(User user) {
         return new DamUserDetails(
+                user.getUuid(),
                 user.getEmail(),
                 user.getPassword(),
                 user.getRoles().stream().map(UserRole::getRole).map(DamUserDetailsService::map).toList(),
