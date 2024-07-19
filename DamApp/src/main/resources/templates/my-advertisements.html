@@ -14,7 +14,6 @@
 
         td, th {
             word-wrap: break-word;
-            /*white-space: pre-wrap;*/
         }
     </style>
 </head>
@@ -43,7 +42,12 @@
         </thead>
         <tbody>
         <tr th:each="ad : ${myAds}">
-            <td th:text="${ad.title}">Заглавие</td>
+            <td>
+                <a th:href="@{/advertisement-add/{id}(id=${ad.id})}"
+                   th:text="${ad.title}">
+                    Заглавие
+                </a>
+            </td>
             <td th:text="${ad.description}">Описание</td>
             <td th:text="${ad.category}">Категория</td>
             <td th:text="${ad.type}">Тип</td>

@@ -6,12 +6,17 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .details-fixed {
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
 <header>
     <th:block th:replace="~{fragments/commons::nav}"></th:block>
 </header>
-<div class="container mt-5">
+<div class="container mt-5 pb-lg-5">
     <h1 class="mb-4"></h1>
     <div
             th:object="${adDetails}"
@@ -38,7 +43,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 details-fixed">
             <h2 th:text="${adDetails.title}">Заглавие</h2>
             <p th:text="${adDetails.description}">Описание</p>
             <p>Категория: <span th:text="${adDetails.category}">Категория</span></p>
