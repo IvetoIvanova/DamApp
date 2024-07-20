@@ -1,11 +1,16 @@
 package bg.softuni.damapp.model.dto;
 
+import bg.softuni.damapp.model.entity.UserRole;
+
+import java.util.List;
+
 public class UserDTO {
 
     private Long id;
     private String email;
     private String firstName;
     private String lastName;
+    private List<String> roles;
 
     public Long getId() {
         return id;
@@ -37,5 +42,14 @@ public class UserDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }

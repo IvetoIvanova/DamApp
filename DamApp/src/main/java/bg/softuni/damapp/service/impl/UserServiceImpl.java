@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -66,6 +67,28 @@ public class UserServiceImpl implements UserService {
         return Optional.empty();
     }
 
+    @Override
+    public void updateEmail(Long userId, String newEmail) {
+        if (userRepository.findByEmail(newEmail).isPresent()) {
+            throw new IllegalArgumentException("Потребител с такъв имейл вече съществува в базата.");
+        }
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("Потребителят не е намерен."));
+        user.setEmail(newEmail);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updatePassword(Long userId, String newPassword) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+        //TODO: logic for deleting the user -> check if user has no ads
+    }
+
     private User map(UserRegisterDTO userRegisterDTO) {
         User mappedEntity = modelMapper.map(userRegisterDTO, User.class);
 
@@ -80,6 +103,7 @@ public class UserServiceImpl implements UserService {
         userDTO.setEmail(user.getEmail());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
+        userDTO.setRoles(user.getRoles().stream().map(role -> role.getRole().name()).collect(Collectors.toList()));
         return userDTO;
     }
 }

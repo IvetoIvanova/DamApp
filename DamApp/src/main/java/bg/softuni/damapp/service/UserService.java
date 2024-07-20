@@ -14,4 +14,10 @@ public interface UserService {
     UserDTO findByEmail(String email);
 
     Optional<DamUserDetails> getCurrentUser();
+
+    void updateEmail(Long userId, String newEmail);
+
+    void updatePassword(Long userId, String newPassword);
+
+    void deleteUser(Long userId);
 }
