@@ -15,6 +15,34 @@
         td, th {
             word-wrap: break-word;
         }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .actions form {
+            display: table-column;
+            margin: 0;
+        }
+
+        /*td:last-child {*/
+        /*    width: 150px;*/
+        /*}*/
+
+        .actions button {
+            display: flex;
+            word-wrap: break-word;
+            flex-wrap: wrap;
+            flex: 1 1 auto;
+            white-space: pre-wrap;
+            /*min-width: 80px;*/
+            max-width: 100%;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -57,22 +85,23 @@
                 <span th:if="${!ad.reserved}" class="badge badge-success">Свободна</span>
             </td>
             <td>
-                <!--                th:action="@{/my-advertisement/delete-ad/{id}(id=${ad.id})}"-->
-                <!--                th:method="post"-->
-                <form>
-                    <input type="hidden" name="_method" value="delete"/>
-                    <button type="submit" class="btn btn-danger">Изтрий</button>
-                </form>
-                <form th:action="@{/my-advertisements/reserve-ad/{id}(id=${ad.id})}"
-                      th:method="post"
-                      th:if="${!ad.reserved}">
-                    <button type="submit" class="btn btn-warning mt-2">Резервирай</button>
-                </form>
-                <form th:action="@{/my-advertisements/unreserve-ad/{id}(id=${ad.id})}"
-                      th:method="post"
-                      th:if="${ad.reserved}">
-                    <button type="submit" class="btn btn-secondary mt-2">Отмени резервацията</button>
-                </form>
+                <div class="actions">
+                    <form th:action="@{/my-advertisements/delete-ad/{id}(id=${ad.id})}"
+                          th:method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button type="submit" class="btn btn-danger">Изтрий</button>
+                    </form>
+                    <form th:action="@{/my-advertisements/reserve-ad/{id}(id=${ad.id})}"
+                          th:method="post"
+                          th:if="${!ad.reserved}">
+                        <button type="submit" class="btn btn-warning mt-2">Резервирай</button>
+                    </form>
+                    <form th:action="@{/my-advertisements/unreserve-ad/{id}(id=${ad.id})}"
+                          th:method="post"
+                          th:if="${ad.reserved}">
+                        <button type="submit" class="btn btn-secondary mt-2">Отмени резервацията</button>
+                    </form>
+                </div>
             </td>
         </tr>
         </tbody>

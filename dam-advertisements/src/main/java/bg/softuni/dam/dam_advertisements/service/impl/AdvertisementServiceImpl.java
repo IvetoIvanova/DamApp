@@ -10,6 +10,7 @@ import bg.softuni.dam.dam_advertisements.service.exception.AccessDeniedException
 import bg.softuni.dam.dam_advertisements.service.exception.ObjectNotFoundException;
 import bg.softuni.dam.dam_advertisements.service.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,20 +20,17 @@ import java.util.stream.Collectors;
 public class AdvertisementServiceImpl implements AdvertisementService {
 
     private final AdvertisementRepository advertisementRepository;
+    private final RestTemplate restTemplate;
 
-    public AdvertisementServiceImpl(AdvertisementRepository advertisementRepository) {
+    public AdvertisementServiceImpl(AdvertisementRepository advertisementRepository, RestTemplate restTemplate) {
         this.advertisementRepository = advertisementRepository;
+        this.restTemplate = restTemplate;
     }
 
     @Override
     public AdvertisementDTO createAd(CreateAdDTO createAdDTO) {
         Advertisement advertisement = advertisementRepository.save(map(createAdDTO));
         return map(advertisement);
-    }
-
-    @Override
-    public void deleteAd(Long adId) {
-        advertisementRepository.deleteById(adId);
     }
 
     @Override
@@ -91,6 +89,39 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         } else {
             throw new ResourceNotFoundException("Обявата не е намерена.");
         }
+    }
+
+    @Override
+    public void deleteAdvertisement(Long id, Long userId) {
+        Optional<Advertisement> advertisementOpt = advertisementRepository.findById(id);
+        if (advertisementOpt.isPresent()) {
+            Advertisement advertisement = advertisementOpt.get();
+            if (advertisement.getOwnerId().equals(userId) || isAdmin(userId)) {
+                // TODO: deleting photos from the cloud
+                List<String> imageUrls = advertisement
+                        .getImageUrls()
+                        .stream()
+                        .map(Image::getUrl)
+                        .collect(Collectors.toList());
+                if (!imageUrls.isEmpty()) {
+                    try {
+                        restTemplate.delete("http://localhost:8080/cloud-storage/delete-images?imageUrls={imageUrls}", String.join(",", imageUrls));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                advertisementRepository.delete(advertisement);
+            } else {
+                throw new AccessDeniedException("Нямате право да изтриете тази обява.");
+            }
+        } else {
+            throw new ResourceNotFoundException("Обявата не е намерена.");
+        }
+    }
+
+    private boolean isAdmin(Long userId) {
+        // TODO: checking if the user is an admin
+        return false;
     }
 
     private static AdvertisementDTO map(Advertisement advertisement) {

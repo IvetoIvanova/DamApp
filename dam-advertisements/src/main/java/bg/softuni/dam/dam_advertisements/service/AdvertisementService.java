@@ -9,15 +9,17 @@ public interface AdvertisementService {
 
     AdvertisementDTO createAd(CreateAdDTO createAdDTO);
 
-    void deleteAd(Long adId);
-
     AdvertisementDTO getAdById(Long id);
 
     List<AdvertisementDTO> getAllAds();
 
     List<AdvertisementDTO> getAdvertisementsByOwnerId(Long ownerId);
+
     void reserveAdvertisement(Long id, Long userId);
+
     void unreserveAdvertisement(Long id, Long userId);
+
+    void deleteAdvertisement(Long id, Long userId);
 
 //    boolean deleteAdvertisement(Long id, Long userId);
 }

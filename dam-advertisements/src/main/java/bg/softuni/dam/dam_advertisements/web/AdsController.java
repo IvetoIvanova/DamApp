@@ -28,9 +28,9 @@ public class AdsController {
                 .ok(advertisementService.getAdById(id));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<AdvertisementDTO> deleteById(@PathVariable("id") Long id) {
-        advertisementService.deleteAd(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<AdvertisementDTO> deleteById(@PathVariable("id") Long id, @RequestParam("userId") Long userId) {
+        advertisementService.deleteAdvertisement(id, userId);
         return ResponseEntity
                 .noContent()
                 .build();
@@ -61,11 +61,11 @@ public class AdsController {
         return ResponseEntity.noContent().build();
     }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteAdvertisement(@PathVariable Long id, @RequestParam("userId") Long userId) {
-//        advertisementService.deleteAdvertisement(id, userId);
-//        return ResponseEntity.noContent().build();
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAdvertisement(@PathVariable Long id, @RequestParam("userId") Long userId) {
+        advertisementService.deleteAdvertisement(id, userId);
+        return ResponseEntity.noContent().build();
+    }
 
     @PostMapping
     public ResponseEntity<AdvertisementDTO> createAdvertisement(@RequestBody CreateAdDTO createAdDTO) {

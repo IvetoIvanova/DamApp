@@ -16,10 +16,12 @@ public interface AdvertisementService {
     List<AdSummaryDTO> getAllAds();
 
     List<AdDetailsDTO> getMyAds(Long ownerId);
+
     void reserveAdvertisement(Long id, Long userId);
+
     void unreserveAdvertisement(Long adId, Long userId);
-//    void deleteAdvertisement(Long id, String userEmail);
+
+    void deleteAdvertisement(Long adId, Long userId);
 
     //    Page<AdSummaryDTO> findAll(Pageable pageable);
-//    void deleteAd(long adId);
 }
