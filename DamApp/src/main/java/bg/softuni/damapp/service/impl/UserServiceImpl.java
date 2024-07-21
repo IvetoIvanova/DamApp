@@ -20,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static bg.softuni.damapp.util.Constants.PASSWORD_REGEX;
+import static bg.softuni.damapp.util.Constants.PASSWORD_STRENGTH;
+
 @Service
 public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
@@ -78,15 +81,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(Long userId, String newPassword) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public void updatePassword(Long userId, String currentPassword, String newPassword) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("Потребителят не е намерен."));
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            throw new IllegalArgumentException("Текущата парола не е вярна.");
+        }
+
+        if (!isValidPassword(newPassword)) {
+            throw new IllegalArgumentException(PASSWORD_STRENGTH);
+        }
+
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
 
     @Override
-    public void deleteUser(Long userId) {
-        //TODO: logic for deleting the user -> check if user has no ads
+    public void deleteUser(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Потребителят не е намерен."));
+        userRepository.delete(user);
+    }
+
+    private boolean isValidPassword(String password) {
+        return password.matches(PASSWORD_REGEX);
     }
 
     private User map(UserRegisterDTO userRegisterDTO) {
@@ -103,7 +120,10 @@ public class UserServiceImpl implements UserService {
         userDTO.setEmail(user.getEmail());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
-        userDTO.setRoles(user.getRoles().stream().map(role -> role.getRole().name()).collect(Collectors.toList()));
+        userDTO.setRoles(user.getRoles()
+                .stream()
+                .map(role -> role.getRole().name())
+                .collect(Collectors.toList()));
         return userDTO;
     }
 }

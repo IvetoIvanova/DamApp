@@ -8,14 +8,27 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        .my-profile-container {
+            display: inline-block;
+            justify-content: center;
+            margin: 10px;
+        }
+
         .form-group {
             margin-bottom: 15px;
+            display: flex;
+            text-align: center;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            margin-right: 10px;
         }
+
+        /*.form-group span {*/
+        /*    flex-grow: 1;*/
+        /*}*/
 
         .form-group input {
             width: 100%;
@@ -24,8 +37,9 @@
         }
 
         .form-group button {
-            padding: 10px 15px;
-            background-color: #007bff;
+            padding: 5px 10px;
+            margin-left: 10px;
+            background-color: #28a745;
             color: #fff;
             border: none;
             border-radius: 3px;
@@ -33,7 +47,27 @@
         }
 
         .form-group button:hover {
-            background-color: #0056b3;
+            background-color: #218838;
+        }
+
+        .form-group .edit-button {
+            margin-left: 10px;
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .form-group .edit-button:hover {
+            background-color: #e0a800;
+        }
+
+        .form-group .delete-button {
+            background-color: #c82333;
+            color: #fff;
+        }
+
+        .form-group .delete-button:hover {
+            background-color: #721c24;
+            color: #fff;
         }
 
         .alert {
@@ -52,61 +86,112 @@
             color: #721c24;
         }
     </style>
+    <script>
+        function toggleEdit(field) {
+            var viewElement = document.getElementById(field + "-view");
+            var editElement = document.getElementById(field + "-edit");
+            var editButton = document.getElementById(field + "-edit-button");
+            if (viewElement) viewElement.style.display = "none";
+            if (editElement) editElement.style.display = "block";
+            if (editButton) editButton.style.display = "none";
+        }
+
+        function cancelEdit(field) {
+            var viewElement = document.getElementById(field + "-view");
+            var editElement = document.getElementById(field + "-edit");
+            var editButton = document.getElementById(field + "-edit-button");
+            if (viewElement) viewElement.style.display = "block";
+            if (editElement) editElement.style.display = "none";
+            if (editButton) editButton.style.display = "inline-block";
+        }
+    </script>
 </head>
 <body>
 <header>
     <th:block th:replace="~{fragments/commons::nav}"></th:block>
 </header>
 
-<div class="container mt-5"
+<div class="container mt-5 mb-4 text-center"
      th:action="@{/my-profile}"
      th:method="post"
      th:object="${userData}"
 >
-    <h1>Моят профил</h1>
-    <div class="form-group">
-        <label>Email:</label>
-        <span th:text="${userData.email}"></span>
-    </div>
-    <div class="form-group">
-        <label>First Name:</label>
-        <span th:text="${userData.firstName}"></span>
-    </div>
-    <div class="form-group">
-        <label>Last Name:</label>
-        <span th:text="${userData.lastName}"></span>
-    </div>
-    <div class="form-group">
-        <label>Role:</label>
-        <span th:each="role : ${userData.roles}" th:text="${role}"></span>
-    </div>
-    <form th:action="@{/my-profile/update-email}"
-          th:method="post"
-          class="form-group">
-        <div>
-            <label for="email">New Email:</label>
-            <input type="email" id="email" name="email" required>
+    <h1 class="mb-3">Моят профил</h1>
+    <div class="my-profile-container">
+        <div class="form-group">
+            <label class="font-weight-bold">Имейл:</label>
+            <span id="email-view" th:text="${userData.email}"></span>
+            <button id="email-edit-button"
+                    type="button"
+                    class="edit-button"
+                    onclick="toggleEdit('email')">Промяна
+            </button>
+            <form id="email-edit"
+                  th:action="@{/my-profile/update-email}"
+                  th:method="post"
+                  style="display: none;">
+                <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        th:value="${userData.email}" required>
+                <button type="submit">Запамети</button>
+                <button type="button"
+                        class="edit-button"
+                        onclick="cancelEdit('email')">Отказ
+                </button>
+            </form>
         </div>
-        <button type="submit">Update Email</button>
-    </form>
-    <form th:action="@{/my-profile/update-password}"
-          th:method="post"
-          class="form-group">
-        <div>
-            <label for="password">New Password:</label>
-            <input type="password" id="password" name="password" required>
+        <div class="form-group">
+            <label class="font-weight-bold">Име:</label>
+            <span th:text="${userData.firstName}"></span>
         </div>
-        <button type="submit">Update Password</button>
-    </form>
-    <form th:action="@{/profile/delete-account}"
-          th:method="post" class="form-group">
-        <button type="submit">Delete Account</button>
-    </form>
-    <div th:if="${message}" class="alert alert-success">
-        <span th:text="${message}"></span>
-    </div>
-    <div th:if="${error}" class="alert alert-error">
-        <span th:text="${error}"></span>
+        <div class="form-group">
+            <label class="font-weight-bold">Фамилия:</label>
+            <span th:text="${userData.lastName}"></span>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold">Роли:</label>
+            <span th:each="role : ${userData.roles}" th:text="${role}"></span>
+        </div>
+        <div class="form-group">
+            <label class="font-weight-bold">Промени паролата:</label>
+            <button id="password-edit-button"
+                    type="button"
+                    class="edit-button"
+                    onclick="toggleEdit('password')">Промяна
+            </button>
+            <form id="password-edit"
+                  th:action="@{/my-profile/update-password}"
+                  th:method="post"
+                  style="display: none;">
+                <input
+                        type="password"
+                        id="current-password"
+                        name="currentPassword"
+                        placeholder="Current Password" required>
+                <input
+                        type="password"
+                        id="new-password"
+                        name="newPassword"
+                        placeholder="New Password" required>
+                <button type="submit">Запамети</button>
+                <button type="button"
+                        class="edit-button"
+                        onclick="cancelEdit('password')">Отказ
+                </button>
+            </form>
+        </div>
+        <form th:action="@{/my-profile/delete-account}"
+              th:method="post" class="form-group">
+            <button type="submit" class="delete-button mt-4">Изтриване на акаунт</button>
+        </form>
+        <div th:if="${message}" class="alert alert-success">
+            <span th:text="${message}"></span>
+        </div>
+        <div th:if="${error}" class="alert alert-error">
+            <span th:text="${error}"></span>
+        </div>
     </div>
 </div>
 

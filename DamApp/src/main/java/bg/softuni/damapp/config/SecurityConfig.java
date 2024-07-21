@@ -26,7 +26,12 @@ public class SecurityConfig {
                         authorizeRequests ->
                                 authorizeRequests
                                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                        .requestMatchers("/", "/login", "/register", "/list-advertisements").permitAll()
+                                        .requestMatchers(
+                                                "/",
+                                                "/login",
+                                                "/register",
+                                                "/list-advertisements",
+                                                "/my-profile/profile-deleted").permitAll()
                                         .anyRequest()
                                         .authenticated()
                 )
