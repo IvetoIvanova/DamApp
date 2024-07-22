@@ -4,11 +4,15 @@ import bg.softuni.dam.dam_advertisements.model.dto.AdvertisementDTO;
 import bg.softuni.dam.dam_advertisements.model.dto.CreateAdDTO;
 import bg.softuni.dam.dam_advertisements.model.entity.Advertisement;
 import bg.softuni.dam.dam_advertisements.model.entity.Image;
+import bg.softuni.dam.dam_advertisements.model.enums.Category;
 import bg.softuni.dam.dam_advertisements.repository.AdvertisementRepository;
 import bg.softuni.dam.dam_advertisements.service.AdvertisementService;
 import bg.softuni.dam.dam_advertisements.service.exception.AccessDeniedException;
 import bg.softuni.dam.dam_advertisements.service.exception.ObjectNotFoundException;
 import bg.softuni.dam.dam_advertisements.service.exception.ResourceNotFoundException;
+import bg.softuni.dam.dam_advertisements.web.AdsController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdsController.class);
 
     private final AdvertisementRepository advertisementRepository;
     private final RestTemplate restTemplate;
@@ -54,6 +59,16 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public List<AdvertisementDTO> getAdvertisementsByOwnerId(Long ownerId) {
         return advertisementRepository
                 .findByOwnerId(ownerId)
+                .stream()
+                .map(AdvertisementServiceImpl::map)
+                .toList();
+    }
+
+    @Override
+    public List<AdvertisementDTO> getAdsByCategory(Category category) {
+        LOGGER.info("Fetching advertisements for category: " + category);
+        return advertisementRepository
+                .findByCategory(category)
                 .stream()
                 .map(AdvertisementServiceImpl::map)
                 .toList();

@@ -3,8 +3,6 @@ package bg.softuni.damapp.service;
 import bg.softuni.damapp.model.dto.AdDetailsDTO;
 import bg.softuni.damapp.model.dto.AdSummaryDTO;
 import bg.softuni.damapp.model.dto.CreateAdDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -16,6 +14,8 @@ public interface AdvertisementService {
     List<AdSummaryDTO> getAllAds();
 
     List<AdDetailsDTO> getMyAds(Long ownerId);
+
+    List<AdSummaryDTO> getAdsByCategory(String category);
 
     void reserveAdvertisement(Long id, Long userId);
 

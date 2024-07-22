@@ -2,7 +2,6 @@
 <html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Изтрит профил</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
@@ -11,7 +10,6 @@
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
-            border: 1px solid #ccc;
             border-radius: 5px;
             background-color: #f9f9f9;
             text-align: center;
@@ -41,10 +39,12 @@
     </style>
 </head>
 <body>
-<div class="container" th:action="@{/profile-deleted}" th:method="get">
+<div class="container">
     <h1>Профилът е изтрит</h1>
+    <img src="/images/goodbye.png" width="200" height="200" alt="An illustration of a waving hand for goodbye"/>
     <p>Вашият профил е изтрит успешно.</p>
-    <p>Съжаляваме, че си отивате. Надяваме се, че преживяването ви на нашия сайт не е било обезсърчително.</p>
+    <p>Съжаляваме, че си отивате. Благодарим ви, че бяхте част от нашата общност и се надяваме, че сте имали положителни
+        моменти с нас.</p>
     <p>Ако решите да се върнете, ние сме тук, за да ви посрещнем!</p>
     <a th:href="@{/}">Отидете на началната страница</a>
 </div>

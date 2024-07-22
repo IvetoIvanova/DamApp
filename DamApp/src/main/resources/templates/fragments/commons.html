@@ -35,6 +35,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-dark"
+                       th:href="@{/list-advertisements}"
+                       th:text="#{footer_ads}">
+                        Обяви
+                    </a>
+                </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link text-dark"
                        href="/admin"
@@ -42,7 +49,7 @@
                         АДМИН
                     </a>
                 </li>
-                <li class="nav-item dropdown" sec:authorize="!isAuthenticated()">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-dark"
                        href="#"
                        id="categoryDropdown"
@@ -55,44 +62,44 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="categoryDropdown">
                         <a class="dropdown-item"
-                           href="#"
                            data-category="fruits"
+                           th:href="@{/list-advertisements(category=${'ПЛОДОВЕ'})}"
                            th:text="#{nav_bar_fruits}">
                             Плодове
                         </a>
                         <a class="dropdown-item"
-                           href="#"
                            data-category="vegetables"
+                           th:href="@{/list-advertisements(category=${'ЗЕЛЕНЧУЦИ'})}"
                            th:text="#{nav_bar_vegetables}">
                             Зеленчуци
                         </a>
                         <a class="dropdown-item"
-                           href="#"
                            data-category="herbs"
+                           th:href="@{/list-advertisements(category=${'ПОДПРАВКИ'})}"
                            th:text="#{nav_bar_herbs}">
                             Подправки
                         </a>
                         <a class="dropdown-item"
-                           href="#"
                            data-category="seedlings"
+                           th:href="@{/list-advertisements(category=${'РАЗСАД'})}"
                            th:text="#{nav_bar_seedlings}">
                             Разсад
                         </a>
                         <a class="dropdown-item"
-                           href="#"
                            data-category="flowers"
+                           th:href="@{/list-advertisements(category=${'ЦВЕТЯ'})}"
                            th:text="#{nav_bar_flowers}">
                             Цветя
                         </a>
                         <a class="dropdown-item"
-                           href="#"
                            data-category="seeds"
+                           th:href="@{/list-advertisements(category=${'СЕМЕНА'})}"
                            th:text="#{nav_bar_seeds}">
                             Семена
                         </a>
                         <a class="dropdown-item"
-                           href="#"
                            data-category="others"
+                           th:href="@{/list-advertisements(category=${'ДРУГИ'})}"
                            th:text="#{nav_bar_others}">
                             Други
                         </a>
@@ -173,7 +180,6 @@
         </div>
     </div>
 </nav>
-
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script src="/js/scrollToTop.js"></script>

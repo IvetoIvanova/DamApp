@@ -2,6 +2,7 @@ package bg.softuni.dam.dam_advertisements.web;
 
 import bg.softuni.dam.dam_advertisements.model.dto.AdvertisementDTO;
 import bg.softuni.dam.dam_advertisements.model.dto.CreateAdDTO;
+import bg.softuni.dam.dam_advertisements.model.enums.Category;
 import bg.softuni.dam.dam_advertisements.service.AdvertisementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,12 @@ public class AdsController {
         return ResponseEntity.ok(
                 advertisementService.getAllAds()
         );
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<AdvertisementDTO>> getAdsByCategory(@PathVariable("category") String category) {
+        LOGGER.info("Received category: " + category);
+        return ResponseEntity.ok(advertisementService.getAdsByCategory(Category.valueOf(category)));
     }
 
     @GetMapping("/user/{ownerId}")

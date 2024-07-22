@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        .container {
+            font-size: 20px;
+        }
+
         .my-profile-container {
             display: inline-block;
             justify-content: center;
@@ -25,10 +29,6 @@
             margin-bottom: 10px;
             margin-right: 10px;
         }
-
-        /*.form-group span {*/
-        /*    flex-grow: 1;*/
-        /*}*/
 
         .form-group input {
             width: 100%;
@@ -135,9 +135,9 @@
                         id="email"
                         name="email"
                         th:value="${userData.email}" required>
-                <button type="submit">Запамети</button>
+                <button type="submit" class="mt-2">Запамети</button>
                 <button type="button"
-                        class="edit-button"
+                        class="edit-button mt-2"
                         onclick="cancelEdit('email')">Отказ
                 </button>
             </form>
@@ -169,15 +169,15 @@
                         type="password"
                         id="current-password"
                         name="currentPassword"
-                        placeholder="Current Password" required>
+                        placeholder="Текуща парола" required>
                 <input
                         type="password"
                         id="new-password"
                         name="newPassword"
-                        placeholder="New Password" required>
-                <button type="submit">Запамети</button>
+                        placeholder="Нова парола" required>
+                <button type="submit" class="mt-2">Запамети</button>
                 <button type="button"
-                        class="edit-button"
+                        class="edit-button mt-2"
                         onclick="cancelEdit('password')">Отказ
                 </button>
             </form>

@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -82,6 +84,22 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
+                });
+    }
+
+    @Override
+    public List<AdSummaryDTO> getAdsByCategory(String category) {
+        LOGGER.info("Get advertisements by category: {}", category);
+
+        String encodedCategory;
+        encodedCategory = URLDecoder.decode(category, StandardCharsets.UTF_8);
+
+        return advertisementRestClient
+                .get()
+                .uri("http://localhost:8081/ads/category/" + encodedCategory)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<AdSummaryDTO>>() {
                 });
     }
 
