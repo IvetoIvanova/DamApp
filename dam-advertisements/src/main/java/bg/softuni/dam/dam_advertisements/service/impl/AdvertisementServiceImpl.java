@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,7 +40,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public AdvertisementDTO getAdById(Long id) {
+    public AdvertisementDTO getAdById(UUID id) {
         return advertisementRepository
                 .findById(id)
                 .map(AdvertisementServiceImpl::map)
@@ -56,7 +57,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public List<AdvertisementDTO> getAdvertisementsByOwnerId(Long ownerId) {
+    public List<AdvertisementDTO> getAdvertisementsByOwnerId(UUID ownerId) {
         return advertisementRepository
                 .findByOwnerId(ownerId)
                 .stream()
@@ -75,7 +76,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void reserveAdvertisement(Long id, Long userId) {
+    public void reserveAdvertisement(UUID id, UUID userId) {
         Optional<Advertisement> advertisementOpt = advertisementRepository.findById(id);
         if (advertisementOpt.isPresent()) {
             Advertisement advertisement = advertisementOpt.get();
@@ -91,7 +92,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void unreserveAdvertisement(Long id, Long userId) {
+    public void unreserveAdvertisement(UUID id, UUID userId) {
         Optional<Advertisement> advertisementOpt = advertisementRepository.findById(id);
         if (advertisementOpt.isPresent()) {
             Advertisement advertisement = advertisementOpt.get();
@@ -107,7 +108,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void deleteAdvertisement(Long id, Long userId) {
+    public void deleteAdvertisement(UUID id, UUID userId) {
         Optional<Advertisement> advertisementOpt = advertisementRepository.findById(id);
         if (advertisementOpt.isPresent()) {
             Advertisement advertisement = advertisementOpt.get();
@@ -134,7 +135,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         }
     }
 
-    private boolean isAdmin(Long userId) {
+    private boolean isAdmin(UUID userId) {
         // TODO: checking if the user is an admin
         return false;
     }

@@ -7,16 +7,21 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "advertisements")
 public class Advertisement {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @Column(columnDefinition = "BINARY(16)",
+            unique = true,
+            updatable = false,
+            nullable = false)
+    private UUID id;
     @Column(nullable = false)
-    private Long ownerId;
+    private UUID ownerId;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -43,19 +48,19 @@ public class Advertisement {
         this.imageUrls = new ArrayList<>();
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Long getOwnerId() {
+    public UUID getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(Long ownerId) {
+    public void setOwnerId(UUID ownerId) {
         this.ownerId = ownerId;
     }
 

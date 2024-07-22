@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/advertisement-add")
@@ -85,7 +86,7 @@ public class AdvertisementController {
     }
 
     @GetMapping("/{id}")
-    public String adDetails(@PathVariable("id") Long id, Model model) {
+    public String adDetails(@PathVariable("id") UUID id, Model model) {
 
         model.addAttribute("adDetails", advertisementService.getAdDetails(id));
 

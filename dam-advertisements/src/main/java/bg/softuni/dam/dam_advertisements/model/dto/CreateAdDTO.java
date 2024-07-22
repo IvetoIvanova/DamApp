@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public record CreateAdDTO(
         @NotNull(message = "Това поле е задължително.")
@@ -29,7 +30,7 @@ public record CreateAdDTO(
         @NotBlank(message = "Това поле е задължително.") String contactPhone,
         @NotNull(message = "Това поле е задължително.")
         LocalDateTime publishedAt,
-        Long ownerId
+        UUID ownerId
 ) {
     public CreateAdDTO {
         publishedAt = LocalDateTime.now();

@@ -5,9 +5,10 @@ import bg.softuni.damapp.model.enums.Category;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public record AdSummaryDTO(
-        Long id,
+        UUID id,
         String title,
         Category category,
         String location,

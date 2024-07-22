@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/ads")
@@ -24,13 +25,13 @@ public class AdsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AdvertisementDTO> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<AdvertisementDTO> getById(@PathVariable("id") UUID id) {
         return ResponseEntity
                 .ok(advertisementService.getAdById(id));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<AdvertisementDTO> deleteById(@PathVariable("id") Long id, @RequestParam("userId") Long userId) {
+    public ResponseEntity<AdvertisementDTO> deleteById(@PathVariable("id") UUID id, @RequestParam("userId") UUID userId) {
         advertisementService.deleteAdvertisement(id, userId);
         return ResponseEntity
                 .noContent()
@@ -51,25 +52,25 @@ public class AdsController {
     }
 
     @GetMapping("/user/{ownerId}")
-    public ResponseEntity<List<AdvertisementDTO>> getAdvertisementsByOwnerId(@PathVariable("ownerId") Long ownerId) {
+    public ResponseEntity<List<AdvertisementDTO>> getAdvertisementsByOwnerId(@PathVariable("ownerId") UUID ownerId) {
         List<AdvertisementDTO> ads = advertisementService.getAdvertisementsByOwnerId(ownerId);
         return ResponseEntity.ok(ads);
     }
 
     @PostMapping("/reserve/{id}")
-    public ResponseEntity<Void> reserveAdvertisement(@PathVariable("id") Long id, @RequestParam("userId") Long userId) {
+    public ResponseEntity<Void> reserveAdvertisement(@PathVariable("id") UUID id, @RequestParam("userId") UUID userId) {
         advertisementService.reserveAdvertisement(id, userId);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/unreserve/{id}")
-    public ResponseEntity<Void> unreserveAdvertisement(@PathVariable("id") Long id, @RequestParam("userId") Long userId) {
+    public ResponseEntity<Void> unreserveAdvertisement(@PathVariable("id") UUID id, @RequestParam("userId") UUID userId) {
         advertisementService.unreserveAdvertisement(id, userId);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAdvertisement(@PathVariable Long id, @RequestParam("userId") Long userId) {
+    public ResponseEntity<Void> deleteAdvertisement(@PathVariable UUID id, @RequestParam("userId") UUID userId) {
         advertisementService.deleteAdvertisement(id, userId);
         return ResponseEntity.noContent().build();
     }

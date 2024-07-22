@@ -6,11 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface AdvertisementRepository extends JpaRepository<Advertisement, Long> {
-    List<Advertisement> findByOwnerId(Long ownerId);
+public interface AdvertisementRepository extends JpaRepository<Advertisement, UUID> {
+    List<Advertisement> findByOwnerId(UUID ownerId);
 
     List<Advertisement> findByCategory(Category category);
 }

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 @RequestMapping("/my-advertisements")
 public class MyAdsController {
@@ -34,7 +36,7 @@ public class MyAdsController {
     }
 
     @PostMapping("/reserve-ad/{id}")
-    public String reserveAd(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+    public String reserveAd(@PathVariable UUID id, @AuthenticationPrincipal UserDetails userDetails) {
         String email = userDetails.getUsername();
         UserDTO user = userService.findByEmail(email);
 
@@ -43,7 +45,7 @@ public class MyAdsController {
     }
 
     @PostMapping("/unreserve-ad/{id}")
-    public String unreserveAd(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+    public String unreserveAd(@PathVariable UUID id, @AuthenticationPrincipal UserDetails userDetails) {
         String email = userDetails.getUsername();
         UserDTO user = userService.findByEmail(email);
 
@@ -52,7 +54,7 @@ public class MyAdsController {
     }
 
     @DeleteMapping("/delete-ad/{id}")
-    public String deleteAd(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+    public String deleteAd(@PathVariable UUID id, @AuthenticationPrincipal UserDetails userDetails) {
         String email = userDetails.getUsername();
         UserDTO user = userService.findByEmail(email);
 

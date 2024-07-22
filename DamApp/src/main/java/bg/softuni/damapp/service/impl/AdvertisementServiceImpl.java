@@ -16,6 +16,7 @@ import org.springframework.web.client.RestClient;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
@@ -52,7 +53,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public AdDetailsDTO getAdDetails(Long id) {
+    public AdDetailsDTO getAdDetails(UUID id) {
         return advertisementRestClient
                 .get()
                 .uri("http://localhost:8081/ads/{id}", id)
@@ -75,7 +76,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public List<AdDetailsDTO> getMyAds(Long ownerId) {
+    public List<AdDetailsDTO> getMyAds(UUID ownerId) {
         LOGGER.info("Get my ads...");
 
         return advertisementRestClient
@@ -104,7 +105,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void reserveAdvertisement(Long adId, Long userId) {
+    public void reserveAdvertisement(UUID adId, UUID userId) {
         advertisementRestClient
                 .post()
                 .uri("http://localhost:8081/ads/reserve/{id}?userId={userId}", adId, userId)
@@ -115,7 +116,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void unreserveAdvertisement(Long adId, Long userId) {
+    public void unreserveAdvertisement(UUID adId, UUID userId) {
         advertisementRestClient
                 .post()
                 .uri("http://localhost:8081/ads/unreserve/{id}?userId={userId}", adId, userId)
@@ -126,7 +127,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void deleteAdvertisement(Long adId, Long userId) {
+    public void deleteAdvertisement(UUID adId, UUID userId) {
 
         advertisementRestClient
                 .delete()

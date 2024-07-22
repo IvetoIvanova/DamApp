@@ -5,9 +5,10 @@ import bg.softuni.damapp.model.enums.Category;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public record AdDetailsDTO(
-        Long id,
+        UUID id,
         String title,
         String description,
         Category category,
@@ -18,6 +19,6 @@ public record AdDetailsDTO(
         List<String> imageUrls,
         String contactPhone,
         LocalDateTime publishedAt,
-        Long ownerId
+        UUID ownerId
 ) {
 }

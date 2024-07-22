@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static bg.softuni.damapp.util.Constants.NOT_EMPTY;
 
@@ -40,7 +41,7 @@ public class CreateAdDTO {
     @NotNull(message = NOT_EMPTY)
     private List<String> imageUrls = new ArrayList<>();
     private List<MultipartFile> images = new ArrayList<>();
-    private Long ownerId;
+    private UUID ownerId;
 
     public CreateAdDTO() {
         this.publishedAt = LocalDateTime.now();
@@ -64,7 +65,7 @@ public class CreateAdDTO {
 
     public CreateAdDTO(String title, String description, Category category, Integer quantity,
                        String location, Boolean reserved, AdType type, List<String> imageUrls,
-                       String contactPhone, LocalDateTime publishedAt, Long ownerId) {
+                       String contactPhone, LocalDateTime publishedAt, UUID ownerId) {
         this.title = title;
         this.description = description;
         this.category = category;
@@ -166,11 +167,11 @@ public class CreateAdDTO {
         this.publishedAt = publishedAt;
     }
 
-    public Long getOwnerId() {
+    public UUID getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(Long ownerId) {
+    public void setOwnerId(UUID ownerId) {
         this.ownerId = ownerId;
     }
 }

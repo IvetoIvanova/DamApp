@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static bg.softuni.damapp.util.Constants.PASSWORD_REGEX;
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateEmail(Long userId, String newEmail) {
+    public void updateEmail(UUID userId, String newEmail) {
         if (userRepository.findByEmail(newEmail).isPresent()) {
             throw new IllegalArgumentException("Потребител с такъв имейл вече съществува в базата.");
         }
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(Long userId, String currentPassword, String newPassword) {
+    public void updatePassword(UUID userId, String currentPassword, String newPassword) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("Потребителят не е намерен."));
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
             throw new IllegalArgumentException("Текущата парола не е вярна.");

@@ -4,13 +4,20 @@ import bg.softuni.damapp.model.enums.UserRoleEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "roles")
 public class UserRole {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @Column(columnDefinition = "BINARY(16)",
+            unique = true,
+            updatable = false,
+            nullable = false)
+    private UUID id;
 
     @NotNull
     @Column(unique = true)
@@ -23,14 +30,14 @@ public class UserRole {
     public UserRole(UserRoleEnum userRole) {
         super();
 
-        this.role= userRole;
+        this.role = userRole;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public UserRole setId(Long id) {
+    public UserRole setId(UUID id) {
         this.id = id;
         return this;
     }

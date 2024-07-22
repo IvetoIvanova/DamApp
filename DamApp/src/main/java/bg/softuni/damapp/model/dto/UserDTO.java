@@ -1,22 +1,21 @@
 package bg.softuni.damapp.model.dto;
 
-import bg.softuni.damapp.model.entity.UserRole;
-
 import java.util.List;
+import java.util.UUID;
 
 public class UserDTO {
 
-    private Long id;
+    private UUID id;
     private String email;
     private String firstName;
     private String lastName;
     private List<String> roles;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -5,23 +5,24 @@ import bg.softuni.damapp.model.dto.AdSummaryDTO;
 import bg.softuni.damapp.model.dto.CreateAdDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface AdvertisementService {
     void createAd(CreateAdDTO createAdDTO);
 
-    AdDetailsDTO getAdDetails(Long id);
+    AdDetailsDTO getAdDetails(UUID id);
 
     List<AdSummaryDTO> getAllAds();
 
-    List<AdDetailsDTO> getMyAds(Long ownerId);
+    List<AdDetailsDTO> getMyAds(UUID ownerId);
 
     List<AdSummaryDTO> getAdsByCategory(String category);
 
-    void reserveAdvertisement(Long id, Long userId);
+    void reserveAdvertisement(UUID id, UUID userId);
 
-    void unreserveAdvertisement(Long adId, Long userId);
+    void unreserveAdvertisement(UUID adId, UUID userId);
 
-    void deleteAdvertisement(Long adId, Long userId);
+    void deleteAdvertisement(UUID adId, UUID userId);
 
     //    Page<AdSummaryDTO> findAll(Pageable pageable);
 }

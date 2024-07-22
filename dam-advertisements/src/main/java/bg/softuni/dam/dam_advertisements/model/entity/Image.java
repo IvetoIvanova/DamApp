@@ -2,13 +2,19 @@ package bg.softuni.dam.dam_advertisements.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "images")
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @Column(columnDefinition = "BINARY(16)",
+            unique = true,
+            updatable = false,
+            nullable = false)
+    private UUID id;
     @Column(nullable = false)
     private String url;
     @ManyToOne
@@ -18,11 +24,11 @@ public class Image {
     public Image() {
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

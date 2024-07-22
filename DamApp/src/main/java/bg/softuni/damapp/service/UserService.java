@@ -5,6 +5,7 @@ import bg.softuni.damapp.model.dto.UserRegisterDTO;
 import bg.softuni.damapp.model.user.DamUserDetails;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserService {
     void registerUser(UserRegisterDTO userRegister);
@@ -15,9 +16,9 @@ public interface UserService {
 
     Optional<DamUserDetails> getCurrentUser();
 
-    void updateEmail(Long userId, String newEmail);
+    void updateEmail(UUID userId, String newEmail);
 
-    void updatePassword(Long userId, String currentPassword, String newPassword);
+    void updatePassword(UUID userId, String currentPassword, String newPassword);
 
     void deleteUser(String email);
 }
