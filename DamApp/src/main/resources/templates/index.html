@@ -8,6 +8,21 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .carousel-caption {
+            position: absolute;
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            width: 100%;
+        }
+
+        .carousel-caption h5 {
+            color: #155724;
+            margin: 0;
+        }
+    </style>
 </head>
 <body class="default-bg">
 <div class="wrapper">
@@ -39,6 +54,87 @@
                 <span th:text="#{home_content_message_part2}">сега, за да започнете да споделяте и разменяте продукти!</span>
                 <span th:text="#{home_content_message_part3}">Споделете своята реколта, открийте нови приятели и се наслаждавайте на плодовете на вашия труд!</span>
             </h4>
+            <div id="categoryCarousel" class="carousel slide mt-4 mb-4" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row text-center">
+                            <div class="col-md-4">
+                                <a th:href="@{/list-advertisements(category=${'ПЛОДОВЕ'})}">
+                                    <img src="/images/category-fruits.jpeg" class="d-block w-100" alt="Fruits">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>Плодове</h5>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a th:href="@{/list-advertisements(category=${'ЗЕЛЕНЧУЦИ'})}">
+                                    <img src="/images/category-vegetables.jpeg" class="d-block w-100" alt="Vegetables">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>Зеленчуци</h5>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a th:href="@{/list-advertisements(category=${'ПОДПРАВКИ'})}">
+                                    <img src="/images/category-herbs.jpeg" class="d-block w-100" alt="Herbs">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>Подправки</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row text-center">
+                            <div class="col-md-4">
+                                <a th:href="@{/list-advertisements(category=${'РАЗСАД'})}">
+                                    <img src="/images/category-seedlings.jpeg" class="d-block w-100" alt="Seedlings">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>Разсад</h5>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a th:href="@{/list-advertisements(category=${'ЦВЕТЯ'})}">
+                                    <img src="/images/category-flowers.jpeg" class="d-block w-100" alt="Flowers">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>Цветя</h5>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a th:href="@{/list-advertisements(category=${'СЕМЕНА'})}">
+                                    <img src="/images/category-seeds.jpeg" class="d-block w-100" alt="Seeds">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>Семена</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row text-center">
+                            <div class="col-md-4">
+                                <a th:href="@{/list-advertisements(category=${'ДРУГИ'})}">
+                                    <img src="/images/category-others.jpeg" class="d-block w-100" alt="Others">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>Други</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#categoryCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#categoryCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
             <div class="lead text-center">
                 <img src="/images/logo.png" alt="Лого на платформата" class="img-fluid logo-small">
             </div>
@@ -52,7 +148,6 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script src="/js/scrollToTop.js"></script>
