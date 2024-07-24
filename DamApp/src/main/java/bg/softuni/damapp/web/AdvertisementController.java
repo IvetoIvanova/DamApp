@@ -87,8 +87,10 @@ public class AdvertisementController {
 
     @GetMapping("/{id}")
     public String adDetails(@PathVariable("id") UUID id, Model model) {
+        UUID ownerId = advertisementService.getAdDetails(id).ownerId();
 
         model.addAttribute("adDetails", advertisementService.getAdDetails(id));
+        model.addAttribute("author", userService.findById(ownerId));
 
         return "advertisement-details";
     }

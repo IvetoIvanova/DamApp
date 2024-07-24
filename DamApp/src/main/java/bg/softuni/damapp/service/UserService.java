@@ -2,6 +2,7 @@ package bg.softuni.damapp.service;
 
 import bg.softuni.damapp.model.dto.UserDTO;
 import bg.softuni.damapp.model.dto.UserRegisterDTO;
+import bg.softuni.damapp.model.entity.User;
 import bg.softuni.damapp.model.user.DamUserDetails;
 
 import java.util.Optional;
@@ -21,4 +22,6 @@ public interface UserService {
     void updatePassword(UUID userId, String currentPassword, String newPassword);
 
     void deleteUser(String email);
+
+    Optional<User> findById(UUID ownerId);
 }

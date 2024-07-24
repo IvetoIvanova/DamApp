@@ -51,21 +51,33 @@
             <p>Количество: <span th:text="${adDetails.quantity}">Количество</span></p>
             <p>Населено място: <span th:text="${adDetails.location}">Населено място</span></p>
             <p>Телефон за контакти: <span th:text="${adDetails.contactPhone()}">Телефон за контакти</span></p>
+            <p>Публикувано от: <span th:text="${author.get().firstName} + ' ' + ${author.get().lastName}">Автор</span>
+            </p>
             <div>
                 <span th:text="#{ad_details_published}"></span>
                 <span th:text="${#temporals.format(adDetails.publishedAt, 'dd.MM.yyyy')}"></span>
                 <span th:text="#{ad_details_publishedAt}"></span>
                 <span th:text="${#temporals.format(adDetails.publishedAt, 'HH:mm')}"></span>
             </div>
-            <!-- TODO:           <p>Публикувано от: <span th:text="${ad.author.firstName} + ' ' + ${ad.author.lastName}">Автор</span></p>-->
             <span class="badge badge-warning" th:if="${adDetails.reserved}">Reserved</span>
-            <!--      TODO:      <a th:href="@{/messages/send/{id}(id=${ad.author.id})}" class="btn btn-primary">Изпрати съобщение</a>-->
-            <!--            <div th:if="${adDetails.owner.id == #authentication.principal.id or #authentication.principal.authorities.contains('ROLE_ADMIN')}">-->
-            <!--                <form th:action="@{/advertisement/delete/{id}(id=${adDetails.id()})}" method="post">-->
-            <!--                    <input type="hidden" name="_method" value="delete"/>-->
-            <!--                    <button type="submit" class="btn btn-danger">Delete</button>-->
-            <!--                </form>-->
-            <!--            </div>-->
+
+            <button type="button" class="btn btn-primary" onclick="showMessageForm()">Изпрати съобщение</button>
+
+            <div id="messageForm" style="display:none;">
+                <form th:action="@{/messages/send}" method="post">
+                    <input type="hidden" name="advertisementId" th:value="${adDetails.id()}" />
+                    <label>
+                        <textarea name="content" placeholder="Въведи своето съобщение тук..."></textarea>
+                    </label>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+<!--            <div th:if="${adDetails.owner.id == #authentication.principal.id or #authentication.principal.authorities.contains('ROLE_ADMIN')}">-->
+<!--                <form th:action="@{/advertisement/delete/{id}(id=${adDetails.id()})}" method="post">-->
+<!--                    <input type="hidden" name="_method" value="delete"/>-->
+<!--                    <button type="submit" class="btn btn-danger">Delete</button>-->
+<!--                </form>-->
+<!--            </div>-->
         </div>
     </div>
 </div>
@@ -79,5 +91,10 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script src="/js/scrollToTop.js"></script>
+<script>
+    function showMessageForm() {
+        document.getElementById('messageForm').style.display = 'block';
+    }
+</script>
 </body>
 </html>

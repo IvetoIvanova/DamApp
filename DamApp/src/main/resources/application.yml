@@ -20,7 +20,7 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     password: ${db_password}
     username: ${db_username}
-    url: jdbc:mysql://localhost:3306/dam_app?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/dam_app?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
 logging:
   level:
     org:
@@ -37,7 +37,7 @@ security:
 
 ads:
   api:
-    baseUrl: "http://localhost:8081"
+    baseUrl: ${ads_base_url}
 
 geonames:
   username: ${g_username}
@@ -55,4 +55,4 @@ admin:
   password: ${admin_password}
 
 server:
-  port: 8080
+  port: ${server_port}

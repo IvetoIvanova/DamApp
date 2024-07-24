@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class UserDTO {
-
     private UUID id;
     private String email;
     private String firstName;
@@ -42,7 +41,6 @@ public class UserDTO {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
 
     public List<String> getRoles() {
         return roles;

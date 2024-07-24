@@ -47,7 +47,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         advertisementRestClient
                 .post()
-                .uri("http://localhost:8081/ads")
+                .uri("/ads")
                 .body(adDTO)
                 .retrieve();
     }
@@ -56,7 +56,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public AdDetailsDTO getAdDetails(UUID id) {
         return advertisementRestClient
                 .get()
-                .uri("http://localhost:8081/ads/{id}", id)
+                .uri("/ads/{id}", id)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(AdDetailsDTO.class);
@@ -68,7 +68,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         return advertisementRestClient
                 .get()
-                .uri("http://localhost:8081/ads")
+                .uri("/ads")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
@@ -81,7 +81,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         return advertisementRestClient
                 .get()
-                .uri("http://localhost:8081/ads/user/" + ownerId)
+                .uri("/ads/user/" + ownerId)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
@@ -97,7 +97,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         return advertisementRestClient
                 .get()
-                .uri("http://localhost:8081/ads/category/" + encodedCategory)
+                .uri("/ads/category/" + encodedCategory)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<AdSummaryDTO>>() {
@@ -108,7 +108,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public void reserveAdvertisement(UUID adId, UUID userId) {
         advertisementRestClient
                 .post()
-                .uri("http://localhost:8081/ads/reserve/{id}?userId={userId}", adId, userId)
+                .uri("/ads/reserve/{id}?userId={userId}", adId, userId)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
@@ -119,7 +119,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public void unreserveAdvertisement(UUID adId, UUID userId) {
         advertisementRestClient
                 .post()
-                .uri("http://localhost:8081/ads/unreserve/{id}?userId={userId}", adId, userId)
+                .uri("/ads/unreserve/{id}?userId={userId}", adId, userId)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
@@ -131,7 +131,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         advertisementRestClient
                 .delete()
-                .uri("http://localhost:8081/ads/delete/{id}?userId={userId}", adId, userId)
+                .uri("/ads/delete/{id}?userId={userId}", adId, userId)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {

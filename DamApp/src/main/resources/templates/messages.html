@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Съобщения</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script>
+        $(document).ready(function () {
+            $(".conversation-link").click(function () {
+                const conversationId = $(this).data("conversation-id");
+                $.get("/messages/conversation/" + conversationId, function (data) {
+                    $("#conversation").html(data);
+                });
+            });
+
+            function loadUnreadCount() {
+                $.get("/messages/unread-count", function (data) {
+                    if (data > 0) {
+                        $("#unreadCount").text(data);
+                    } else {
+                        $("#unreadCount").text('');
+                    }
+                });
+            }
+
+            loadUnreadCount();
+            setInterval(loadUnreadCount, 30000);
+        });
+    </script>
+
+</head>
+<body>
+<header>
+    <th:block th:replace="~{fragments/commons::nav}"></th:block>
+</header>
+<h1>Съобщения</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <ul>
+                <li th:each="conversation : ${conversations}">
+                    <div>
+                        <a th:href="@{/messages/conversation/{id}(id=${conversation.conversationId})}">
+                            Разговор
+                        </a>
+                        за
+                        <a th:href="@{/advertisement-add/{id}(id=${conversation.advertisementId})}">
+                            <span th:text="${conversation.advertisementTitle}"></span>
+                        </a>
+                        с <span th:text="${conversation.otherParticipantName}"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <th:block th:replace="~{fragments/footer::footer}"></th:block>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<script>
+    const socket = new SockJS('/ws');
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        stompClient.subscribe('/user/queue/notifications', function (notification) {
+            alert('Новото съобщение: ' + notification.body);
+            updateUnreadCount();
+        });
+    });
+
+    function updateUnreadCount() {
+        fetch('/messages/unread-count')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('unread-count').innerText = data > 0 ? `(${data})` : '';
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        updateUnreadCount();
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

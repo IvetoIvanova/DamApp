@@ -41,9 +41,7 @@ public class RestConfig {
                                         "roles",
                                         damUserDetails.getAuthorities().stream()
                                                 .map(GrantedAuthority::getAuthority)
-                                                .toList(),
-                                        "user",
-                                        damUserDetails.getUuid().toString()
+                                                .toList()
                                 )
                         );
                         request.getHeaders().setBearerAuth(bearerToken);

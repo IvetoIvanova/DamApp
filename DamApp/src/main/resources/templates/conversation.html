@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Разговор</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<header>
+    <th:block th:replace="~{fragments/commons::nav(activeLink=${'login'})}"></th:block>
+</header>
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div th:each="message : ${messages}">
+                    <p>
+                        <span th:text="${message.sender.getFirstName()}+' '+${message.sender.getLastName()}"></span>:
+                        <span th:text="${message.content}"></span>
+                        <span th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <th:block th:replace="~{fragments/footer::footer}"></th:block>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<script>
+    const socket = new SockJS('/ws');
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        stompClient.subscribe('/user/queue/notifications', function (notification) {
+            alert('Новото съобщение: ' + notification.body);
+            updateUnreadCount();
+        });
+    });
+
+    function updateUnreadCount() {
+        fetch('/messages/unread-count')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('unread-count').innerText = data > 0 ? `(${data})` : '';
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        updateUnreadCount();
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

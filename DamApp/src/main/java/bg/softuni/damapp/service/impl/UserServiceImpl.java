@@ -103,6 +103,11 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
+    @Override
+    public Optional<User> findById(UUID ownerId) {
+        return userRepository.findById(ownerId);
+    }
+
     private boolean isValidPassword(String password) {
         return password.matches(PASSWORD_REGEX);
     }
@@ -128,4 +133,3 @@ public class UserServiceImpl implements UserService {
         return userDTO;
     }
 }
-

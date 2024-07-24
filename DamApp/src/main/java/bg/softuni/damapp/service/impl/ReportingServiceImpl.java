@@ -2,7 +2,6 @@ package bg.softuni.damapp.service.impl;
 
 import bg.softuni.damapp.repository.UserRepository;
 import bg.softuni.damapp.service.ReportingService;
-import bg.softuni.damapp.service.schedulers.ScheduledTasks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
