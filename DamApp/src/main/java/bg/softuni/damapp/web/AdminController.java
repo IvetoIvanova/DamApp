@@ -1,18 +1,26 @@
 package bg.softuni.damapp.web;
 
+import bg.softuni.damapp.exception.RoleAlreadyExistsException;
+import bg.softuni.damapp.exception.RoleDoesNotExistsException;
 import bg.softuni.damapp.model.dto.UserDTO;
 import bg.softuni.damapp.model.entity.User;
 import bg.softuni.damapp.model.entity.UserRole;
 import bg.softuni.damapp.model.enums.UserRoleEnum;
 import bg.softuni.damapp.service.AdvertisementService;
+import bg.softuni.damapp.service.RoleService;
 import bg.softuni.damapp.service.UserService;
+import jakarta.validation.Valid;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,34 +32,52 @@ public class AdminController {
 
     private final UserService userService;
     private final AdvertisementService advertisementService;
+    private final RoleService roleService;
 
-    public AdminController(UserService userService, AdvertisementService advertisementService) {
+    public AdminController(UserService userService, AdvertisementService advertisementService, RoleService roleService) {
         this.userService = userService;
         this.advertisementService = advertisementService;
+        this.roleService = roleService;
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String adminDashboard(Model model) {
         List<User> users = userService.findAllUsers();
-        List<UserRole> allRoles = userService.findAllRolesOfUser();
+        List<UserRole> allRoles = roleService.findAllRolesOfUser();
         model.addAttribute("allRoles", allRoles);
         model.addAttribute("users", users);
         return "admin-dashboard";
     }
 
-    @PostMapping("/users/{username}/add-role")
+    @PostMapping("/users/{userId}/roles")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String addRoleToUser(@PathVariable String username, @RequestParam UserRole role) {
-        userService.addRoleToUser(username, role);
-        return "redirect:/admin";
+    public String addRoleToUser(@PathVariable UUID userId,
+                                @RequestParam("role") String roleName,
+                                RedirectAttributes redirectAttributes) {
+        try {
+            Optional<User> user = userService.findById(userId);
+            user.ifPresent(value -> roleService.addRoleToUser(value, UserRoleEnum.valueOf(roleName)));
+            return "redirect:/admin";
+        } catch (RoleAlreadyExistsException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+            return "redirect:/admin";
+        }
     }
 
-    @PostMapping("/users/{username}/remove-role")
+    @PostMapping("/users/{userId}/remove-role")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String removeRoleFromUser(@PathVariable String username, @RequestParam UserRoleEnum role) {
-        userService.removeRoleFromUser(username, role);
-        return "redirect:/admin";
+    public String removeRoleFromUser(@PathVariable UUID userId,
+                                     @RequestParam("role") String roleName,
+                                     RedirectAttributes redirectAttributes) {
+        try {
+            Optional<User> user = userService.findById(userId);
+            user.ifPresent(u -> roleService.removeRoleFromUser(u, UserRoleEnum.valueOf(roleName)));
+            return "redirect:/admin";
+        } catch (RoleDoesNotExistsException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+            return "redirect:/admin";
+        }
     }
 
     @DeleteMapping("/users/{id}")

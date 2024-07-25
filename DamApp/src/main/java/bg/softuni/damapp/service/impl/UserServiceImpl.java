@@ -112,28 +112,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public void addRoleToUser(String email, UserRole role) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        user.getRoles().add(role);
-        userRepository.save(user);
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public void removeRoleFromUser(String email, UserRoleEnum role) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        user.getRoles().remove(role);
-        userRepository.save(user);
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<User> findAllUsers() {
         return userRepository.findAll();
-    }
-    @Override
-    public List<UserRole> findAllRolesOfUser(){
-        return roleRepository.findAll();
     }
 
     private boolean isValidPassword(String password) {

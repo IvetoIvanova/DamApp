@@ -22,20 +22,21 @@
     </tr>
     </thead>
     <tbody>
+    <span th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></span>
     <tr th:each="user : ${users}">
         <td th:text="${user.email}"></td>
         <td>
             <span th:each="role : ${user.roles}" th:text="${role}+' '"></span>
         </td>
         <td>
-            <form th:action="@{/admin/users/{username}/add-role(username=${user.email})}" th:method="post">
+            <form th:action="@{/admin/users/{userId}/roles(userId=${user.id})}" th:method="post">
                 <select name="role">
                     <option th:each="role : ${allRoles}" th:value="${role}" th:text="${role.role}"
                             th:unless="${user.roles.contains(role)}"></option>
                 </select>
                 <button type="submit">Добави роля</button>
             </form>
-            <form th:action="@{/admin/users/{username}/remove-role(username=${user.email})}" th:method="post">
+            <form th:action="@{/admin/users/{userId}/remove-role(userId=${user.id})}" th:method="post">
                 <select name="role">
                     <option th:each="role : ${user.roles}" th:value="${role}" th:text="${role}"></option>
                 </select>
