@@ -21,7 +21,7 @@ public class Message extends BaseEntity {
     private User recipient;
     @JoinColumn(nullable = false)
     private UUID advertisementId;
-    @Column(nullable = false)
+    @Column(name = "is_read", nullable = false)
     private boolean isRead;
     @Column(name = "conversation_id", nullable = false)
     private UUID conversationId;
@@ -71,7 +71,7 @@ public class Message extends BaseEntity {
     }
 
     public void setRead(boolean read) {
-        isRead = read;
+        this.isRead = read;
     }
 
     public UUID getConversationId() {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="bg" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Детайли за обява</title>
@@ -72,12 +72,13 @@
                     <button type="submit">Send</button>
                 </form>
             </div>
-<!--            <div th:if="${adDetails.owner.id == #authentication.principal.id or #authentication.principal.authorities.contains('ROLE_ADMIN')}">-->
-<!--                <form th:action="@{/advertisement/delete/{id}(id=${adDetails.id()})}" method="post">-->
-<!--                    <input type="hidden" name="_method" value="delete"/>-->
-<!--                    <button type="submit" class="btn btn-danger">Delete</button>-->
-<!--                </form>-->
-<!--            </div>-->
+            <div sec:authorize="hasRole('ROLE_ADMIN')">
+                <form th:action="@{/admin/delete-ad/{id}(id=${adDetails.id})}"
+                      th:method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

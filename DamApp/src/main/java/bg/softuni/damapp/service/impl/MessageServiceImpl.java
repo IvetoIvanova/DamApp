@@ -3,7 +3,6 @@ package bg.softuni.damapp.service.impl;
 import bg.softuni.damapp.model.dto.AdDetailsDTO;
 import bg.softuni.damapp.model.dto.ConversationDTO;
 import bg.softuni.damapp.model.dto.MessageDTO;
-import bg.softuni.damapp.model.dto.UserDTO;
 import bg.softuni.damapp.model.entity.Conversation;
 import bg.softuni.damapp.model.entity.Message;
 import bg.softuni.damapp.model.entity.User;
@@ -12,6 +11,7 @@ import bg.softuni.damapp.repository.MessageRepository;
 import bg.softuni.damapp.repository.UserRepository;
 import bg.softuni.damapp.service.AdvertisementService;
 import bg.softuni.damapp.service.MessageService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class MessageServiceImpl implements MessageService {
+
+    private static final Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final ConversationRepository conversationRepository;
@@ -75,17 +77,23 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    @Transactional
     public void markMessagesAsRead(UUID conversationId, UUID userId) {
-        List<Message> messages = messageRepository.findMessagesByConversationIdAndRecipientId(conversationId, userId);
+        logger.info("Marking messages as read for user: {}", userId);
+        List<Message> messages = messageRepository.findMessagesByConversationIdRecipientIdAndIsRead(conversationId, userId, false);
+        logger.info("Found {} unread messages for user {}", messages.size(), userId);
         for (Message message : messages) {
             message.setRead(true);
-            messageRepository.save(message);
         }
+        messageRepository.saveAllAndFlush(messages);
+        logger.info("Updated {} messages to read status for user {}", messages.size(), userId);
     }
 
     @Override
     public int getUnreadMessageCount(UUID userId) {
-        return messageRepository.countUnreadMessagesByUserId(userId);
+        int count = messageRepository.countUnreadMessagesByUserId(userId);
+        logger.info("Unread message count for user {}: {}", userId, count);
+        return count;
     }
 
 

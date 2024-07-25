@@ -10,6 +10,7 @@ import bg.softuni.damapp.repository.RoleRepository;
 import bg.softuni.damapp.repository.UserRepository;
 import bg.softuni.damapp.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -106,6 +108,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findById(UUID ownerId) {
         return userRepository.findById(ownerId);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public void addRoleToUser(String email, UserRole role) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.getRoles().add(role);
+        userRepository.save(user);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public void removeRoleFromUser(String email, UserRoleEnum role) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.getRoles().remove(role);
+        userRepository.save(user);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+    @Override
+    public List<UserRole> findAllRolesOfUser(){
+        return roleRepository.findAll();
     }
 
     private boolean isValidPassword(String password) {

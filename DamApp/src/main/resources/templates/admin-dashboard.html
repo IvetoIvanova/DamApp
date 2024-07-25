@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ панел</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<header>
+    <th:block th:replace="~{fragments/commons::nav}"></th:block>
+</header>
+<h1>Админ панел</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Имейл</th>
+        <th>Роли</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.email}"></td>
+        <td>
+            <span th:each="role : ${user.roles}" th:text="${role}+' '"></span>
+        </td>
+        <td>
+            <form th:action="@{/admin/users/{username}/add-role(username=${user.email})}" th:method="post">
+                <select name="role">
+                    <option th:each="role : ${allRoles}" th:value="${role}" th:text="${role.role}"
+                            th:unless="${user.roles.contains(role)}"></option>
+                </select>
+                <button type="submit">Добави роля</button>
+            </form>
+            <form th:action="@{/admin/users/{username}/remove-role(username=${user.email})}" th:method="post">
+                <select name="role">
+                    <option th:each="role : ${user.roles}" th:value="${role}" th:text="${role}"></option>
+                </select>
+                <button type="submit">Отнеми роля</button>
+            </form>
+            <form th:action="@{/admin/users/{id}/delete(id=${user.id})}" th:method="post">
+                <button type="submit">Изтрий</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<footer>
+    <th:block th:replace="~{fragments/footer::footer}"></th:block>
+</footer>
+<div class="scroll-to-top" id="scrollToTop">
+    <i class="fas fa-arrow-up"></i>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/scrollToTop.js"></script>
+</body>
+</html>

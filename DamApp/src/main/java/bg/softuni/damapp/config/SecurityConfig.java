@@ -30,8 +30,8 @@ public class SecurityConfig {
                                                 "/",
                                                 "/login",
                                                 "/register",
-                                                "/list-advertisements",
-                                                "/my-profile/profile-deleted").permitAll()
+                                                "/list-advertisements").permitAll()
+                                        .requestMatchers("/admin/**").hasRole("ADMIN")
                                         .anyRequest()
                                         .authenticated()
                 )

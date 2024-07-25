@@ -8,6 +8,9 @@ import bg.softuni.damapp.model.entity.User;
 import bg.softuni.damapp.service.AdvertisementService;
 import bg.softuni.damapp.service.MessageService;
 import bg.softuni.damapp.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,7 @@ import java.util.UUID;
 @RequestMapping("/messages")
 public class MessageController {
 
+    private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
     private final MessageService messageService;
     private final UserService userService;
     private final AdvertisementService advertisementService;
@@ -87,12 +91,27 @@ public class MessageController {
     @ResponseBody
     public int getUnreadMessageCount(@AuthenticationPrincipal UserDetails userDetails) {
         UserDTO userByEmail = userService.findByEmail(userDetails.getUsername());
-        return messageService.getUnreadMessageCount(userByEmail.getId());
+        int unreadMessageCount = messageService.getUnreadMessageCount(userByEmail.getId());
+
+        logger.info("Retrieved unread message count for user {}: {}", userDetails.getUsername(), unreadMessageCount);
+        return unreadMessageCount;
     }
 
-    @PostMapping("/mark-as-read")
-    public void markAsRead(@RequestParam UUID conversationId, @RequestParam UUID userId) {
-        messageService.markMessagesAsRead(conversationId, userId);
+    @PostMapping("/conversation/mark-as-read")
+    @ResponseBody
+    @PreAuthorize("permitAll()")
+    public String markMessagesAsRead(@RequestParam UUID conversationId, @AuthenticationPrincipal UserDetails userDetails) {
+        logger.info("Get into controller method -> markMessagesAsRead");
+        UserDTO userByEmail = userService.findByEmail(userDetails.getUsername());
+        UUID userId = userByEmail.getId();
+
+        try {
+            messageService.markMessagesAsRead(conversationId, userId);
+            return "";
+        } catch (Exception e) {
+            logger.error("Error marking messages as read", e);
+            return "Error marking messages as read";
+        }
     }
 
     @GetMapping("/user/{userId}")
