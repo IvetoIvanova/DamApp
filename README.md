@@ -18,17 +18,17 @@ The project consists of two main components:
 ## Technologies Used
 
 ### Back-end:
-        - **Spring Boot** 
-        - **Spring Data JPA**: For data persistence and repository management
-        - **Spring Security**: Manages user authentication and authorization.
-        - **MySQL**: Database to store user data, ads, and other information.
-        - **ModelMapper**: For object mapping between DTOs and entities.
-	      - **REST API**: Utilizes RESTful services for communication between the core application and advertisement management.
+- **Spring Boot** 
+- **Spring Data JPA**: For data persistence and repository management
+- **Spring Security**: Manages user authentication and authorization.
+- **MySQL**: Database to store user data, ads, and other information.
+- **ModelMapper**: For object mapping between DTOs and entities.
+- **REST API**: Utilizes RESTful services for communication between the core application and advertisement management.
 
 ### Front-end:
-	      - **JavaScript**
-        - **User Experience (UX)**
-	      - **Template Engine/Framework**: Uses Thymeleaf for server-side rendering and Bootstrap for styling and responsive design.
+- **JavaScript**
+- **User Experience (UX)**
+- **Template Engine/Framework**: Uses Thymeleaf for server-side rendering and Bootstrap for styling and responsive design.
 
 ## Features
 
