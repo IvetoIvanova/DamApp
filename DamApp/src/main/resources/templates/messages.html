@@ -11,28 +11,29 @@
 <header>
     <th:block th:replace="~{fragments/commons::nav}"></th:block>
 </header>
-<h1>Съобщения</h1>
-<div class="container">
-    <div class="row">
-        <div class="col-4">
-            <ul>
-                <li th:each="conversation : ${conversations}">
-                    <div>
-                        <a th:href="@{/messages/conversation/{id}(id=${conversation.conversationId})}">
-                            Разговор
-                        </a>
-                        за
-                        <a th:href="@{/advertisement-add/{id}(id=${conversation.advertisementId})}">
-                            <span th:text="${conversation.advertisementTitle}"></span>
-                        </a>
-                        с <span th:text="${conversation.otherParticipantName}"></span>
-                    </div>
-                </li>
-            </ul>
+<div class="container mt-5">
+    <h1>Съобщения</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <ul>
+                    <li th:each="conversation : ${conversations}">
+                        <div>
+                            <a th:href="@{/messages/conversation/{id}(id=${conversation.conversationId})}">
+                                Разговор
+                            </a>
+                            за
+                            <a th:href="@{/advertisement-add/{id}(id=${conversation.advertisementId})}">
+                                <span th:text="${conversation.advertisementTitle}"></span>
+                            </a>
+                            с <span th:text="${conversation.otherParticipantName}"></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
-
 <footer>
     <th:block th:replace="~{fragments/footer::footer}"></th:block>
 </footer>

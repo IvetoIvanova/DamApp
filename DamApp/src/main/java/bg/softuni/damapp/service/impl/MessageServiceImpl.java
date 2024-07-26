@@ -1,5 +1,6 @@
 package bg.softuni.damapp.service.impl;
 
+import bg.softuni.damapp.exception.UnauthorizedException;
 import bg.softuni.damapp.model.dto.AdDetailsDTO;
 import bg.softuni.damapp.model.dto.ConversationDTO;
 import bg.softuni.damapp.model.dto.MessageDTO;
@@ -41,7 +42,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void sendMessage(MessageDTO messageDTO) {
+    public void sendMessage(MessageDTO messageDTO) throws UnauthorizedException {
         Message message = new Message();
         message.setSender(userRepository.findById(messageDTO.getSender().getId()).orElseThrow());
         message.setRecipient(userRepository.findById(messageDTO.getRecipient().getId()).orElseThrow());
@@ -105,7 +106,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<ConversationDTO> getConversations(UUID userId) {
+    public List<ConversationDTO> getConversations(UUID userId) throws UnauthorizedException {
         List<Conversation> conversations = conversationRepository.findBySenderIdOrRecipientId(userId, userId);
         List<ConversationDTO> conversationDTOs = new ArrayList<>();
 

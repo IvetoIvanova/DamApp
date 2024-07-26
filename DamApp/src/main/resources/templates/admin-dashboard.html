@@ -6,49 +6,77 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .admin-table {
+            margin-bottom: 2rem;
+        }
+
+        .admin-table td,
+        .admin-table tr {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .admin-table tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+    </style>
 </head>
 <body>
 <header>
     <th:block th:replace="~{fragments/commons::nav}"></th:block>
 </header>
-<h1>Админ панел</h1>
 
-<table>
-    <thead>
-    <tr>
-        <th>Имейл</th>
-        <th>Роли</th>
-        <th>Действия</th>
-    </tr>
-    </thead>
-    <tbody>
-    <span th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></span>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.email}"></td>
-        <td>
-            <span th:each="role : ${user.roles}" th:text="${role}+' '"></span>
-        </td>
-        <td>
-            <form th:action="@{/admin/users/{userId}/roles(userId=${user.id})}" th:method="post">
-                <select name="role">
-                    <option th:each="role : ${allRoles}" th:value="${role}" th:text="${role.role}"
-                            th:unless="${user.roles.contains(role)}"></option>
-                </select>
-                <button type="submit">Добави роля</button>
-            </form>
-            <form th:action="@{/admin/users/{userId}/remove-role(userId=${user.id})}" th:method="post">
-                <select name="role">
-                    <option th:each="role : ${user.roles}" th:value="${role}" th:text="${role}"></option>
-                </select>
-                <button type="submit">Отнеми роля</button>
-            </form>
-            <form th:action="@{/admin/users/{id}/delete(id=${user.id})}" th:method="post">
-                <button type="submit">Изтрий</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="container mt-5">
+    <h1>Админ панел</h1>
+
+    <table class="admin-table table-striped">
+        <thead>
+        <tr>
+            <th>Име</th>
+            <th>Имейл</th>
+            <th>Роли</th>
+            <th>Промяна на статус</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <span th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></span>
+        <span th:if="${successMessage}" class="text-success" th:text="${successMessage}"></span>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.firstName} + ' ' + ${user.lastName}"></td>
+            <td th:text="${user.email}"></td>
+            <td>
+                <span th:each="role : ${user.roles}" th:text="${role}+' '"></span>
+            </td>
+            <td>
+                <form th:action="@{/admin/users/{userId}/disable(userId=${user.id})}" method="post">
+                    <button type="submit" class="btn btn-danger" th:disabled="${!user.isActive}">Деактивирай</button>
+                </form>
+                <form th:action="@{/admin/users/{userId}/enable(userId=${user.id})}" method="post">
+                    <button type="submit" class="btn btn-success" th:disabled="${user.isActive}">Активирай</button>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/admin/users/{userId}/roles(userId=${user.id})}" th:method="post">
+                    <select name="role">
+                        <option th:each="role : ${allRoles}" th:value="${role}" th:text="${role.role}"
+                                th:unless="${user.roles.contains(role)}"></option>
+                    </select>
+                    <button type="submit" class="btn btn-success">Добави роля</button>
+                </form>
+                <form th:action="@{/admin/users/{userId}/remove-role(userId=${user.id})}" th:method="post">
+                    <select name="role">
+                        <option th:each="role : ${user.roles}" th:value="${role}" th:text="${role}"></option>
+                    </select>
+                    <button type="submit" class="btn btn-danger">Отнеми роля</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 <footer>
     <th:block th:replace="~{fragments/footer::footer}"></th:block>
 </footer>

@@ -1,5 +1,6 @@
 package bg.softuni.damapp.web;
 
+import bg.softuni.damapp.exception.UnauthorizedException;
 import bg.softuni.damapp.model.dto.UserDTO;
 import bg.softuni.damapp.service.AdvertisementService;
 import bg.softuni.damapp.service.UserService;
@@ -69,7 +70,7 @@ public class UserProfileController {
     @PostMapping("/delete-account")
     public String deleteAccount(@AuthenticationPrincipal UserDetails userDetails,
                                 RedirectAttributes redirectAttributes,
-                                HttpServletRequest request) {
+                                HttpServletRequest request) throws UnauthorizedException {
         UserDTO userDTO = userService.findByEmail(userDetails.getUsername());
         boolean hasNoAdvertisements = advertisementService.getMyAds(userDTO.getId()).isEmpty();
 

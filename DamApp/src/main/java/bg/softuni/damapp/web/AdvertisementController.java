@@ -1,5 +1,6 @@
 package bg.softuni.damapp.web;
 
+import bg.softuni.damapp.exception.UnauthorizedException;
 import bg.softuni.damapp.model.dto.CreateAdDTO;
 import bg.softuni.damapp.model.dto.UserDTO;
 import bg.softuni.damapp.service.AdvertisementService;
@@ -55,7 +56,7 @@ public class AdvertisementController {
                            @RequestParam("images") MultipartFile[] images,
                            Principal principal,
                            BindingResult bindingResult,
-                           RedirectAttributes rAtt) {
+                           RedirectAttributes rAtt) throws UnauthorizedException {
 
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.advertisementData", bindingResult);
@@ -86,7 +87,7 @@ public class AdvertisementController {
     }
 
     @GetMapping("/{id}")
-    public String adDetails(@PathVariable("id") UUID id, Model model) {
+    public String adDetails(@PathVariable("id") UUID id, Model model) throws UnauthorizedException {
         UUID ownerId = advertisementService.getAdDetails(id).ownerId();
 
         model.addAttribute("adDetails", advertisementService.getAdDetails(id));

@@ -1,5 +1,6 @@
 package bg.softuni.damapp.service;
 
+import bg.softuni.damapp.exception.UnauthorizedException;
 import bg.softuni.damapp.model.dto.ConversationDTO;
 import bg.softuni.damapp.model.dto.MessageDTO;
 
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface MessageService {
-    void sendMessage(MessageDTO messageDTO);
+    void sendMessage(MessageDTO messageDTO) throws UnauthorizedException;
 
     List<MessageDTO> getMessagesForUser(UUID userId);
 
@@ -19,5 +20,5 @@ public interface MessageService {
 
     UUID getOrCreateConversationId(UUID senderId, UUID recipientId, UUID advertisementId);
 
-    List<ConversationDTO> getConversations(UUID userId);
+    List<ConversationDTO> getConversations(UUID userId) throws UnauthorizedException;
 }

@@ -9,16 +9,11 @@ import bg.softuni.damapp.model.enums.UserRoleEnum;
 import bg.softuni.damapp.service.AdvertisementService;
 import bg.softuni.damapp.service.RoleService;
 import bg.softuni.damapp.service.UserService;
-import jakarta.validation.Valid;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -80,22 +75,34 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping("/users/{id}")
-    @PreAuthorize("hasRole('ADMIN')")//@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String deleteUser(@PathVariable UUID id) {
-        Optional<User> user = userService.findById(id);
-        user.ifPresent(value -> userService.deleteUser(value.getEmail()));
+    @PostMapping("/users/{userId}/disable")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String disableUser(@PathVariable UUID userId,
+                              RedirectAttributes redirectAttributes) {
+        userService.disableUser(userId);
+        String successMessage = "Потребителят е деактивиран.";
+        redirectAttributes.addFlashAttribute("successMessage", successMessage);
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/delete-ad/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String deleteAd(@PathVariable UUID id, @AuthenticationPrincipal UserDetails userDetails) {
-        String email = userDetails.getUsername();
-        UserDTO user = userService.findByEmail(email);
-
-        advertisementService.deleteAdvertisement(id, user.getId());
-        return "list-advertisements";
+    @PostMapping("/users/{userId}/enable")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String enableUser(@PathVariable UUID userId,
+                             RedirectAttributes redirectAttributes) {
+        userService.enableUser(userId);
+        String successMessage = "Потребителят е активиран.";
+        redirectAttributes.addFlashAttribute("successMessage", successMessage);
+        return "redirect:/admin";
     }
+
+//    @DeleteMapping("/delete-ad/{id}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public String deleteAd(@PathVariable UUID id, @AuthenticationPrincipal UserDetails userDetails) {
+//        String email = userDetails.getUsername();
+//        UserDTO user = userService.findByEmail(email);
+//
+//        advertisementService.deleteAdvertisement(id, user.getId());
+//        return "list-advertisements";
+//    }
 
 }

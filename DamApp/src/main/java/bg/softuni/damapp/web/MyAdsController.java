@@ -1,5 +1,6 @@
 package bg.softuni.damapp.web;
 
+import bg.softuni.damapp.exception.UnauthorizedException;
 import bg.softuni.damapp.model.dto.UserDTO;
 import bg.softuni.damapp.service.AdvertisementService;
 import bg.softuni.damapp.service.UserService;
@@ -25,7 +26,7 @@ public class MyAdsController {
     }
 
     @GetMapping
-    public String getMyAds(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public String getMyAds(Model model, @AuthenticationPrincipal UserDetails userDetails) throws UnauthorizedException {
         String email = userDetails.getUsername();
         UserDTO user = userService.findByEmail(email);
 

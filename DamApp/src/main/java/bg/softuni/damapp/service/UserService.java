@@ -24,6 +24,10 @@ public interface UserService {
 
     void deleteUser(String email);
 
+    void disableUser(UUID userId);
+
+    void enableUser(UUID userId);
+
     Optional<User> findById(UUID ownerId);
 
     List<User> findAllUsers();

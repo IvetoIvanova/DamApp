@@ -61,24 +61,24 @@
             </div>
             <span class="badge badge-warning" th:if="${adDetails.reserved}">Reserved</span>
 
-            <button type="button" class="btn btn-primary" onclick="showMessageForm()">Изпрати съобщение</button>
+            <button type="button" class="btn btn-primary mt-3" onclick="showMessageForm()">Изпрати съобщение</button>
 
             <div id="messageForm" style="display:none;">
                 <form th:action="@{/messages/send}" method="post">
-                    <input type="hidden" name="advertisementId" th:value="${adDetails.id()}" />
+                    <input type="hidden" name="advertisementId" th:value="${adDetails.id()}"/>
                     <label>
-                        <textarea name="content" placeholder="Въведи своето съобщение тук..."></textarea>
+                        <textarea class="mt-2" name="content" placeholder="Въведи своето съобщение тук..."></textarea>
                     </label>
-                    <button type="submit">Send</button>
+                    <button type="submit" class="btn-success mb-2">Send</button>
                 </form>
             </div>
-            <div sec:authorize="hasRole('ROLE_ADMIN')">
-                <form th:action="@{/admin/delete-ad/{id}(id=${adDetails.id})}"
-                      th:method="post">
-                    <input type="hidden" name="_method" value="delete"/>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </div>
+            <!--            <div sec:authorize="hasRole('ROLE_ADMIN')">-->
+            <!--                <form th:action="@{/admin/delete-ad/{id}(id=${adDetails.id})}"-->
+            <!--                      th:method="post">-->
+            <!--                    <input type="hidden" name="_method" value="delete"/>-->
+            <!--                    <button type="submit" class="btn btn-danger">Delete</button>-->
+            <!--                </form>-->
+            <!--            </div>-->
         </div>
     </div>
 </div>

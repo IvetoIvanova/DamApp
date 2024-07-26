@@ -1,8 +1,11 @@
 package bg.softuni.damapp.service.impl;
 
+import bg.softuni.damapp.exception.UnauthorizedException;
 import bg.softuni.damapp.model.dto.AdDetailsDTO;
 import bg.softuni.damapp.model.dto.AdSummaryDTO;
 import bg.softuni.damapp.model.dto.CreateAdDTO;
+import bg.softuni.damapp.model.entity.User;
+import bg.softuni.damapp.repository.MessageRepository;
 import bg.softuni.damapp.repository.UserRepository;
 import bg.softuni.damapp.service.AdvertisementService;
 import org.slf4j.Logger;
@@ -10,12 +13,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,7 +40,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void createAd(CreateAdDTO createAdDTO) {
+    public void createAd(CreateAdDTO createAdDTO) throws UnauthorizedException {
+        getAuthentication();
+
         LOGGER.info("Creating new advertisement...");
 
         CreateAdDTO adDTO = new CreateAdDTO(
@@ -53,7 +62,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public AdDetailsDTO getAdDetails(UUID id) {
+    public AdDetailsDTO getAdDetails(UUID id) throws UnauthorizedException {
+        getAuthentication();
+
         return advertisementRestClient
                 .get()
                 .uri("/ads/{id}", id)
@@ -76,8 +87,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public List<AdDetailsDTO> getMyAds(UUID ownerId) {
+    public List<AdDetailsDTO> getMyAds(UUID ownerId) throws UnauthorizedException {
         LOGGER.info("Get my ads...");
+        getAuthentication();
 
         return advertisementRestClient
                 .get()
@@ -136,6 +148,17 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
                 });
+    }
+
+    private void getAuthentication() throws UnauthorizedException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+        Optional<User> user = userRepository.findByEmail(principal.getUsername());
+        if (user.isPresent()) {
+            if (!user.get().isActive()) {
+                throw new UnauthorizedException("User is disabled");
+            }
+        }
     }
 
 }

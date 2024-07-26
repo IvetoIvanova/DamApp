@@ -106,6 +106,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void disableUser(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("Потребителят не е намерен."));
+        user.setActive(false);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void enableUser(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("Потребителят не е намерен."));
+        user.setActive(true);
+        userRepository.save(user);
+    }
+
+    @Override
     public Optional<User> findById(UUID ownerId) {
         return userRepository.findById(ownerId);
     }

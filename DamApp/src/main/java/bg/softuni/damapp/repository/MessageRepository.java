@@ -22,15 +22,14 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
     @Query("SELECT COUNT(m) FROM Message m WHERE m.recipient.id = :userId AND m.isRead = false")
     int countUnreadMessagesByUserId(@Param("userId") UUID userId);
 
-//    @Query("SELECT m FROM Message m WHERE m.conversationId = :conversationId AND m.recipient.id = :userId")
+    //    @Query("SELECT m FROM Message m WHERE m.conversationId = :conversationId AND m.recipient.id = :userId")
 //    List<Message> findMessagesByConversationIdAndRecipientId(@Param("conversationId") UUID conversationId, @Param("userId") UUID userId);
-@Query("SELECT m FROM Message m WHERE m.conversationId = :conversationId AND m.recipient.id = :userId AND m.isRead = :isRead")
-List<Message> findMessagesByConversationIdRecipientIdAndIsRead(
-        @Param("conversationId") UUID conversationId,
-        @Param("userId") UUID userId,
-        @Param("isRead") boolean isRead
-);
-
+    @Query("SELECT m FROM Message m WHERE m.conversationId = :conversationId AND m.recipient.id = :userId AND m.isRead = :isRead")
+    List<Message> findMessagesByConversationIdRecipientIdAndIsRead(
+            @Param("conversationId") UUID conversationId,
+            @Param("userId") UUID userId,
+            @Param("isRead") boolean isRead
+    );
 
 
     int deleteByCreatedDateBefore(LocalDateTime createdDate);

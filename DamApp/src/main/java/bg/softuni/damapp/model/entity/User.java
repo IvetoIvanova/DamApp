@@ -21,10 +21,12 @@ public class User extends BaseEntity {
     private UUID uuid;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
-    //    @OneToMany(mappedBy = "addedBy")
-//    private List<Advertisement> addedAdvertisements;
+    @Column(nullable = false)
+    private boolean isActive;
     @ManyToMany
     private List<Advertisement> favouriteAdvertisements;
 
@@ -39,9 +41,9 @@ public class User extends BaseEntity {
     private List<UserRole> roles;
 
     public User() {
-//        this.addedAdvertisements = new ArrayList<>();
         this.favouriteAdvertisements = new ArrayList<>();
         this.roles = new ArrayList<>();
+        this.isActive = true;
     }
 
     public String getEmail() {
@@ -87,14 +89,6 @@ public class User extends BaseEntity {
         return this;
     }
 
-//    public List<Advertisement> getAddedAdvertisements() {
-//        return addedAdvertisements;
-//    }
-//
-//    public void setAddedAdvertisements(List<Advertisement> addedAdvertisements) {
-//        this.addedAdvertisements = addedAdvertisements;
-//    }
-
     public List<Advertisement> getFavouriteAdvertisements() {
         return favouriteAdvertisements;
     }
@@ -109,6 +103,14 @@ public class User extends BaseEntity {
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
 

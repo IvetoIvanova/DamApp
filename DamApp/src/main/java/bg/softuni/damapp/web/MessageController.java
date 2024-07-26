@@ -1,5 +1,6 @@
 package bg.softuni.damapp.web;
 
+import bg.softuni.damapp.exception.UnauthorizedException;
 import bg.softuni.damapp.model.dto.AdDetailsDTO;
 import bg.softuni.damapp.model.dto.ConversationDTO;
 import bg.softuni.damapp.model.dto.MessageDTO;
@@ -40,7 +41,7 @@ public class MessageController {
     }
 
     @GetMapping
-    public String showMessages(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public String showMessages(Model model, @AuthenticationPrincipal UserDetails userDetails) throws UnauthorizedException {
         UserDTO userByEmail = userService.findByEmail(userDetails.getUsername());
         List<ConversationDTO> conversations = messageService.getConversations(userByEmail.getId());
         model.addAttribute("conversations", conversations);
@@ -56,7 +57,7 @@ public class MessageController {
     }
 
     @PostMapping("/send")
-    public String sendMessage(@RequestParam UUID advertisementId, @RequestParam String content, @AuthenticationPrincipal UserDetails userDetails) {
+    public String sendMessage(@RequestParam UUID advertisementId, @RequestParam String content, @AuthenticationPrincipal UserDetails userDetails) throws UnauthorizedException {
         UserDTO senderByEmail = userService.findByEmail(userDetails.getUsername());
         Optional<User> sender = userService.findById(senderByEmail.getId());
         AdDetailsDTO advertisement = advertisementService.getAdDetails(advertisementId);

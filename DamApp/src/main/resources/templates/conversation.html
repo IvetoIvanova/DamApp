@@ -12,16 +12,18 @@
 <header>
     <th:block th:replace="~{fragments/commons::nav(activeLink=${'login'})}"></th:block>
 </header>
-<div>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div th:each="message : ${messages}">
-                    <p>
-                        <span th:text="${message.sender.getFirstName()}+' '+${message.sender.getLastName()}"></span>:
-                        <span th:text="${message.content}"></span>
-                        <span th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
-                    </p>
+<div class="container mt-5">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div th:each="message : ${messages}">
+                        <p>
+                            <span th:text="${message.sender.getFirstName()}+' '+${message.sender.getLastName()}"></span>:
+                            <span th:text="${message.content}"></span>
+                            <span th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
