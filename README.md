@@ -1,6 +1,6 @@
 <div align="center">
   <h1>DamApp</h1>
-  <img src="https://github.com/IvetoIvanova/DamApp/blob/main/images/logo.png" alt="DamApp's logo" width="60%">
+  <img src="https://github.com/IvetoIvanova/DamApp/blob/main/images/logo.png" alt="DamApp's logo" width="40%">
   <p>Welcome to Dam Platform! 🌱
 
 Tha Dam Platform is a web application designed to facilitate the exchange and gifting of homegrown produce. Users can list their excess produce for sharing or sale, and others can search for ads based on category. The platform aims to reduce food waste and build a community of like-minded individuals.
@@ -32,11 +32,12 @@ The project consists of two main components:
 
 ## Features
 
+- **User registration and authentication**: Create an account and log in securely.
 - **Exchange and Gifting**: Users can exchange, share, or search produce.
+- **User-to-user messaging**: The platform allows users to send private messages to each other, facilitating direct communication and fostering a sense of community.
 - **Search and Filter**: Browse ads by category and find specific products.
 - **Profile Management**: Users and administrators can edit their profiles.
 - **Internationalization**: Supports multiple languages including Bulgarian and English.
-- **Scheduled Jobs**: Automates tasks with periodic operations.
 
 ### Database
 
@@ -47,16 +48,11 @@ The project consists of two main components:
 
 - **Spring Security**
 - **Roles**: Differentiates between user and administrator roles.
-- **Profile Editing**: Allows users and administrators to update their profiles.
 
 ### Validation and Error Handling
 
 - **Validation**: Both client-side and server-side validation mechanisms.
 - **Error Messages**: Informative validation messages for users.
-
-### Internationalization (i18n)
-
-- **Languages Supported**: Bulgarian and English.
 
 ### Scheduling
 
