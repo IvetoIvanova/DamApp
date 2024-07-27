@@ -1,0 +1,37 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: 'TRUE'
+    hibernate:
+      ddl-auto: update
+    open-in-view: 'false'
+
+  sql:
+    init:
+      mode: never
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: 'true'
+
+#security:
+#  remembered:
+#    key: ${remember_me_key}
+
+ads:
+  api:
+    baseUrl: ${ads_base_url}
+
+geonames:
+  username: ${g_username}
+
+cloudinary:
+  cloud_name: ${cloud_name}
+  api_key: ${api_key}
+  api_secret: ${api_secret}
+
+#server:
+#  port: ${server_port}

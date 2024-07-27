@@ -53,6 +53,7 @@ jwt:
 
 admin:
   password: ${admin_password}
+  email: ${admin_email}
 
 server:
   port: ${server_port}

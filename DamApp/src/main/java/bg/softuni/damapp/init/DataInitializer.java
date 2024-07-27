@@ -25,6 +25,9 @@ public class DataInitializer implements CommandLineRunner {
     @Value("${admin_password}")
     private String adminPassword;
 
+    @Value("${admin_email}")
+    private String adminEmail;
+
     @Override
     public void run(String... args) {
         initializeRoles();
@@ -34,7 +37,7 @@ public class DataInitializer implements CommandLineRunner {
     private void initializeAdmin() {
         if (userRepository.count() == 0) {
             User admin = new User();
-            admin.setEmail("admin@example.com");
+            admin.setEmail(adminEmail);
             admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.setFirstName("Admin");
             admin.setLastName("Admin");
