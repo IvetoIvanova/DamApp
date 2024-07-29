@@ -132,7 +132,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    private boolean isValidPassword(String password) {
+    @Override
+    public boolean isValidPassword(String password) {
         return password.matches(PASSWORD_REGEX);
     }
 

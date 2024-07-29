@@ -14,6 +14,8 @@ public interface UserService {
 
     boolean isEmailUnique(String email);
 
+    boolean isValidPassword(String password);
+
     UserDTO findByEmail(String email);
 
     Optional<DamUserDetails> getCurrentUser();

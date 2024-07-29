@@ -1,37 +1,55 @@
 spring:
+  datasource:
+    url: jdbc:hsqldb:mem:test_db
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    username: test
+    password: test
   jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-        format_sql: 'TRUE'
     hibernate:
-      ddl-auto: update
-    open-in-view: 'false'
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+#  sql:
+#    init:
+#      mode: never
+  security:
+    user:
+      name: test-user
+      password: test-password
 
-  sql:
-    init:
-      mode: never
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor: TRACE
+        SQL: DEBUG
+      nodeValue: WARN
+    blog: WARN
 
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: 'true'
+#  mvc:
+#    hiddenmethod:
+#      filter:
+#        enabled: 'true'
 
-#security:
-#  remembered:
-#    key: ${remember_me_key}
+security:
+  remembered:
+    key: test-remember-me-key
 
 ads:
   api:
-    baseUrl: ${ads_base_url}
+    baseUrl: test-ads-base-url
 
 geonames:
-  username: ${g_username}
+  username: test-g-username
 
 cloudinary:
-  cloud_name: ${cloud_name}
-  api_key: ${api_key}
-  api_secret: ${api_secret}
+  cloud_name: test-cloud-name
+  api_key: test-api-key
+  api_secret: test-api-secret
+
+admin:
+  password: test-admin-password
+  email: test-admin-email
 
 #server:
 #  port: ${server_port}

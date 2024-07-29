@@ -9,11 +9,11 @@ import bg.softuni.damapp.repository.RoleRepository;
 import bg.softuni.damapp.repository.UserRepository;
 import bg.softuni.damapp.service.RoleService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Repository
+@Service
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
