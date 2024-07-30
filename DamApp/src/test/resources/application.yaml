@@ -26,10 +26,10 @@ logging:
       nodeValue: WARN
     blog: WARN
 
-#  mvc:
-#    hiddenmethod:
-#      filter:
-#        enabled: 'true'
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: 'true'
 
 security:
   remembered:
@@ -37,15 +37,19 @@ security:
 
 ads:
   api:
-    baseUrl: test-ads-base-url
+    baseUrl: "http://host:example"
 
 geonames:
-  username: test-g-username
+  username: testUsername
 
 cloudinary:
   cloud_name: test-cloud-name
   api_key: test-api-key
   api_secret: test-api-secret
+
+jwt:
+  secret: test-jwt-key
+  expiration: 3600
 
 admin:
   password: test-admin-password
