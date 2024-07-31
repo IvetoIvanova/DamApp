@@ -2,7 +2,7 @@
 <html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Регистрация</title>
+    <title th:text="#{registration}">Регистрация</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -14,14 +14,14 @@
 <div class="wrapper">
     <div class="container">
         <div class="registration-form">
-            <h2 class="text-center form-title">Регистрация</h2>
+            <h2 class="text-center form-title" th:text="#{registration}">Регистрация</h2>
             <form
                     th:method="POST"
                     th:action="@{/register}"
                     th:object="${registerData}"
             >
                 <div class="form-group mb-3">
-                    <label for="firstName" class="required-field">Име</label>
+                    <label for="firstName" class="required-field" th:text="#{registration.first_name}">Име</label>
                     <input
                             th:errorclass="'is-invalid alert-danger'"
                             th:field="*{firstName}"
@@ -34,7 +34,7 @@
                           th:errors="*{firstName}"></span>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="lastName" class="required-field">Фамилия</label>
+                    <label for="lastName" class="required-field" th:text="#{registration.last_name}">Фамилия</label>
                     <input
                             th:errorclass="'is-invalid alert-danger'"
                             th:field="*{lastName}"
@@ -47,7 +47,7 @@
                            th:errors="*{lastName}"></small>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="email" class="required-field">Имейл</label>
+                    <label for="email" class="required-field" th:text="#{registration.email}">Имейл</label>
                     <input
                             th:errorclass="'is-invalid alert-danger'"
                             th:field="*{email}"
@@ -60,7 +60,7 @@
                           th:errors="*{email}"></span>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="password" class="required-field">Парола</label>
+                    <label for="password" class="required-field" th:text="#{registration.password}">Парола</label>
                     <input
                             th:errorclass="'is-invalid alert-danger'"
                             type="password"
@@ -72,7 +72,7 @@
                           th:errors="*{password}"></span>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="confirmPassword" class="required-field">Потвърди паролата</label>
+                    <label for="confirmPassword" class="required-field" th:text="#{registration.confirm_password}">Потвърди паролата</label>
                     <input
                             th:errorclass="'is-invalid alert-danger'"
                             type="password"
@@ -83,7 +83,15 @@
                           th:if="${#fields.hasErrors('confirmPassword')}"
                           th:errors="*{confirmPassword}"></span>
                 </div>
-                <button type="submit" class="btn custom-btn btn-block">Регистрация</button>
+
+                <div class="form-group mb-3">
+                    <p class="small-text">
+                        <span th:text="#{registration.terms_acceptance}">С регистрацията си, вие се съгласявате с нашите</span>
+                        <a th:href="@{/terms}" target="_blank" th:text="#{registration.terms_and_conditions}">Общите условия</a>.
+                    </p>
+                </div>
+
+                <button type="submit" class="btn custom-btn btn-block" th:text="#{registration}">Регистрация</button>
                 <div th:if="${errorMessage}" class="error-message">
                     <p th:text="${errorMessage}" class="error-text"></p>
                 </div>

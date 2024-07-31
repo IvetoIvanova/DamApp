@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,12 @@ public class LocationServiceImpl implements LocationService {
     @Value("${geonames.username}")
     private String geoNamesUsername;
 
+    private final RestTemplate restTemplate;
+
+    public LocationServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     @Override
     public List<LocationDTO> getLocations(String query) {
         String url = "http://api.geonames.org/searchJSON?formatted=true&name_startsWith="
@@ -23,9 +30,12 @@ public class LocationServiceImpl implements LocationService {
                 + "&country=BG&maxRows=6&lang=bg&username="
                 + geoNamesUsername
                 + "&country=BG&featureClass=P";
-        RestTemplate restTemplate = new RestTemplate();
         GeoNamesResponse response = restTemplate.getForObject(url, GeoNamesResponse.class);
-        assert response != null;
+
+        if (response == null || response.getGeonames() == null) {
+            return new ArrayList<>();
+        }
+
         return response.getGeonames().stream()
                 .map(geoName -> new LocationDTO(geoName.getName()))
                 .filter(locationDTO -> isModernName(locationDTO.getName()))
@@ -33,6 +43,6 @@ public class LocationServiceImpl implements LocationService {
     }
 
     private boolean isModernName(String name) {
-        return name.matches("^[А-Яа-яA-Za-z\\s]+$");
+        return name != null && name.matches("^[А-Яа-яA-Za-z\\s]+$");
     }
 }

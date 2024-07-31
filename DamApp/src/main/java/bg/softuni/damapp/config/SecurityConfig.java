@@ -30,7 +30,9 @@ public class SecurityConfig {
                                                 "/",
                                                 "/login",
                                                 "/register",
-                                                "/list-advertisements").permitAll()
+                                                "/list-advertisements",
+                                                "/about-us",
+                                                "/terms").permitAll()
                                         .requestMatchers("/admin/**").hasRole("ADMIN")
                                         .anyRequest()
                                         .authenticated()
