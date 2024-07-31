@@ -7,24 +7,23 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import static bg.softuni.damapp.util.Constants.NOT_EMPTY;
 import static bg.softuni.damapp.util.Constants.*;
 
 @PasswordMatches
 public class UserRegisterDTO {
-    @NotBlank(message = NOT_EMPTY)
+    @NotBlank(message = "{validation.not_empty}")
     private String firstName;
-    @NotBlank(message = NOT_EMPTY)
+    @NotBlank(message = "{validation.not_empty}")
     private String lastName;
-    @NotBlank(message = NOT_EMPTY)
-    @Email(message = INVALID_EMAIL)
+    @NotBlank(message = "{validation.not_empty}")
+    @Email(message = "{validation.invalid_email}")
     @UniqueEmail
     private String email;
-    @NotBlank(message = NOT_EMPTY)
-    @Size(min = 8, message = PASSWORD_SIZE)
-    @Pattern(regexp = PASSWORD_REGEX, message = PASSWORD_STRENGTH)
+    @NotBlank(message = "{validation.not_empty}")
+    @Size(min = 8, message = "{validation.password_size}")
+    @Pattern(regexp = PASSWORD_REGEX, message = "{validation.password_strength}")
     private String password;
-    @NotBlank(message = NOT_EMPTY)
+    @NotBlank(message = "{validation.not_empty}")
     private String confirmPassword;
 
     public UserRegisterDTO() {

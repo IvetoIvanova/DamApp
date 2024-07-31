@@ -10,35 +10,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static bg.softuni.damapp.util.Constants.NOT_EMPTY;
-
 public class CreateAdDTO {
-    @NotBlank(message = NOT_EMPTY)
-    @Size(min = 2, max = 50, message = "Заглавието трябва да е между 2 и 50 знака.")
+    @NotBlank(message = "{validation.not_empty}")
+    @Size(min = 2, max = 50, message = "{validation.title.size}")
     private String title;
-    @NotBlank(message = NOT_EMPTY)
-    @Size(min = 10, max = 255, message = "Описанието трябва да е между 10 и 255 знака.")
+    @NotBlank(message = "{validation.not_empty}")
+    @Size(min = 10, max = 255, message = "{validation.description.size}")
     private String description;
-    @NotNull(message = NOT_EMPTY)
+    @NotNull(message = "{validation.not_empty}")
     private Category category;
-    @NotNull(message = NOT_EMPTY)
-    @Min(value = 1, message = "Минималното количество е 1.")
+    @NotNull(message = "{validation.not_empty}")
+    @Min(value = 1, message = "{validation.quantity.min}")
     private Integer quantity;
-    @NotNull(message = NOT_EMPTY)
+    @NotNull(message = "{validation.not_empty}")
     private String location;
-    @NotNull(message = NOT_EMPTY)
+    @NotNull(message = "{validation.not_empty}")
     private Boolean reserved = false;
-    @NotNull(message = NOT_EMPTY)
+    @NotNull(message = "{validation.not_empty}")
     private AdType type;
-    @NotBlank(message = NOT_EMPTY)
+    @NotBlank(message = "{validation.not_empty}")
     @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$",
-            message = "Форматът на телефонния номер е невалиден. " +
-                    "Трябва да съдържа само цифри," +
-                    " интервали, скоби, тирета и точки, и да бъде между 7 и 25 знака.")
-    @NotBlank(message = NOT_EMPTY)
+            message = "{validation.phone.format_invalid}")
+    @NotBlank(message = "{validation.not_empty}")
     private String contactPhone;
     private LocalDateTime publishedAt;
-    @NotNull(message = NOT_EMPTY)
+    @NotNull(message = "{validation.not_empty}")
     private List<String> imageUrls = new ArrayList<>();
     private List<MultipartFile> images = new ArrayList<>();
     private UUID ownerId;

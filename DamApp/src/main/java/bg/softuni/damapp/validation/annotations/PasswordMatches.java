@@ -9,13 +9,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static bg.softuni.damapp.util.Constants.PASSWORD_MISMATCH;
-
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordMatchesValidator.class)
 public @interface PasswordMatches {
-    String message() default PASSWORD_MISMATCH;
+    String message() default "{validation.password_mismatch}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
