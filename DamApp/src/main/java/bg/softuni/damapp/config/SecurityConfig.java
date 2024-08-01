@@ -32,7 +32,8 @@ public class SecurityConfig {
                                                 "/register",
                                                 "/list-advertisements",
                                                 "/about-us",
-                                                "/terms").permitAll()
+                                                "/terms",
+                                                "/error/deactivated-account").permitAll()
                                         .requestMatchers("/admin/**").hasRole("ADMIN")
                                         .anyRequest()
                                         .authenticated()

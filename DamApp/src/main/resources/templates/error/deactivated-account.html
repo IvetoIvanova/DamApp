@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{validation.deactivated_account}">Деактивиран акаунт.</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/errors/404styles.css">
+</head>
+<body>
+<div class="container">
+    <img src="/images/deactivated-account.jpeg" width="300" height="300" alt="Orange confused Image - deactivated account"/>
+    <h1 th:text="#{validation.deactivated_account}">Страницата не е намерена</h1>
+    <a th:href="@{/}" th:text="#{error_go_home}">Акаунтът ви е деактивиран. Моля, свържете се с администратор!</a>
+</div>
+</body>
+</html>

@@ -2,6 +2,7 @@ package bg.softuni.damapp.model.dto;
 
 import bg.softuni.damapp.model.enums.AdType;
 import bg.softuni.damapp.model.enums.Category;
+import bg.softuni.damapp.validation.annotations.NoImage;
 import jakarta.validation.constraints.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +25,6 @@ public class CreateAdDTO {
     private Integer quantity;
     @NotNull(message = "{validation.not_empty}")
     private String location;
-    @NotNull(message = "{validation.not_empty}")
     private Boolean reserved = false;
     @NotNull(message = "{validation.not_empty}")
     private AdType type;
@@ -34,8 +34,8 @@ public class CreateAdDTO {
     @NotBlank(message = "{validation.not_empty}")
     private String contactPhone;
     private LocalDateTime publishedAt;
-    @NotNull(message = "{validation.not_empty}")
     private List<String> imageUrls = new ArrayList<>();
+    @NoImage
     private List<MultipartFile> images = new ArrayList<>();
     private UUID ownerId;
 

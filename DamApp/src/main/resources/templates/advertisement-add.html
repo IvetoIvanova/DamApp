@@ -135,17 +135,18 @@
                 <label for="imageUpload" class="required-field">Качете снимки (максимум 6)</label>
                 <div id="imagePreviews"></div>
                 <input
-                        th:errorclass="'is-invalid alert-danger'"
                         th:field="*{images}"
                         type="file"
                         class="form-control-file"
                         id="imageUpload"
                         name="images"
                         accept="image/*" multiple>
-                <span class="invalid-feedback text-danger"
-                      th:if="${#fields.hasErrors('images')}"
-                      th:errors="*{images}"></span>
             </div>
+            <div class="text-danger" th:if="${#fields.hasErrors('images')}">
+                <p th:each="error : ${#fields.errors('images')}" th:text="${error}"></p>
+            </div>
+            <div class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
             <button type="submit" class="btn btn-success">Добави обявата</button>
         </form>
     </div>

@@ -36,27 +36,31 @@ public class AdvertisementController {
         this.cloudStorageService = cloudStorageService;
     }
 
-//    @ModelAttribute("advertisementData")
-//    public CreateAdDTO createAdDTO() {
-//        return new CreateAdDTO();
-//    }
+    @ModelAttribute("advertisementData")
+    public CreateAdDTO createAdDTO() {
+        return new CreateAdDTO();
+    }
 
     @GetMapping
     public String showAddAdvertisementForm(Model model) {
 
-        if (!model.containsAttribute("advertisementData")) {
-            model.addAttribute("advertisementData", new CreateAdDTO());
-        }
+//        if (!model.containsAttribute("advertisementData")) {
+//            model.addAttribute("advertisementData", new CreateAdDTO());
+//        }
 
         return "advertisement-add";
     }
 
     @PostMapping
-    public String createAd(@Valid CreateAdDTO createAdDTO,
-                           @RequestParam("images") MultipartFile[] images,
-                           Principal principal,
+    public String createAd(@RequestParam("images") MultipartFile[] images,
+                           @Valid CreateAdDTO createAdDTO,
                            BindingResult bindingResult,
-                           RedirectAttributes rAtt) throws UnauthorizedException {
+                           RedirectAttributes rAtt,
+                           Principal principal) throws UnauthorizedException {
+
+
+        LOGGER.info("CreateAdDTO: {}", createAdDTO);
+        LOGGER.info("BindingResult has errors: {}", bindingResult.hasErrors());
 
         if (bindingResult.hasErrors()) {
             rAtt.addFlashAttribute("org.springframework.validation.BindingResult.advertisementData", bindingResult);
@@ -66,9 +70,13 @@ public class AdvertisementController {
 
         try {
             List<String> imageUrls = new ArrayList<>();
-            for (MultipartFile image : images) {
-                String imageUrl = cloudStorageService.uploadImage(image);
-                imageUrls.add(imageUrl);
+            if (images != null) {
+                for (MultipartFile image : images) {
+                    if (!image.isEmpty()) {
+                        String imageUrl = cloudStorageService.uploadImage(image);
+                        imageUrls.add(imageUrl);
+                    }
+                }
             }
 
             String email = principal.getName();
