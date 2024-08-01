@@ -9,6 +9,7 @@ import java.util.List;
 
 public class NoImageValidator implements ConstraintValidator<NoImage, List<MultipartFile>> {
     private String message;
+    private final static int MAX_IMAGES = 6;
 
     @Override
     public void initialize(NoImage constraintAnnotation) {
@@ -18,6 +19,13 @@ public class NoImageValidator implements ConstraintValidator<NoImage, List<Multi
 
     @Override
     public boolean isValid(List<MultipartFile> files, ConstraintValidatorContext context) {
+
+        if (files.size() > MAX_IMAGES) {
+            context.buildConstraintViolationWithTemplate("{validation.max_images}")
+                    .addConstraintViolation()
+                    .disableDefaultConstraintViolation();
+            return false;
+        }
 
         for (MultipartFile file : files) {
             if (file.isEmpty()) {

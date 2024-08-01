@@ -2,7 +2,7 @@
 <html lang="bg" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Add Advertisement</title>
+    <title th:text="#{advertisement_ad_add_title}">Add Advertisement</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -12,8 +12,8 @@
     <th:block th:replace="~{fragments/commons::nav}"></th:block>
 </header>
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <h2>Добави обява</h2>
+    <div class="col-md-6 m-3">
+        <h2 th:text="#{advertisement_ad_add_title}" class="text-success text-center">Добави обява</h2>
         <form
                 th:method="post"
                 th:action="@{/advertisement-add}"
@@ -21,7 +21,8 @@
                 enctype="multipart/form-data"
         >
             <div class="form-group">
-                <label for="title" class="required-field">Заглавие</label>
+                <label for="title" class="required-field"
+                       th:text="#{advertisement_add_title_label}">Заглавие</label>
                 <input
                         th:errorclass="'is-invalid alert-danger'"
                         th:field="*{title}"
@@ -34,7 +35,8 @@
                       th:errors="*{title}"></span>
             </div>
             <div class="form-group">
-                <label for="description" class="required-field">Описание</label>
+                <label for="description" class="required-field"
+                       th:text="#{advertisement_add_description}">Описание</label>
                 <textarea
                         th:errorclass="'is-invalid alert-danger'"
                         th:field="*{description}"
@@ -48,7 +50,8 @@
                       th:errors="*{description}"></span>
             </div>
             <div class="form-group">
-                <label for="category" class="required-field">Категория</label>
+                <label for="category" class="required-field"
+                       th:text="#{advertisement_add_category}">Категория</label>
                 <select
                         id="category"
                         class="form-control"
@@ -57,45 +60,51 @@
                         th:errorclass="'is-invalid alert-danger'"
                 >
                     <!--                    onchange="updateQuantityLabel()"-->
-                    <option value="" selected disabled>Изберете категория</option>
-                    <option value="ПЛОДОВЕ">Плодове</option>
-                    <option value="ЗЕЛЕНЧУЦИ">Зеленчуци</option>
-                    <option value="ПОДПРАВКИ">Подправки</option>
-                    <option value="РАЗСАД">Разсад</option>
-                    <option value="ЦВЕТЯ">Цветя</option>
-                    <option value="СЕМЕНА">Семена</option>
-                    <option value="ДРУГИ">Други</option>
+                    <option value="" selected disabled
+                            th:text="#{advertisement_add_select_category}">Изберете категория
+                    </option>
+                    <option value="ПЛОДОВЕ" th:text="#{nav_bar_fruits}">Плодове</option>
+                    <option value="ЗЕЛЕНЧУЦИ" th:text="#{nav_bar_vegetables}">Зеленчуци</option>
+                    <option value="ПОДПРАВКИ" th:text="#{nav_bar_herbs}">Подправки</option>
+                    <option value="РАЗСАД" th:text="#{nav_bar_seedlings}">Разсад</option>
+                    <option value="ЦВЕТЯ" th:text="#{nav_bar_flowers}">Цветя</option>
+                    <option value="СЕМЕНА" th:text="#{nav_bar_seeds}">Семена</option>
+                    <option value="ДРУГИ" th:text="#{nav_bar_others}">Други</option>
                 </select>
                 <span class="invalid-feedback text-danger"
                       th:if="${#fields.hasErrors('category')}"
                       th:errors="*{category}"></span>
             </div>
             <div class="form-group">
-                <label for="quantity" class="required-field">Количество:</label>
+                <label for="quantity" class="required-field"
+                       th:text="#{advertisement_add_quantity}">Количество:</label>
                 <input
                         th:errorclass="'is-invalid alert-danger'"
                         type="number"
                         class="form-control"
                         id="quantity"
                         th:field="*{quantity}">
-                <small id="quantityUnit" class="form-text text-muted">г.</small>
+                <small id="quantityUnit" class="form-text text-muted" th:text="#{advertisement_add_gram}">г.</small>
                 <span class="invalid-feedback text-danger"
                       th:if="${#fields.hasErrors('quantity')}"
                       th:errors="*{quantity}"></span>
             </div>
 
             <div class="form-group">
-                <label for="type" class="required-field">Тип</label>
+                <label for="type" class="required-field"
+                       th:text="#{advertisement_add_type}">Тип</label>
                 <select
                         th:errorclass="'is-invalid alert-danger'"
                         th:field="*{type}"
                         id="type"
                         class="form-control"
                         name="type">
-                    <option value="" selected disabled>Изберете тип на обявата</option>
-                    <option value="ПОДАРЯВА">Подарява</option>
-                    <option value="РАЗМЕНЯ">Разменя</option>
-                    <option value="ТЪРСИ">Търси</option>
+                    <option value="" selected disabled
+                            th:text="#{advertisement_add_select_type}">Изберете тип на обявата
+                    </option>
+                    <option value="ПОДАРЯВА" th:text="#{advertisement_add_gives_away}">Подарява</option>
+                    <option value="РАЗМЕНЯ" th:text="#{advertisement_add_swaps}">Разменя</option>
+                    <option value="ТЪРСИ" th:text="#{advertisement_add_wants}">Търси</option>
                 </select>
                 <span class="invalid-feedback text-danger"
                       th:if="${#fields.hasErrors('type')}"
@@ -103,7 +112,8 @@
             </div>
 
             <div class="form-group">
-                <label for="city" class="required-field">Населено място</label>
+                <label for="city" class="required-field"
+                       th:text="#{advertisement_add_location}">Населено място</label>
                 <input
                         th:errorclass="'is-invalid alert-danger'"
                         th:field="*{location}"
@@ -118,7 +128,8 @@
             </div>
 
             <div class="form-group">
-                <label for="contactPhone" class="required-field">Телефон за контакти:</label>
+                <label for="contactPhone" class="required-field"
+                       th:text="#{advertisement_add_contact_phone}">Телефон за контакти:</label>
                 <input
                         th:errorclass="'is-invalid alert-danger'"
                         th:field="*{contactPhone}"
@@ -132,7 +143,8 @@
             </div>
 
             <div class="form-group">
-                <label for="imageUpload" class="required-field">Качете снимки (максимум 6)</label>
+                <label for="imageUpload" class="required-field"
+                       th:text="#{advertisement_add_upload_images}">Качете снимки:</label>
                 <div id="imagePreviews"></div>
                 <input
                         th:field="*{images}"
@@ -147,7 +159,8 @@
             </div>
             <div class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
 
-            <button type="submit" class="btn btn-success">Добави обявата</button>
+            <button type="submit" class="btn btn-success" th:text="#{advertisement_ad_add_title}">Добави обявата
+            </button>
         </form>
     </div>
     <footer>

@@ -48,7 +48,9 @@
             <p th:text="${adDetails.description}">Описание</p>
             <p>Категория: <span th:text="${adDetails.category}">Категория</span></p>
             <p>Тип: <span th:text="${adDetails.type}">Тип</span></p>
-            <p>Количество: <span th:text="${adDetails.quantity}">Количество</span></p>
+            <p>Количество: <span th:text="${adDetails.quantity}">Количество</span>
+                <small th:text="#{advertisement_add_gram}">г.</small>
+            </p>
             <p>Населено място: <span th:text="${adDetails.location}">Населено място</span></p>
             <p>Телефон за контакти: <span th:text="${adDetails.contactPhone()}">Телефон за контакти</span></p>
             <p>Публикувано от: <span th:text="${author.get().firstName} + ' ' + ${author.get().lastName}">Автор</span>
