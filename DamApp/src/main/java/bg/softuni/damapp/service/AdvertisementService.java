@@ -24,6 +24,7 @@ public interface AdvertisementService {
     void unreserveAdvertisement(UUID adId, UUID userId);
 
     void deleteAdvertisement(UUID adId, UUID userId);
+    boolean isOwnerOfAd(UUID userId, UUID advertisementId);
 
     //    Page<AdSummaryDTO> findAll(Pageable pageable);
 }

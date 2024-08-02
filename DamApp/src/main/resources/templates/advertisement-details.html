@@ -62,17 +62,20 @@
                 <span th:text="${#temporals.format(adDetails.publishedAt, 'HH:mm')}"></span>
             </div>
             <span class="badge badge-warning" th:if="${adDetails.reserved}">Reserved</span>
+            <div th:if="${!isOwner}">
+                <button type="button" class="btn btn-primary mt-3 mb-1" onclick="showMessageForm()">Изпрати съобщение
+                </button>
 
-            <button type="button" class="btn btn-primary mt-3" onclick="showMessageForm()">Изпрати съобщение</button>
-
-            <div id="messageForm" style="display:none;">
-                <form th:action="@{/messages/send}" method="post">
-                    <input type="hidden" name="advertisementId" th:value="${adDetails.id()}"/>
-                    <label>
-                        <textarea class="mt-2" name="content" placeholder="Въведи своето съобщение тук..."></textarea>
-                    </label>
-                    <button type="submit" class="btn-success mb-2">Send</button>
-                </form>
+                <div id="messageForm" style="display:none;">
+                    <form th:action="@{/messages/send}" method="post">
+                        <input type="hidden" name="advertisementId" th:value="${adDetails.id()}"/>
+                        <label>
+                            <textarea class="mt-2" name="content"
+                                      placeholder="Въведи своето съобщение тук..."></textarea>
+                        </label>
+                        <button type="submit" class="btn-success mb-2">Send</button>
+                    </form>
+                </div>
             </div>
             <!--            <div sec:authorize="hasRole('ROLE_ADMIN')">-->
             <!--                <form th:action="@{/admin/delete-ad/{id}(id=${adDetails.id})}"-->

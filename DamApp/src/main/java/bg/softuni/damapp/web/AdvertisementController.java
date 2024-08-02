@@ -9,6 +9,8 @@ import bg.softuni.damapp.service.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,11 +45,6 @@ public class AdvertisementController {
 
     @GetMapping
     public String showAddAdvertisementForm(Model model) {
-
-//        if (!model.containsAttribute("advertisementData")) {
-//            model.addAttribute("advertisementData", new CreateAdDTO());
-//        }
-
         return "advertisement-add";
     }
 
@@ -95,10 +92,17 @@ public class AdvertisementController {
     }
 
     @GetMapping("/{id}")
-    public String adDetails(@PathVariable("id") UUID id, Model model) throws UnauthorizedException {
-        UUID ownerId = advertisementService.getAdDetails(id).ownerId();
+    public String adDetails(@PathVariable("id") UUID advertisementId,
+                            Model model,
+                            @AuthenticationPrincipal UserDetails userDetails) throws UnauthorizedException {
+        UserDTO userByEmail = userService.findByEmail(userDetails.getUsername());
+        UUID currentUserId = userByEmail.getId();
 
-        model.addAttribute("adDetails", advertisementService.getAdDetails(id));
+        boolean isOwner = advertisementService.isOwnerOfAd(currentUserId, advertisementId);
+        model.addAttribute("isOwner", isOwner);
+
+        UUID ownerId = advertisementService.getAdDetails(advertisementId).ownerId();
+        model.addAttribute("adDetails", advertisementService.getAdDetails(advertisementId));
         model.addAttribute("author", userService.findById(ownerId));
 
         return "advertisement-details";

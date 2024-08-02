@@ -149,6 +149,14 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 });
     }
 
+    @Override
+    public boolean isOwnerOfAd(UUID userId, UUID advertisementId) {
+        List<AdDetailsDTO> myAds = getMyAds(userId);
+
+        return myAds.stream()
+                .anyMatch(ad -> ad.id().equals(advertisementId));
+    }
+
     private void getAuthentication() throws UnauthorizedException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) authentication.getPrincipal();
