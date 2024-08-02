@@ -23,6 +23,19 @@
                             <span th:text="${message.content}"></span>
                             <span th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
                         </p>
+
+                    </div>
+
+                    <div>
+                        <!-- Проверка дали съобщението е получено от текущия потребител -->
+                        <!--                    th:if="${message}"-->
+                        <form
+                                th:action="@{/messages/reply}"
+                                method="post">
+                            <input type="hidden" name="conversationId" th:value="${conversation.conversationId}"/>
+                            <textarea name="replyContent" required></textarea>
+                            <button type="submit" class="btn btn-primary">Отговори</button>
+                        </form>
                     </div>
                 </div>
             </div>

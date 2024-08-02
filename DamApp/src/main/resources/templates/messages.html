@@ -12,7 +12,17 @@
     <th:block th:replace="~{fragments/commons::nav}"></th:block>
 </header>
 <div class="container mt-5">
-    <h1>Съобщения</h1>
+    <!-- Показване на съобщения за успех -->
+    <div th:if="${message != null}" class="alert alert-success">
+        <span th:text="${message}"></span>
+    </div>
+
+    <!-- Показване на съобщения за грешка -->
+    <div th:if="${error != null}" class="alert alert-danger">
+        <span th:text="${error}"></span>
+    </div>
+
+    <h1 class="text-center mb-3">Съобщения</h1>
     <div class="container">
         <div class="row">
             <div class="col-4">
@@ -26,7 +36,13 @@
                             <a th:href="@{/advertisement-add/{id}(id=${conversation.advertisementId})}">
                                 <span th:text="${conversation.advertisementTitle}"></span>
                             </a>
-                            с <span th:text="${conversation.otherParticipantName}"></span>
+                            с <span th:text="${conversation.getOtherParticipantName()}"></span>
+
+                            <a th:href="@{/messages/conversation/delete/{id}(id=${conversation.conversationId})}"
+                               class="btn btn-danger"
+                               onclick="return confirm('Сигурни ли сте, че искате да изтриете този разговор?');">
+                                Изтрий
+                            </a>
                         </div>
                     </li>
                 </ul>

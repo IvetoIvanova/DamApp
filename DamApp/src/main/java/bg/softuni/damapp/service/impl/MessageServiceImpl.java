@@ -2,7 +2,6 @@ package bg.softuni.damapp.service.impl;
 
 import bg.softuni.damapp.exception.UnauthorizedException;
 import bg.softuni.damapp.model.dto.AdDetailsDTO;
-import bg.softuni.damapp.model.dto.ConversationDTO;
 import bg.softuni.damapp.model.dto.MessageDTO;
 import bg.softuni.damapp.model.entity.Conversation;
 import bg.softuni.damapp.model.entity.Message;
@@ -15,10 +14,13 @@ import bg.softuni.damapp.service.MessageService;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -70,10 +72,13 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<MessageDTO> getMessagesForUser(UUID conversationId) {
+        User currentUser = getCurrentUser()
+                .orElseThrow(() -> new RuntimeException("Current user not found"));
+
         return messageRepository
                 .findMessagesByConversationId(conversationId)
                 .stream()
-                .map(MessageServiceImpl::convertToDTO)
+                .map(message -> convertToDTO(message, currentUser.getId()))
                 .collect(Collectors.toList());
     }
 
@@ -106,30 +111,40 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<ConversationDTO> getConversations(UUID userId) throws UnauthorizedException {
-        List<Conversation> conversations = conversationRepository.findBySenderIdOrRecipientId(userId, userId);
-        List<ConversationDTO> conversationDTOs = new ArrayList<>();
+    @Transactional
+    public void replyToMessage(UUID conversationId, String replyContent) {
+        Optional<User> user = getCurrentUser();
 
-        for (Conversation conversation : conversations) {
-            ConversationDTO dto = new ConversationDTO();
-            dto.setConversationId(conversation.getId());
-            dto.setAdvertisementId(conversation.getAdvertisementId());
+        if(user.isPresent()){
+            UUID senderId = user.get().getId();
+            Optional<Conversation> conversation = conversationRepository.findById(conversationId);
 
-            AdDetailsDTO advertisement = advertisementService.getAdDetails(conversation.getAdvertisementId());
-            dto.setAdvertisementTitle(advertisement.title());
+            if (conversation.isPresent()) {
+                UUID recipientId = (conversation.get().getSenderId().equals(senderId))
+                        ? conversation.get().getRecipientId()
+                        : conversation.get().getSenderId();
 
-            UUID otherParticipantId = conversation.getSenderId().equals(userId) ? conversation.getRecipientId() : conversation.getSenderId();
-            User otherParticipant = userRepository.findById(otherParticipantId).orElse(null);
+                Message newMessage = new Message();
+                newMessage.setConversationId(conversationId);
+                newMessage.setContent(replyContent);
+                newMessage.setCreatedDate(LocalDateTime.now());
+                newMessage.setSender(user.get());
+                newMessage.setAdvertisement(conversation.get().getAdvertisementId());
+                newMessage.setRecipient(userRepository.findById(recipientId).orElseThrow(() -> new RuntimeException("Recipient not found")));
 
-            if (otherParticipant != null) {
-                dto.setOtherParticipantId(otherParticipant.getId());
-                dto.setOtherParticipantName(otherParticipant.getFirstName());
+                messageRepository.save(newMessage);
+            } else {
+                throw new RuntimeException("Conversation not found");
             }
-
-            conversationDTOs.add(dto);
+        } else {
+            throw new RuntimeException("Current user not found");
         }
+    }
 
-        return conversationDTOs;
+    private Optional<User> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+        return userRepository.findByEmail(principal.getUsername());
     }
 
     @Override
@@ -150,7 +165,7 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
-    private static MessageDTO convertToDTO(Message message) {
+    private static MessageDTO convertToDTO(Message message, UUID currentUser) {
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setId(message.getId());
         messageDTO.setSender(message.getSender());
@@ -159,6 +174,8 @@ public class MessageServiceImpl implements MessageService {
         messageDTO.setContent(message.getContent());
         messageDTO.setCreatedDate(message.getCreatedDate());
         messageDTO.setRead(message.isRead());
+        messageDTO.setReceived(message.getRecipient().getId().equals(currentUser));
+
         return messageDTO;
     }
 }

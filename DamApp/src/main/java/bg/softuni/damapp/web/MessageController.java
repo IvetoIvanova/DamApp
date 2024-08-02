@@ -7,6 +7,7 @@ import bg.softuni.damapp.model.dto.MessageDTO;
 import bg.softuni.damapp.model.dto.UserDTO;
 import bg.softuni.damapp.model.entity.User;
 import bg.softuni.damapp.service.AdvertisementService;
+import bg.softuni.damapp.service.ConversationService;
 import bg.softuni.damapp.service.MessageService;
 import bg.softuni.damapp.service.UserService;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,19 +33,20 @@ public class MessageController {
     private final MessageService messageService;
     private final UserService userService;
     private final AdvertisementService advertisementService;
-
+    private final ConversationService conversationService;
 //    private final NotificationService notificationService;
 
-    public MessageController(MessageService messageService, UserService userService, AdvertisementService advertisementService) {
+    public MessageController(MessageService messageService, UserService userService, AdvertisementService advertisementService, ConversationService conversationService) {
         this.messageService = messageService;
         this.userService = userService;
         this.advertisementService = advertisementService;
+        this.conversationService = conversationService;
     }
 
     @GetMapping
-    public String showMessages(Model model, @AuthenticationPrincipal UserDetails userDetails) throws UnauthorizedException {
+    public String showConversations(Model model, @AuthenticationPrincipal UserDetails userDetails) throws UnauthorizedException {
         UserDTO userByEmail = userService.findByEmail(userDetails.getUsername());
-        List<ConversationDTO> conversations = messageService.getConversations(userByEmail.getId());
+        List<ConversationDTO> conversations = conversationService.getActiveConversationsForUser(userByEmail.getId());
         model.addAttribute("conversations", conversations);
         model.addAttribute("unreadCount", messageService.getUnreadMessageCount(userByEmail.getId()));
         return "messages";
@@ -51,9 +54,27 @@ public class MessageController {
 
     @GetMapping("/conversation/{conversationId}")
     public String showConversation(@PathVariable UUID conversationId, Model model) {
-        List<MessageDTO> messages = messageService.getMessagesForUser(conversationId);
-        model.addAttribute("messages", messages);
+        ConversationDTO conversationDTO = conversationService.getConversationById(conversationId);
+
+        if(conversationDTO == null){
+            return "redirect:/messages";
+        }
+
+        List<MessageDTO> messageDTOs = messageService.getMessagesForUser(conversationId);
+        model.addAttribute("conversation", conversationDTO);
+        model.addAttribute("messages", messageDTOs);
         return "conversation";
+    }
+
+    @GetMapping("/conversation/delete/{id}")
+    public String deleteConversation(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
+        try {
+            conversationService.deleteConversation(id);
+            redirectAttributes.addFlashAttribute("message", "Разговорът беше успешно изтрит.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Възникна грешка при изтриването на разговора.");
+        }
+        return "redirect:/messages";
     }
 
     @PostMapping("/send")
@@ -86,6 +107,19 @@ public class MessageController {
         }
 
         return "redirect:/error";
+    }
+
+    @PostMapping("/reply")
+    public String replyToMessage(@RequestParam UUID conversationId,
+                                 @RequestParam String replyContent,
+                                 RedirectAttributes redirectAttributes) {
+        try {
+            messageService.replyToMessage(conversationId, replyContent);
+            redirectAttributes.addFlashAttribute("message", "Съобщението беше успешно изпратено.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Възникна грешка при изпращането на съобщението.");
+        }
+        return "redirect:/messages";
     }
 
     @GetMapping("/unread-count")

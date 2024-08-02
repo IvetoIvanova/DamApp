@@ -15,6 +15,10 @@ public class Conversation extends BaseEntity {
     private UUID recipientId;
     @Column(name = "advertisement_id", nullable = false)
     private UUID advertisementId;
+    @Column(name = "sender_deleted", nullable = false)
+    private boolean senderDeleted = false;
+    @Column(name = "recipient_deleted", nullable = false)
+    private boolean recipientDeleted = false;
 
     public UUID getSenderId() {
         return senderId;
@@ -38,5 +42,21 @@ public class Conversation extends BaseEntity {
 
     public void setAdvertisementId(UUID advertisementId) {
         this.advertisementId = advertisementId;
+    }
+
+    public boolean isSenderDeleted() {
+        return senderDeleted;
+    }
+
+    public void setSenderDeleted(boolean senderDeleted) {
+        this.senderDeleted = senderDeleted;
+    }
+
+    public boolean isRecipientDeleted() {
+        return recipientDeleted;
+    }
+
+    public void setRecipientDeleted(boolean recipientDeleted) {
+        this.recipientDeleted = recipientDeleted;
     }
 }

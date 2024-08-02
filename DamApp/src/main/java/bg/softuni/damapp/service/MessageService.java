@@ -20,5 +20,5 @@ public interface MessageService {
 
     UUID getOrCreateConversationId(UUID senderId, UUID recipientId, UUID advertisementId);
 
-    List<ConversationDTO> getConversations(UUID userId) throws UnauthorizedException;
+    void replyToMessage(UUID messageId, String replyContent);
 }

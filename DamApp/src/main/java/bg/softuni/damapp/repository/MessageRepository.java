@@ -34,6 +34,8 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
 
     int deleteByCreatedDateBefore(LocalDateTime createdDate);
 
+    void deleteByConversationId(UUID conversationId);
+
 //    @Query("SELECT m FROM Message m WHERE m.recipient.id = :userId AND m.sender.id = :otherUserId AND m.isRead = false")
 //    List<Message> findUnreadMessages(@Param("userId") UUID userId, @Param("otherUserId") UUID otherUserId);
 }

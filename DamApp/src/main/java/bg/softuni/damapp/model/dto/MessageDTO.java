@@ -13,6 +13,7 @@ public class MessageDTO {
     private String content;
     private LocalDateTime createdDate;
     private boolean isRead;
+    private boolean isReceived;
     private UUID conversationId;
 
     public UUID getId() {
@@ -77,5 +78,13 @@ public class MessageDTO {
 
     public void setConversationId(UUID conversationId) {
         this.conversationId = conversationId;
+    }
+
+    public boolean isReceived() {
+        return isReceived;
+    }
+
+    public void setReceived(boolean received) {
+        isReceived = received;
     }
 }

@@ -5,7 +5,6 @@ import bg.softuni.damapp.model.dto.AdDetailsDTO;
 import bg.softuni.damapp.model.dto.AdSummaryDTO;
 import bg.softuni.damapp.model.dto.CreateAdDTO;
 import bg.softuni.damapp.model.entity.User;
-import bg.softuni.damapp.repository.MessageRepository;
 import bg.softuni.damapp.repository.UserRepository;
 import bg.softuni.damapp.service.AdvertisementService;
 import org.slf4j.Logger;
@@ -40,7 +39,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void createAd(CreateAdDTO createAdDTO) throws UnauthorizedException {
+    public void createAd(CreateAdDTO createAdDTO) {
         getAuthentication();
 
         LOGGER.info("Creating new advertisement...");
