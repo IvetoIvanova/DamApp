@@ -4,9 +4,7 @@ import bg.softuni.damapp.validation.annotations.UUIDSequence;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static java.sql.Types.VARCHAR;
 
@@ -27,8 +25,10 @@ public class User extends BaseEntity {
     private String lastName;
     @Column(nullable = false)
     private boolean isActive;
-    @ManyToMany
-    private List<Advertisement> favouriteAdvertisements;
+    @ElementCollection
+    @CollectionTable(name = "user_favorites", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "advertisement_id")
+    private Set<UUID> favouriteAdvertisementIds;
 
     @ManyToMany(
             fetch = FetchType.EAGER
@@ -41,7 +41,7 @@ public class User extends BaseEntity {
     private List<UserRole> roles;
 
     public User() {
-        this.favouriteAdvertisements = new ArrayList<>();
+        this.favouriteAdvertisementIds = new HashSet<>();
         this.roles = new ArrayList<>();
         this.isActive = true;
     }
@@ -89,14 +89,6 @@ public class User extends BaseEntity {
         return this;
     }
 
-    public List<Advertisement> getFavouriteAdvertisements() {
-        return favouriteAdvertisements;
-    }
-
-    public void setFavouriteAdvertisements(List<Advertisement> favouriteAdvertisements) {
-        this.favouriteAdvertisements = favouriteAdvertisements;
-    }
-
     public UUID getUuid() {
         return uuid;
     }
@@ -111,6 +103,14 @@ public class User extends BaseEntity {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Set<UUID> getFavouriteAdvertisementIds() {
+        return favouriteAdvertisementIds;
+    }
+
+    public void setFavouriteAdvertisementIds(Set<UUID> favouriteAdvertisementIds) {
+        this.favouriteAdvertisementIds = favouriteAdvertisementIds;
     }
 }
 

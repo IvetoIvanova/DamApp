@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
 
 import java.net.URLDecoder;
@@ -23,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
@@ -155,6 +157,41 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         return myAds.stream()
                 .anyMatch(ad -> ad.id().equals(advertisementId));
+    }
+
+    @Override
+    public AdSummaryDTO getAdvertisementById(UUID advertisementId) {
+
+        return advertisementRestClient
+                .get()
+                .uri("/ads/{id}", advertisementId)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
+    }
+
+    @Override
+    @Transactional
+    public void addFavorite(UUID userId, UUID advertisementId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.getFavouriteAdvertisementIds().contains(advertisementId)) {
+            user.getFavouriteAdvertisementIds().add(advertisementId);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    @Transactional
+    public List<AdSummaryDTO> getFavoriteAdvertisements(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return user.getFavouriteAdvertisementIds().stream()
+                .map(this::getAdvertisementById)
+                .collect(Collectors.toList());
     }
 
     private void getAuthentication() throws UnauthorizedException {

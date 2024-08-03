@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Любими продукти</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<header>
+    <th:block th:replace="~{fragments/commons::nav}"></th:block>
+</header>
+<div class="container">
+    <h1 class="mt-4 text-center">Любими продукти</h1>
+    <ul class="list-group">
+        <li class="list-group-item" th:each="ad : ${favoriteAdvertisements}">
+            <span th:text="${ad.title()}"></span>
+            <a th:href="@{/advertisement-add/{id}(id=${ad.id})}">Линк към обявата</a>
+        </li>
+    </ul>
+</div>
+<footer>
+    <th:block th:replace="~{fragments/footer::footer}"></th:block>
+</footer>
+
+<div class="scroll-to-top" id="scrollToTop">
+    <i class="fas fa-arrow-up"></i>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/scrollToTop.js"></script>
+</body>
+</html>

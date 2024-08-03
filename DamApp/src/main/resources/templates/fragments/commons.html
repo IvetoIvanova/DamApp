@@ -134,7 +134,7 @@
                 </li>
 
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link text-dark" href="#"><i class="fas fa-heart"></i></a>
+                    <a class="nav-link text-dark" th:href="@{/favorites}"><i class="fas fa-heart"></i></a>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <a class="nav-link dropdown-toggle text-dark" href="#" id="profileDropdown"
@@ -158,7 +158,7 @@
                             Съобщения
                         </a>
                         <a class="dropdown-item"
-                           href="/favorites"
+                           th:href="@{/favorites}"
                            th:text="#{nav_bar_favorites}">
                             Любими продукти
                         </a>
