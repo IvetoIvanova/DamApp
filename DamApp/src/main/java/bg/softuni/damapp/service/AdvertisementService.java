@@ -34,4 +34,6 @@ public interface AdvertisementService {
     List<AdSummaryDTO> getFavoriteAdvertisements(UUID userId);
 
     void removeFavorite(UUID id, UUID advertisementId);
+
+    void removeFromFavorites(UUID advertisementId);
 }

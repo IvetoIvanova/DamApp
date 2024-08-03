@@ -206,6 +206,16 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         }
     }
 
+    @Override
+    @Transactional
+    public void removeFromFavorites(UUID advertisementId) {
+        List<User> users = userRepository.findAllByFavoriteAdvertisementId(advertisementId);
+        for (User user : users) {
+            user.getFavouriteAdvertisementIds().remove(advertisementId);
+            userRepository.save(user);
+        }
+    }
+
     private void getAuthentication() throws UnauthorizedException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) authentication.getPrincipal();

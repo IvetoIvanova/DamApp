@@ -128,6 +128,12 @@ public class ConversationServiceImpl implements ConversationService {
         return conversationDTOs;
     }
 
+    @Override
+    @Transactional
+    public void deleteConversationsByAdvertisementId(UUID advertisementId) {
+        conversationRepository.deleteByAdvertisementId(advertisementId);
+    }
+
     private static ConversationDTO convertToDTO(Conversation conversation) {
         ConversationDTO conversationDTO = new ConversationDTO();
         conversationDTO.setConversationId(conversation.getId());

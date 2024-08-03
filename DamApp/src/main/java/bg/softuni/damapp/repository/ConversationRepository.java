@@ -22,4 +22,6 @@ public interface ConversationRepository extends JpaRepository<Conversation, UUID
 
     @Query("SELECT c FROM Conversation c WHERE (c.senderId = :userId AND c.senderDeleted = false) OR (c.recipientId = :userId AND c.recipientDeleted = false)")
     List<Conversation> findActiveConversationsByUserId(@Param("userId") UUID userId);
+
+    void deleteByAdvertisementId(UUID advertisementId);
 }

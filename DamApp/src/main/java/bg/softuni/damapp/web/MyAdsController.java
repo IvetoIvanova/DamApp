@@ -3,6 +3,8 @@ package bg.softuni.damapp.web;
 import bg.softuni.damapp.exception.UnauthorizedException;
 import bg.softuni.damapp.model.dto.UserDTO;
 import bg.softuni.damapp.service.AdvertisementService;
+import bg.softuni.damapp.service.ConversationService;
+import bg.softuni.damapp.service.MessageService;
 import bg.softuni.damapp.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,10 +21,14 @@ public class MyAdsController {
     private final UserService userService;
 
     private final AdvertisementService advertisementService;
+    private final ConversationService conversationService;
+    private final MessageService messageService;
 
-    public MyAdsController(UserService userService, AdvertisementService advertisementService) {
+    public MyAdsController(UserService userService, AdvertisementService advertisementService, ConversationService conversationService, MessageService messageService) {
         this.userService = userService;
         this.advertisementService = advertisementService;
+        this.conversationService = conversationService;
+        this.messageService = messageService;
     }
 
     @GetMapping
@@ -59,7 +65,11 @@ public class MyAdsController {
         String email = userDetails.getUsername();
         UserDTO user = userService.findByEmail(email);
 
+        conversationService.deleteConversationsByAdvertisementId(id);
+        messageService.deleteMessagesByAdvertisementId(id);
         advertisementService.deleteAdvertisement(id, user.getId());
+        advertisementService.removeFromFavorites(id);
+
         return "redirect:/my-advertisements";
     }
 }

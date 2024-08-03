@@ -12,4 +12,6 @@ public interface ConversationService {
     ConversationDTO getConversationById(UUID conversationId);
 
     List<ConversationDTO> getActiveConversationsForUser(UUID userId) throws UnauthorizedException;
+
+    void deleteConversationsByAdvertisementId(UUID advertisementId);
 }

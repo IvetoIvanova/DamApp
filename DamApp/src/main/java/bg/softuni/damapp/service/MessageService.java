@@ -21,4 +21,6 @@ public interface MessageService {
     UUID getOrCreateConversationId(UUID senderId, UUID recipientId, UUID advertisementId);
 
     void replyToMessage(UUID messageId, String replyContent);
+
+    void deleteMessagesByAdvertisementId(UUID advertisementId);
 }

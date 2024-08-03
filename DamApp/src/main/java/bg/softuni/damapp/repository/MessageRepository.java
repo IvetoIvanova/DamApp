@@ -35,4 +35,6 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
             @Param("conversationId") UUID conversationId,
             @Param("recipientId") UUID recipientId,
             @Param("isRead") boolean isRead);
+
+    void deleteByAdvertisementId(UUID advertisementId);
 }
