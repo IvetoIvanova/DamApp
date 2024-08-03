@@ -243,3 +243,24 @@ body.about-bg {
 .form-inline label {
     margin-bottom: 0;
 }
+
+.badge-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.circle-badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #c82333;
+    color: white;
+    text-align: center;
+    line-height: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 10px;
+}

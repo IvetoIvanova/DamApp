@@ -89,15 +89,18 @@ public class MessageServiceImpl implements MessageService {
         List<Message> messages = messageRepository.findMessagesByConversationIdRecipientIdAndIsRead(conversationId, userId, false);
         logger.info("Found {} unread messages for user {}", messages.size(), userId);
         for (Message message : messages) {
-            message.setRead(true);
+            if (!message.isRead()) {
+                message.setRead(true);
+                messageRepository.save(message);
+            }
         }
-        messageRepository.saveAllAndFlush(messages);
+
         logger.info("Updated {} messages to read status for user {}", messages.size(), userId);
     }
 
     @Override
     public int getUnreadMessageCount(UUID userId) {
-        int count = messageRepository.countUnreadMessagesByUserId(userId);
+        int count = messageRepository.countByRecipientIdAndIsRead(userId, false);
         logger.info("Unread message count for user {}: {}", userId, count);
         return count;
     }
@@ -115,7 +118,7 @@ public class MessageServiceImpl implements MessageService {
     public void replyToMessage(UUID conversationId, String replyContent) {
         Optional<User> user = getCurrentUser();
 
-        if(user.isPresent()){
+        if (user.isPresent()) {
             UUID senderId = user.get().getId();
             Optional<Conversation> conversation = conversationRepository.findById(conversationId);
 

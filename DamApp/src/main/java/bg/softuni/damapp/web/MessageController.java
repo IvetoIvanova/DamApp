@@ -34,7 +34,6 @@ public class MessageController {
     private final UserService userService;
     private final AdvertisementService advertisementService;
     private final ConversationService conversationService;
-//    private final NotificationService notificationService;
 
     public MessageController(MessageService messageService, UserService userService, AdvertisementService advertisementService, ConversationService conversationService) {
         this.messageService = messageService;
@@ -53,7 +52,9 @@ public class MessageController {
     }
 
     @GetMapping("/conversation/{conversationId}")
-    public String showConversation(@PathVariable UUID conversationId, Model model) {
+    public String showConversation(@PathVariable UUID conversationId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        UserDTO userByEmail = userService.findByEmail(userDetails.getUsername());
+        messageService.markMessagesAsRead(conversationId, userByEmail.getId());
         ConversationDTO conversationDTO = conversationService.getConversationById(conversationId);
 
         if(conversationDTO == null){
@@ -100,8 +101,6 @@ public class MessageController {
             messageDTO.setCreatedDate(LocalDateTime.now());
             messageDTO.setRead(false);
             messageService.sendMessage(messageDTO);
-
-//            notificationService.notifyUser(recipient.get().getId(), "New message received");
 
             return "redirect:/messages";
         }

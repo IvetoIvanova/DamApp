@@ -12,12 +12,10 @@
     <th:block th:replace="~{fragments/commons::nav}"></th:block>
 </header>
 <div class="container mt-5">
-    <!-- Показване на съобщения за успех -->
+
     <div th:if="${message != null}" class="alert alert-success">
         <span th:text="${message}"></span>
     </div>
-
-    <!-- Показване на съобщения за грешка -->
     <div th:if="${error != null}" class="alert alert-danger">
         <span th:text="${error}"></span>
     </div>
@@ -37,6 +35,10 @@
                                 <span th:text="${conversation.advertisementTitle}"></span>
                             </a>
                             с <span th:text="${conversation.getOtherParticipantName()}"></span>
+
+                            <span class="badge badge-warning"
+                                  th:if="${conversation.unreadMessageCount > 0}"
+                                  th:text="${conversation.unreadMessageCount}">0</span>
 
                             <a th:href="@{/messages/conversation/delete/{id}(id=${conversation.conversationId})}"
                                class="btn btn-danger"

@@ -119,6 +119,9 @@ public class ConversationServiceImpl implements ConversationService {
                 dto.setOtherParticipantName(otherParticipant.getFirstName() + " " + otherParticipant.getLastName());
             }
 
+            int unreadCount = messageRepository.countByConversationIdAndRecipientIdAndIsRead(conversation.getId(), userId, false);
+            dto.setUnreadMessageCount(unreadCount);
+
             conversationDTOs.add(dto);
         }
 

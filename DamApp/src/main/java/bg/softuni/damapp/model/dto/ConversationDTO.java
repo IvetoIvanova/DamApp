@@ -11,6 +11,7 @@ public class ConversationDTO {
     private String advertisementTitle;
     private UUID otherParticipantId;
     private String otherParticipantName;
+    private int unreadMessageCount;
 
     public UUID getConversationId() {
         return conversationId;
@@ -67,5 +68,13 @@ public class ConversationDTO {
 
     public void setOtherParticipantName(String otherParticipantName) {
         this.otherParticipantName = otherParticipantName;
+    }
+
+    public int getUnreadMessageCount() {
+        return unreadMessageCount;
+    }
+
+    public void setUnreadMessageCount(int unreadMessageCount) {
+        this.unreadMessageCount = unreadMessageCount;
     }
 }
