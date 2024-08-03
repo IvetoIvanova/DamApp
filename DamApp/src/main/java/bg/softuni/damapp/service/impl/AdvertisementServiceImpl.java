@@ -194,6 +194,18 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public void removeFavorite(UUID id, UUID advertisementId) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getFavouriteAdvertisementIds().contains(advertisementId)) {
+            user.getFavouriteAdvertisementIds().remove(advertisementId);
+            userRepository.save(user);
+        }
+    }
+
     private void getAuthentication() throws UnauthorizedException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) authentication.getPrincipal();

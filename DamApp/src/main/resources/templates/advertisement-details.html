@@ -61,14 +61,12 @@
                 <span th:text="#{ad_details_publishedAt}"></span>
                 <span th:text="${#temporals.format(adDetails.publishedAt, 'HH:mm')}"></span>
             </div>
-
-            <form th:if="${!isOwner}" th:action="@{/favorites/add}" method="post">
+            <form th:if="${!isOwner}" th:action="@{/favorites/add}" th:method="post">
                 <input type="hidden" name="advertisementId" th:value="${adDetails.id()}"/>
                 <button type="submit" class="btn btn-success mt-3">
                     <i class="fas fa-heart"></i> Добави към любими
                 </button>
             </form>
-
             <span class="badge badge-warning" th:if="${adDetails.reserved}">Reserved</span>
             <div th:if="${!isOwner}">
                 <button type="button" class="btn btn-primary mt-3 mb-1" onclick="showMessageForm()">Изпрати съобщение
