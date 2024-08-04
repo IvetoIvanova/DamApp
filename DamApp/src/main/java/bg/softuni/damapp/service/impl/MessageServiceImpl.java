@@ -150,6 +150,13 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.deleteByAdvertisementId(advertisementId);
     }
 
+    @Override
+    @Transactional
+    public void deleteMessagesBySenderIdAndRecipientId(UUID userId) {
+        messageRepository.deleteBySenderId(userId);
+        messageRepository.deleteByRecipientId(userId);
+    }
+
     private Optional<User> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) authentication.getPrincipal();

@@ -1,6 +1,5 @@
 package bg.softuni.damapp.repository;
 
-import bg.softuni.damapp.model.dto.ConversationDTO;
 import bg.softuni.damapp.model.entity.Conversation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +23,8 @@ public interface ConversationRepository extends JpaRepository<Conversation, UUID
     List<Conversation> findActiveConversationsByUserId(@Param("userId") UUID userId);
 
     void deleteByAdvertisementId(UUID advertisementId);
+
+    void deleteBySenderId(UUID senderId);
+
+    void deleteByRecipientId(UUID senderId);
 }

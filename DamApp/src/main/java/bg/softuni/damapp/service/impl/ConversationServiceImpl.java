@@ -134,6 +134,13 @@ public class ConversationServiceImpl implements ConversationService {
         conversationRepository.deleteByAdvertisementId(advertisementId);
     }
 
+    @Override
+    @Transactional
+    public void deleteConversationsBySenderIdAndRecipientId(UUID userId) {
+        conversationRepository.deleteBySenderId(userId);
+        conversationRepository.deleteByRecipientId(userId);
+    }
+
     private static ConversationDTO convertToDTO(Conversation conversation) {
         ConversationDTO conversationDTO = new ConversationDTO();
         conversationDTO.setConversationId(conversation.getId());

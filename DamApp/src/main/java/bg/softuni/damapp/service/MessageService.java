@@ -1,7 +1,6 @@
 package bg.softuni.damapp.service;
 
 import bg.softuni.damapp.exception.UnauthorizedException;
-import bg.softuni.damapp.model.dto.ConversationDTO;
 import bg.softuni.damapp.model.dto.MessageDTO;
 
 import java.util.List;
@@ -23,4 +22,6 @@ public interface MessageService {
     void replyToMessage(UUID messageId, String replyContent);
 
     void deleteMessagesByAdvertisementId(UUID advertisementId);
+
+    void deleteMessagesBySenderIdAndRecipientId(UUID userId);
 }
