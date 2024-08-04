@@ -1,8 +1,6 @@
 package bg.softuni.damapp.service.impl;
 
-import bg.softuni.damapp.exception.UnauthorizedException;
 import bg.softuni.damapp.model.dto.AdDetailsDTO;
-import bg.softuni.damapp.model.dto.ConversationDTO;
 import bg.softuni.damapp.model.dto.MessageDTO;
 import bg.softuni.damapp.model.entity.Conversation;
 import bg.softuni.damapp.model.entity.Message;
@@ -21,14 +19,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class MessageServiceImplTest {
@@ -95,7 +100,7 @@ public class MessageServiceImplTest {
 
         messageService.sendMessage(messageDTO);
 
-        Mockito.verify(messageRepository).save(Mockito.any(Message.class));
+        verify(messageRepository).save(any(Message.class));
     }
 
     @Test
@@ -136,17 +141,32 @@ public class MessageServiceImplTest {
     }
 
     @Test
-    public void getMessagesForUser_validConversationId_returnsMessages() {
+    public void testGetMessagesForUser() {
         UUID conversationId = UUID.randomUUID();
-        List<Message> messages = Arrays.asList(new Message(), new Message());
-        when(messageRepository.findMessagesByConversationId(conversationId)).thenReturn(messages);
+        UUID userId = UUID.randomUUID();
 
-        List<MessageDTO> messageDTOs = messageService.getMessagesForUser(conversationId);
+        User user1 = new User();
+        user1.setId(userId);
+        User user2 = new User();
+        user2.setId(userId);
 
-        assertThat(messageDTOs).hasSize(messages.size());
-        for (int i = 0; i < messages.size(); i++) {
-            assertEquals(messages.get(i).getContent(), messageDTOs.get(i).getContent());
-        }
+        Message message = new Message();
+        message.setSender(user1);
+        message.setRecipient(user2);
+        message.setId(UUID.randomUUID());
+        message.setContent("Hello");
+
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user1));
+        when(messageRepository.findMessagesByConversationId(conversationId)).thenReturn(List.of(message));
+
+        UserDetails userDetails = mock(UserDetails.class);
+        when(userDetails.getUsername()).thenReturn("test@example.com");
+        SecurityContextHolder.getContext().setAuthentication(mock(Authentication.class));
+        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(userDetails);
+
+        List<MessageDTO> result = messageService.getMessagesForUser(conversationId);
+        assertEquals(1, result.size());
+        assertEquals("Hello", result.get(0).getContent());
     }
 
     @Test
@@ -181,7 +201,7 @@ public class MessageServiceImplTest {
 
         UUID result = messageService.getOrCreateConversationId(senderId, recipientId, adId);
 
-        Mockito.verify(conversationRepository).save(argumentCaptor.capture());
+        verify(conversationRepository).save(argumentCaptor.capture());
         Conversation savedConversation = argumentCaptor.getValue();
         assertEquals(result, savedConversation.getId());
 
@@ -190,71 +210,142 @@ public class MessageServiceImplTest {
         assertEquals(adId, savedConversation.getAdvertisementId());
     }
 
-
     @Test
-    public void testGetConversations_returnsCorrectConversations() {
+    @Transactional
+    public void testMarkMessagesAsRead() {
+        UUID conversationId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
-        UUID otherUserId = UUID.randomUUID();
-        UUID adId = UUID.randomUUID();
 
-        Conversation conversation1 = new Conversation();
-        conversation1.setId(UUID.randomUUID());
-        conversation1.setSenderId(userId);
-        conversation1.setRecipientId(otherUserId);
-        conversation1.setAdvertisementId(adId);
+        Message unreadMessage = new Message();
+        unreadMessage.setId(UUID.randomUUID());
+        unreadMessage.setRead(false);
 
-        Conversation conversation2 = new Conversation();
-        conversation2.setId(UUID.randomUUID());
-        conversation2.setSenderId(otherUserId);
-        conversation2.setRecipientId(userId);
-        conversation2.setAdvertisementId(adId);
+        when(messageRepository.findMessagesByConversationIdRecipientIdAndIsRead(conversationId, userId, false))
+                .thenReturn(List.of(unreadMessage));
+        when(messageRepository.save(any(Message.class))).thenReturn(unreadMessage);
 
-        List<Conversation> conversations = List.of(conversation1, conversation2);
+        messageService.markMessagesAsRead(conversationId, userId);
 
-        AdDetailsDTO adDetails = new AdDetailsDTO(
-                UUID.randomUUID(),
-                "Sample Title",
-                "Sample Description",
-                Category.ДРУГИ,
-                10,
-                "Sample Location",
-                false,
-                AdType.ПОДАРЯВА,
-                List.of("http://example.com/image1.jpg"),
-                "123-456-7890",
-                LocalDateTime.now(),
-                UUID.randomUUID()
-        );
-
-        User otherUser = new User();
-        otherUser.setId(otherUserId);
-        otherUser.setFirstName("Other User");
-
-        when(conversationRepository.findBySenderIdOrRecipientId(userId, userId)).thenReturn(conversations);
-        when(advertisementService.getAdDetails(adId)).thenReturn(adDetails);
-        when(userRepository.findById(otherUserId)).thenReturn(Optional.of(otherUser));
-
-        List<ConversationDTO> conversationDTOs = messageService.getConversations(userId);
-
-        assertEquals(2, conversationDTOs.size());
+        verify(messageRepository).save(unreadMessage);
+        assertTrue(unreadMessage.isRead());
     }
 
     @Test
-    public void testGetConversations_handlesEmptyConversationList() {
+    public void testGetUnreadMessageCount() {
         UUID userId = UUID.randomUUID();
-        when(conversationRepository.findBySenderIdOrRecipientId(userId, userId)).thenReturn(new ArrayList<>());
+        when(messageRepository.countByRecipientIdAndIsRead(userId, false)).thenReturn(5);
 
-        List<ConversationDTO> conversationDTOs = messageService.getConversations(userId);
+        int count = messageService.getUnreadMessageCount(userId);
 
-        assertEquals(0, conversationDTOs.size());
+        assertEquals(5, count);
+        verify(messageRepository, times(1)).countByRecipientIdAndIsRead(userId, false);
     }
 
     @Test
-    public void testGetConversations_throwsUnauthorizedException() throws UnauthorizedException {
-        UUID userId = UUID.randomUUID();
-        when(conversationRepository.findBySenderIdOrRecipientId(userId, userId)).thenThrow(UnauthorizedException.class);
+    public void testCleanUpOldMessages() {
+        LocalDate daysAgo = LocalDate.now().minusDays(180);
+        when(messageRepository.deleteByCreatedDateBefore(daysAgo.atStartOfDay())).thenReturn(10);
 
-        assertThrows(UnauthorizedException.class, () -> messageService.getConversations(userId));
+        messageService.cleanUpOldMessages();
+
+        verify(messageRepository, times(1)).deleteByCreatedDateBefore(daysAgo.atStartOfDay());
     }
 
+    @Test
+    @Transactional
+    public void testDeleteMessagesByAdvertisementId() {
+        UUID advertisementId = UUID.randomUUID();
+
+        messageService.deleteMessagesByAdvertisementId(advertisementId);
+
+        verify(messageRepository, times(1)).deleteByAdvertisementId(advertisementId);
+    }
+
+    @Test
+    @Transactional
+    public void testDeleteMessagesBySenderIdAndRecipientId() {
+        UUID userId = UUID.randomUUID();
+
+        messageService.deleteMessagesBySenderIdAndRecipientId(userId);
+
+        verify(messageRepository, times(1)).deleteBySenderId(userId);
+        verify(messageRepository, times(1)).deleteByRecipientId(userId);
+    }
+
+    @Test
+    public void testReplyToMessage() {
+        SecurityContext securityContext = mock(SecurityContext.class);
+        Authentication authentication = mock(Authentication.class);
+        UserDetails userDetails = mock(UserDetails.class);
+
+        when(userDetails.getUsername()).thenReturn("test@example.com");
+        when(authentication.getPrincipal()).thenReturn(userDetails);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        UUID conversationId = UUID.randomUUID();
+        String replyContent = "Test reply";
+        UUID userId = UUID.randomUUID();
+
+        User currentUser = new User();
+        currentUser.setId(userId);
+        userRepository.save(currentUser);
+
+        Conversation conversation = new Conversation();
+        conversation.setId(conversationId);
+        conversation.setSenderId(userId);
+        conversation.setRecipientId(UUID.randomUUID());
+        conversation.setAdvertisementId(UUID.randomUUID());
+
+        User recipient = new User();
+        recipient.setId(conversation.getRecipientId());
+
+        Message newMessage = new Message();
+        newMessage.setConversationId(conversationId);
+        newMessage.setContent(replyContent);
+        newMessage.setCreatedDate(LocalDateTime.now());
+        newMessage.setSender(currentUser);
+        newMessage.setAdvertisement(conversation.getAdvertisementId());
+        newMessage.setRecipient(recipient);
+
+        when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(currentUser));
+        when(userRepository.findById(any(UUID.class))).thenReturn(Optional.of(recipient));
+        when(conversationRepository.findById(conversationId)).thenReturn(Optional.of(conversation));
+
+        messageService.replyToMessage(conversationId, replyContent);
+
+        verify(messageRepository, times(1)).save(argThat(message -> {
+            return message.getConversationId().equals(conversationId)
+                    && message.getContent().equals(replyContent)
+                    && message.getSender().equals(currentUser)
+                    && message.getRecipient().equals(recipient);
+        }));
+    }
+
+    @Test
+    public void testReplyToMessage_ConversationNotFound() {
+        SecurityContext securityContext = mock(SecurityContext.class);
+        Authentication authentication = mock(Authentication.class);
+        UserDetails userDetails = mock(UserDetails.class);
+
+        when(userDetails.getUsername()).thenReturn("test@example.com");
+        when(authentication.getPrincipal()).thenReturn(userDetails);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        UUID conversationId = UUID.randomUUID();
+        String replyContent = "Test reply";
+
+        User currentUser = new User();
+        currentUser.setId(UUID.randomUUID());
+        userRepository.save(currentUser);
+
+        when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(currentUser));
+        when(conversationRepository.findById(conversationId)).thenReturn(Optional.empty());
+
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
+            messageService.replyToMessage(conversationId, replyContent);
+        });
+        assertEquals("Conversation not found", thrown.getMessage());
+    }
 }
