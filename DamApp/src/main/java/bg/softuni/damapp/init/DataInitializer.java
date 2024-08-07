@@ -22,10 +22,10 @@ public class DataInitializer implements CommandLineRunner {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Value("${admin_password}")
+    @Value("${admin.password}")
     private String adminPassword;
 
-    @Value("${admin_email}")
+    @Value("${admin.email}")
     private String adminEmail;
 
     @Override

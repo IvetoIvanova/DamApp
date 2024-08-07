@@ -34,8 +34,13 @@ public class UserInterceptor implements HandlerInterceptor {
             if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
                 String username = authentication.getName();
                 UserDTO userByEmail = userService.findByEmail(username);
-                int unreadMessageCount = messageService.getUnreadMessageCount(userByEmail.getId());
-                modelAndView.addObject("unreadMessageCount", unreadMessageCount);
+
+                if (userByEmail != null) {
+                    int unreadMessageCount = messageService.getUnreadMessageCount(userByEmail.getId());
+                    modelAndView.addObject("unreadMessageCount", unreadMessageCount);
+                } else {
+                    System.err.println("User not found for email: " + username);
+                }
             }
         }
     }

@@ -37,14 +37,14 @@ security:
 
 ads:
   api:
-    baseUrl: "http://host:example"
+    baseUrl: "http://host:8081"
 
 geonames:
   username: testUsername
 
 cloudinary:
   cloud_name: test-cloud-name
-  api_key: test-api-key
+  api_key: 123456789123456789
   api_secret: test-api-secret
 
 jwt:

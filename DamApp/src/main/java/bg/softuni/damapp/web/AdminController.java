@@ -2,7 +2,6 @@ package bg.softuni.damapp.web;
 
 import bg.softuni.damapp.exception.RoleAlreadyExistsException;
 import bg.softuni.damapp.exception.RoleDoesNotExistsException;
-import bg.softuni.damapp.model.dto.UserDTO;
 import bg.softuni.damapp.model.entity.User;
 import bg.softuni.damapp.model.entity.UserRole;
 import bg.softuni.damapp.model.enums.UserRoleEnum;
@@ -10,8 +9,6 @@ import bg.softuni.damapp.service.AdvertisementService;
 import bg.softuni.damapp.service.RoleService;
 import bg.softuni.damapp.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

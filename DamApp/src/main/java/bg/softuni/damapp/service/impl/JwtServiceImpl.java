@@ -18,8 +18,8 @@ public class JwtServiceImpl implements JwtService {
     private final String jwtKey;
     private final long expiration;
 
-    public JwtServiceImpl(@Value("${jwt_key}") String jwtKey,
-                          @Value("${jwt_expiration}") long expiration) {
+    public JwtServiceImpl(@Value("${jwt.secret}") String jwtKey,
+                          @Value("${jwt.expiration}") long expiration) {
         this.jwtKey = jwtKey;
         this.expiration = expiration;
     }

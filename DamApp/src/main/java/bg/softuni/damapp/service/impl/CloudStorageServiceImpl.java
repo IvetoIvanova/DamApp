@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class CloudStorageServiceImpl implements CloudStorageService {
@@ -30,6 +30,8 @@ public class CloudStorageServiceImpl implements CloudStorageService {
 
     @Override
     public void deleteImages(List<String> imageUrls) throws IOException {
+        LOGGER.info("Entering deleteImages method. Image URLs: {}", imageUrls);
+
         if (imageUrls == null || imageUrls.isEmpty()) {
             LOGGER.info("The imageUrls list is empty or null :(");
             return;
@@ -40,10 +42,10 @@ public class CloudStorageServiceImpl implements CloudStorageService {
                 LOGGER.info("Processing image URL: {}", imageUrl);
                 String publicId = extractPublicIdFromUrl(imageUrl);
                 LOGGER.info("Extracted publicId: {}", publicId);
-                Map<?, ?> result = cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
-                LOGGER.info("Delete result for publicId {}: {}", publicId, result);
+                cloudinary.uploader().destroy(publicId, new HashMap<>());
+                LOGGER.info("Image with publicId {} deleted successfully", publicId);
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.error("Error deleting image with publicId {}", extractPublicIdFromUrl(imageUrl), e);
             }
         }
 //        for (String imageUrl : imageUrls) {
@@ -55,6 +57,7 @@ public class CloudStorageServiceImpl implements CloudStorageService {
 //                e.printStackTrace();
 //            }
 //        }
+        LOGGER.info("Exiting deleteImages method");
     }
 
     private String extractPublicIdFromUrl(String imageUrl) {

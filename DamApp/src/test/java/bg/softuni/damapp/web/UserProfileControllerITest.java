@@ -53,7 +53,7 @@ public class UserProfileControllerITest {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(UUID.randomUUID());
         userDTO.setEmail("test@example.com");
-        
+
         AdDetailsDTO adDetailsDTO = new AdDetailsDTO(UUID.randomUUID(),
                 "String title",
                 "String description",

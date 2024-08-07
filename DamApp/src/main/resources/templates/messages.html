@@ -2,53 +2,90 @@
 <html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Съобщения</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .conversation-item {
+            border: 1px solid #ddd;
+            border-radius: .25rem;
+            padding: .75rem;
+            margin-bottom: .5rem;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .conversation-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        .conversation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .conversation-title {
+            font-weight: bold;
+        }
+
+        .conversation-actions a {
+            margin-left: .5rem;
+        }
+    </style>
 </head>
 <body>
 <header>
     <th:block th:replace="~{fragments/commons::nav}"></th:block>
 </header>
 <div class="container mt-5">
-
-    <div th:if="${message != null}" class="alert alert-success">
+    <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show" role="alert">
         <span th:text="${message}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-    <div th:if="${error != null}" class="alert alert-danger">
+    <div th:if="${error != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
         <span th:text="${error}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 
-    <h1 class="text-center mb-3">Съобщения</h1>
-    <div class="container">
-        <div class="row">
-            <div class="col-4">
-                <ul>
-                    <li th:each="conversation : ${conversations}">
-                        <div>
-                            <a th:href="@{/messages/conversation/{id}(id=${conversation.conversationId})}">
+    <h1 class="text-center mb-4">Съобщения</h1>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <ul class="list-unstyled">
+                <li th:each="conversation : ${conversations}" class="conversation-item">
+                    <div class="conversation-header">
+                        <div class="conversation-title">
+                            <a th:href="@{/messages/conversation/{id}(id=${conversation.conversationId})}"
+                               class="text-primary">
                                 Разговор
                             </a>
                             за
-                            <a th:href="@{/advertisement-add/{id}(id=${conversation.advertisementId})}">
+                            <a th:href="@{/advertisement-add/{id}(id=${conversation.advertisementId})}"
+                               class="text-secondary">
                                 <span th:text="${conversation.advertisementTitle}"></span>
                             </a>
                             с <span th:text="${conversation.getOtherParticipantName()}"></span>
-
-                            <span class="badge badge-warning"
-                                  th:if="${conversation.unreadMessageCount > 0}"
-                                  th:text="${conversation.unreadMessageCount}">0</span>
-
+                        </div>
+                        <div class="conversation-actions">
+                                <span class="badge badge-warning"
+                                      th:if="${conversation.unreadMessageCount > 0}"
+                                      th:text="${conversation.unreadMessageCount}">0</span>
                             <a th:href="@{/messages/conversation/delete/{id}(id=${conversation.conversationId})}"
-                               class="btn btn-danger"
+                               class="btn btn-danger btn-sm"
                                onclick="return confirm('Сигурни ли сте, че искате да изтриете този разговор?');">
                                 Изтрий
                             </a>
                         </div>
-                    </li>
-                </ul>
-            </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
