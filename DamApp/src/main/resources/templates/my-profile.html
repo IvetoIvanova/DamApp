@@ -85,6 +85,18 @@
             background-color: #f8d7da;
             color: #721c24;
         }
+
+        .role-item {
+            margin-right: 5px;
+        }
+
+        .role-item::after {
+            content: ', ';
+        }
+
+        .role-item:last-of-type::after {
+            content: '';
+        }
     </style>
     <script>
         function toggleEdit(field) {
@@ -152,7 +164,7 @@
         </div>
         <div class="form-group">
             <label class="font-weight-bold">Роли:</label>
-            <span th:each="role : ${userData.roles}" th:text="${role}"></span>
+            <span th:each="role : ${userData.roles}" th:text="${role}" class="role-item"></span>
         </div>
         <div class="form-group">
             <label class="font-weight-bold">Промени паролата:</label>
