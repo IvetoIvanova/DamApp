@@ -112,7 +112,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         Optional<Advertisement> advertisementOpt = advertisementRepository.findById(id);
         if (advertisementOpt.isPresent()) {
             Advertisement advertisement = advertisementOpt.get();
-            if (advertisement.getOwnerId().equals(userId) || isAdmin(userId)) {
+            if (advertisement.getOwnerId().equals(userId)) {
                 // TODO: deleting photos from the cloud
                 List<String> imageUrls = advertisement
                         .getImageUrls()
@@ -133,11 +133,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         } else {
             throw new ResourceNotFoundException("Обявата не е намерена.");
         }
-    }
-
-    private boolean isAdmin(UUID userId) {
-        // TODO: checking if the user is an admin
-        return false;
     }
 
     private static AdvertisementDTO map(Advertisement advertisement) {

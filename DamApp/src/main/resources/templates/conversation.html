@@ -2,10 +2,45 @@
 <html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Разговор</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .message-container {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: .25rem;
+            margin-bottom: .5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-content {
+            font-size: 1rem;
+        }
+
+        .message-meta {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+
+        .reply-form {
+            margin-top: 1rem;
+        }
+
+        .reply-form textarea {
+            width: 100%;
+            height: 100px;
+            border-radius: .25rem;
+            border: 1px solid #ced4da;
+            padding: .5rem;
+        }
+
+        .reply-form button {
+            margin-top: .5rem;
+        }
+    </style>
 </head>
 <body>
 <input type="hidden" id="conversationId" th:value="${conversationId}"/>
@@ -13,31 +48,33 @@
     <th:block th:replace="~{fragments/commons::nav(activeLink=${'login'})}"></th:block>
 </header>
 <div class="container mt-5">
-    <div>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div th:each="message : ${messages}">
-                        <p>
-                            <span th:text="${message.sender.getFirstName()}+' '+${message.sender.getLastName()}"></span>:
-                            <span th:text="${message.content}"></span>
-                            <span th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
-                        </p>
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-4">
+                <h1 class="text-center mb-4">Съобщения към разговора:</h1>
+            </div>
 
-                    </div>
-
-                    <div>
-                        <!-- Проверка дали съобщението е получено от текущия потребител -->
-                        <!--                    th:if="${message}"-->
-                        <form
-                                th:action="@{/messages/reply}"
-                                method="post">
-                            <input type="hidden" name="conversationId" th:value="${conversation.conversationId}"/>
-                            <textarea name="replyContent" required></textarea>
-                            <button type="submit" class="btn btn-primary">Отговори</button>
-                        </form>
-                    </div>
+            <div class="message-list">
+                <div th:each="message : ${messages}" class="message-container">
+                    <p>
+                        <strong th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></strong>:
+                        <span class="message-content" th:text="${message.content}"></span>
+                        <br>
+                        <span class="message-meta"
+                              th:text="${#temporals.format(message.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    </p>
                 </div>
+            </div>
+
+            <div class="reply-form">
+                <form th:action="@{/messages/reply}" method="post">
+                    <input type="hidden" name="conversationId" th:value="${conversation.conversationId}"/>
+                    <div class="form-group">
+                        <textarea name="replyContent" class="form-control" placeholder="Въведете отговора си тук..."
+                                  required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-3">Отговори</button>
+                </form>
             </div>
         </div>
     </div>
