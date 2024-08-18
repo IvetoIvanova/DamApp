@@ -34,7 +34,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+            <div class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link text-dark"
                        th:href="@{/list-advertisements}"
@@ -42,12 +42,29 @@
                         Обяви
                     </a>
                 </li>
-                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link text-dark"
-                       th:href="@{/admin}"
+                <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link dropdown-toggle text-dark"
+                       href="#"
+                       id="adminDropdown"
+                       role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false"
                        th:text="#{nav_bar_admin}">
                         АДМИН
                     </a>
+                    <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+                        <a class="dropdown-item" th:href="@{/admin}">Управление на акаунти</a>
+                        <a class="dropdown-item" th:href="@{/admin/messages}">Съобщения от контакти</a>
+                        <a class="dropdown-item" href="/admin/reports">Съобщения от репорти</a>
+                    </div>
+
+
+<!--                    <a class="nav-link text-dark"-->
+<!--                       th:href="@{/admin}"-->
+<!--                       th:text="#{nav_bar_admin}">-->
+<!--                        АДМИН-->
+<!--                    </a>-->
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-dark"

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{contact_title}">Contact form</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body class="bg-light">
+<header>
+    <th:block th:replace="~{fragments/commons::nav}"></th:block>
+</header>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                <p th:text="${successMessage}"></p>
+            </div>
+
+            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                <p th:text="${errorMessage}"></p>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white text-center">
+                    <h2 th:text="#{contact_title}">Форма за контакти</h2>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/sendMessage}"
+                          th:object="${contactForm}"
+                          th:method="post">
+                        <div class="form-group mb-3">
+                            <label for="name" class="form-label">Име:</label>
+                            <input th:field="*{name}"
+                                   type="text"
+                                   class="form-control"
+                                   id="name"
+                                   name="name"
+                                   placeholder="Въведете вашето име" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Имейл:</label>
+                            <input
+                                    th:field="*{email}"
+                                    type="email"
+                                    class="form-control"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Въведете вашия имейл" required>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label for="message" class="form-label">Съобщение:</label>
+                            <textarea
+                                    th:field="*{message}"
+                                    class="form-control"
+                                    id="message"
+                                    name="message"
+                                    rows="5"
+                                    placeholder="Въведете вашето съобщение" required></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-block">Изпрати <i
+                                    class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="mt-5">
+    <th:block th:replace="~{fragments/footer::footer}"></th:block>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+<!--<body>-->
+<!--<header>-->
+<!--    <th:block th:replace="~{fragments/commons::nav}"></th:block>-->
+<!--</header>-->
+<!--<div class="row justify-content-center">-->
+<!--    <div class="col-md-6 m-3">-->
+<!--        <h2 th:text="#{contact_title}" class="text-success text-center">Форма за контакти</h2>-->
+
+<!--        <form action="/sendMessage" method="post">-->
+<!--            <label for="name">Име:</label>-->
+<!--            <input type="text" id="name" name="name" required>-->
+
+<!--            <label for="email">Имейл:</label>-->
+<!--            <input type="email" id="email" name="email" required>-->
+
+<!--            <label for="message">Съобщение:</label>-->
+<!--            <textarea id="message" name="message" required></textarea>-->
+
+<!--            <button type="submit">Изпрати</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--    <footer>-->
+<!--        <th:block th:replace="~{fragments/footer::footer}"></th:block>-->
+<!--    </footer>-->
+<!--</div>-->
+<!--<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>-->
+<!--<script src="/js/bootstrap.bundle.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
