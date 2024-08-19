@@ -12,6 +12,21 @@ spring:
     init:
       mode: never
 
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${my_dam_email}
+    password: ${app_password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            trust: ${MAIL_HOST}
+
   mvc:
     hiddenmethod:
       filter:

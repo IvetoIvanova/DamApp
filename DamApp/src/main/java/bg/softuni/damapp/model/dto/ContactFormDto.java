@@ -1,9 +1,16 @@
 package bg.softuni.damapp.model.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class ContactFormDto {
 
+    @NotBlank(message = "{validation.not_empty}")
     private String name;
+    @NotBlank(message = "{validation.not_empty}")
+    @Email(message = "{validation.invalid_email}")
     private String email;
+    @NotBlank(message = "{validation.not_empty}")
     private String message;
 
     public String getName() {

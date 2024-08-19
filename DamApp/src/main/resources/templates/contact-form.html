@@ -16,12 +16,18 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            <div th:if="${successMessage}" class="alert alert-success" role="alert">
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
                 <p th:text="${successMessage}"></p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
 
-            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
                 <p th:text="${errorMessage}"></p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
 
             <div class="card shadow-sm">
@@ -29,17 +35,24 @@
                     <h2 th:text="#{contact_title}">Форма за контакти</h2>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/sendMessage}"
-                          th:object="${contactForm}"
-                          th:method="post">
+                    <form
+                            th:method="POST"
+                            th:action="@{/contact-form}"
+                            th:object="${contactFormData}"
+                    >
                         <div class="form-group mb-3">
                             <label for="name" class="form-label">Име:</label>
-                            <input th:field="*{name}"
-                                   type="text"
-                                   class="form-control"
-                                   id="name"
-                                   name="name"
-                                   placeholder="Въведете вашето име" required>
+                            <input
+                                    th:errorclass="'is-invalid alert-danger'"
+                                    th:field="*{name}"
+                                    type="text"
+                                    class="form-control"
+                                    id="name"
+                                    name="name"
+                                    placeholder="Въведете вашето име" required>
+                            <span class="invalid-feedback text-danger"
+                                  th:if="${#fields.hasErrors('name')}"
+                                  th:errors="*{name}"></span>
                         </div>
 
                         <div class="form-group mb-3">
@@ -51,6 +64,9 @@
                                     id="email"
                                     name="email"
                                     placeholder="Въведете вашия имейл" required>
+
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
+                                 th:errors="*{email}"></div>
                         </div>
 
                         <div class="form-group mb-4">
