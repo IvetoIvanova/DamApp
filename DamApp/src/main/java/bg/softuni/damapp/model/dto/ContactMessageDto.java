@@ -1,24 +1,24 @@
-package bg.softuni.damapp.model.entity;
-
-import jakarta.persistence.*;
+package bg.softuni.damapp.model.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
-@Entity
-@Table(name = "contacts")
-public class ContactMessage extends BaseEntity {
-
-    @Column(nullable = false)
+public class ContactMessageDto {
+    private UUID id;
     private String name;
-    @Column(nullable = false)
     private String email;
-    @Column(nullable = false)
     private String message;
-    @Column(nullable = false)
     private LocalDateTime timestamp;
-    @OneToMany(mappedBy = "contactMessage", fetch = FetchType.EAGER)
-    private List<ReplyContactMessage> replies;
+    private List<ReplyContactMessageDto> replies;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -52,11 +52,11 @@ public class ContactMessage extends BaseEntity {
         this.timestamp = timestamp;
     }
 
-    public List<ReplyContactMessage> getReplies() {
+    public List<ReplyContactMessageDto> getReplies() {
         return replies;
     }
 
-    public void setReplies(List<ReplyContactMessage> replies) {
+    public void setReplies(List<ReplyContactMessageDto> replies) {
         this.replies = replies;
     }
 }
