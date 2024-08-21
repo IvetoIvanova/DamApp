@@ -4,6 +4,7 @@ import bg.softuni.damapp.model.dto.ContactFormDto;
 import bg.softuni.damapp.service.ContactService;
 import bg.softuni.damapp.service.EmailService;
 import jakarta.validation.Valid;
+import org.springframework.context.MessageSource;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,16 +12,20 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Locale;
+
 @Controller
 @RequestMapping("/contact-form")
 public class ContactController {
 
     private final EmailService emailService;
     private final ContactService contactService;
+    private final MessageSource messageSource;
 
-    public ContactController(EmailService emailService, ContactService contactService) {
+    public ContactController(EmailService emailService, ContactService contactService, MessageSource messageSource) {
         this.emailService = emailService;
         this.contactService = contactService;
+        this.messageSource = messageSource;
     }
 
     @ModelAttribute("contactFormData")
@@ -36,7 +41,8 @@ public class ContactController {
     @PostMapping
     public String sendMessage(@Valid ContactFormDto contactForm,
                               BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes) {
+                              RedirectAttributes redirectAttributes,
+                              Locale locale) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.contactFormData", bindingResult);
@@ -47,9 +53,11 @@ public class ContactController {
         try {
             contactService.saveMessage(contactForm);
             emailService.sendEmailToAdmin(contactForm);
-            redirectAttributes.addFlashAttribute("successMessage", "Вашето съобщение беше изпратено успешно!");
+            String successMessage = messageSource.getMessage("success_message", null, locale);
+            redirectAttributes.addFlashAttribute("successMessage", successMessage);
         } catch (MailException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Грешка при изпращане на съобщението. Моля, опитайте отново по-късно.");
+            String errorMessage = messageSource.getMessage("error_message", null, locale);
+            redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
             e.printStackTrace();
         }
 

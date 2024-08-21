@@ -41,7 +41,9 @@
                             th:object="${contactFormData}"
                     >
                         <div class="form-group mb-3">
-                            <label for="name" class="form-label">Име:</label>
+                            <label for="name"
+                                   class="form-label"
+                                   th:text="#{form_label_name}">Име:</label>
                             <input
                                     th:errorclass="'is-invalid alert-danger'"
                                     th:field="*{name}"
@@ -49,40 +51,52 @@
                                     class="form-control"
                                     id="name"
                                     name="name"
-                                    placeholder="Въведете вашето име" required>
+                                    th:placeholder="#{form_placeholder_name}">
                             <span class="invalid-feedback text-danger"
                                   th:if="${#fields.hasErrors('name')}"
                                   th:errors="*{name}"></span>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="email" class="form-label">Имейл:</label>
+                            <label for="email"
+                                   class="form-label"
+                                   th:text="#{form_label_email}">Имейл:</label>
                             <input
+                                    th:errorclass="'is-invalid alert-danger'"
                                     th:field="*{email}"
                                     type="email"
                                     class="form-control"
                                     id="email"
                                     name="email"
-                                    placeholder="Въведете вашия имейл" required>
-
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
-                                 th:errors="*{email}"></div>
+                                    th:placeholder="#{form_placeholder_email}">
+                            <span class="invalid-feedback text-danger"
+                                  th:if="${#fields.hasErrors('email')}"
+                                  th:errors="*{email}"></span>
                         </div>
 
                         <div class="form-group mb-4">
-                            <label for="message" class="form-label">Съобщение:</label>
+                            <label for="message"
+                                   class="form-label"
+                                   th:text="#{form_label_message}">Съобщение:</label>
                             <textarea
+                                    th:errorclass="'is-invalid alert-danger'"
                                     th:field="*{message}"
                                     class="form-control"
                                     id="message"
                                     name="message"
                                     rows="5"
-                                    placeholder="Въведете вашето съобщение" required></textarea>
+                                    th:placeholder="#{form_placeholder_message}"></textarea>
+                            <span class="invalid-feedback text-danger"
+                                  th:if="${#fields.hasErrors('message')}"
+                                  th:errors="*{message}"></span>
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success btn-block">Изпрати <i
-                                    class="fas fa-paper-plane"></i></button>
+                            <button type="submit"
+                                    class="btn btn-success btn-block">
+                                <span th:text="#{form_button_submit}">Изпрати </span>
+                                <i th:class="#{form_submit_icon}"></i>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -99,32 +113,3 @@
 <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-<!--<body>-->
-<!--<header>-->
-<!--    <th:block th:replace="~{fragments/commons::nav}"></th:block>-->
-<!--</header>-->
-<!--<div class="row justify-content-center">-->
-<!--    <div class="col-md-6 m-3">-->
-<!--        <h2 th:text="#{contact_title}" class="text-success text-center">Форма за контакти</h2>-->
-
-<!--        <form action="/sendMessage" method="post">-->
-<!--            <label for="name">Име:</label>-->
-<!--            <input type="text" id="name" name="name" required>-->
-
-<!--            <label for="email">Имейл:</label>-->
-<!--            <input type="email" id="email" name="email" required>-->
-
-<!--            <label for="message">Съобщение:</label>-->
-<!--            <textarea id="message" name="message" required></textarea>-->
-
-<!--            <button type="submit">Изпрати</button>-->
-<!--        </form>-->
-<!--    </div>-->
-<!--    <footer>-->
-<!--        <th:block th:replace="~{fragments/footer::footer}"></th:block>-->
-<!--    </footer>-->
-<!--</div>-->
-<!--<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>-->
-<!--<script src="/js/bootstrap.bundle.min.js"></script>-->
-<!--</body>-->
-<!--</html>-->
