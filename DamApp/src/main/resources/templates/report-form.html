@@ -15,6 +15,14 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
+
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <p th:text="${successMessage}"></p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
                     <h4 class="mb-0">Форма за репорт</h4>
@@ -22,8 +30,8 @@
                 <div class="card-body">
                     <form
                             th:method="POST"
-                            th:action="@{/report}"
-                            th:object="${reportDTO}"
+                            th:action="@{/report-form}"
+                            th:object="${reportDТО}"
                     >
                         <div class="form-group mb-3">
                             <label for="reportingUserFullName">Вашето име:</label>
@@ -31,7 +39,7 @@
                                    id="reportingUserFullName"
                                    name="reportingUserFullName"
                                    class="form-control"
-                                   th:value="${reportDTO.getReportingUserFullName()}" readonly>
+                                   th:value="${reportDТО.getReportingUserFullName()}" readonly>
                         </div>
                         <div class="form-group mb-3">
                             <label for="reportedUser">Потребител, който искате да репортнете:</label>
