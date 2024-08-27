@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Съобщения от репорти</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<header>
+    <th:block th:replace="~{fragments/commons::nav}"></th:block>
+</header>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Съобщения от репорти</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Докладващ потребител</th>
+            <th>Репортнат потребител</th>
+            <th>Линк към обявата</th>
+            <th>Описание на проблема</th>
+            <th>Дата на създаване</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="report : ${reports}">
+            <td th:text="${report.reportingUserFullName}"></td>
+            <td th:text="${report.reportedUser}"></td>
+            <td><a th:href="@{${report.adLink}}" th:text="${report.adLink}"></a></td>
+            <td th:text="${report.message}"></td>
+            <td th:text="${#temporals.format(report.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer>
+    <th:block th:replace="~{fragments/footer::footer}"></th:block>
+</footer>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

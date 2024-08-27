@@ -5,6 +5,7 @@ import bg.softuni.damapp.exception.RoleDoesNotExistsException;
 import bg.softuni.damapp.model.dto.ContactMessageDto;
 import bg.softuni.damapp.model.dto.ReplyContactMessageDto;
 import bg.softuni.damapp.model.entity.ContactMessage;
+import bg.softuni.damapp.model.entity.Report;
 import bg.softuni.damapp.model.entity.User;
 import bg.softuni.damapp.model.entity.UserRole;
 import bg.softuni.damapp.model.enums.UserRoleEnum;
@@ -31,13 +32,15 @@ public class AdminController {
     private final RoleService roleService;
     private final EmailService emailService;
     private final ContactService contactService;
+    private final ReportService reportService;
 
-    public AdminController(UserService userService, AdvertisementService advertisementService, RoleService roleService, EmailService emailService, ContactService contactService) {
+    public AdminController(UserService userService, AdvertisementService advertisementService, RoleService roleService, EmailService emailService, ContactService contactService, ReportService reportService) {
         this.userService = userService;
         this.advertisementService = advertisementService;
         this.roleService = roleService;
         this.emailService = emailService;
         this.contactService = contactService;
+        this.reportService = reportService;
     }
 
     @GetMapping
@@ -56,6 +59,14 @@ public class AdminController {
         List<ContactMessage> messages = contactService.findAllContactMessages();
         model.addAttribute("messages", messages);
         return "contact-messages";
+    }
+
+    @GetMapping("/reports")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String viewReports(Model model) {
+        List<Report> reports = reportService.getAllReports();
+        model.addAttribute("reports", reports);
+        return "admin-reports";
     }
 
     @PostMapping("/sendReply")

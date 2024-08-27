@@ -7,6 +7,7 @@ import bg.softuni.damapp.service.ReportService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -27,5 +28,10 @@ public class ReportServiceImpl implements ReportService {
         report.setCreatedAt(LocalDateTime.now());
 
         reportRepository.save(report);
+    }
+
+    @Override
+    public List<Report> getAllReports() {
+        return reportRepository.findAll();
     }
 }
