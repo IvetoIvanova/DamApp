@@ -31,6 +31,14 @@
 <div class="container mt-5">
     <h1>Админ панел</h1>
 
+    <form th:action="@{/admin/users/search}"
+          th:method="get">
+        <div class="input-group mb-3">
+            <input type="text" name="email" class="form-control" placeholder="Търсене по имейл" aria-label="Търсене по имейл" aria-describedby="button-search">
+            <button class="btn btn-outline-secondary" type="submit" id="button-search">Търси</button>
+        </div>
+    </form>
+
     <table class="admin-table table-striped">
         <thead>
         <tr>
