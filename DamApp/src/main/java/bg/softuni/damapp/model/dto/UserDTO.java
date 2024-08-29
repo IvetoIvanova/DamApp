@@ -9,6 +9,7 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private List<String> roles;
+    private boolean isActive;
 
     public UUID getId() {
         return id;
@@ -48,5 +49,13 @@ public class UserDTO {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

@@ -32,5 +32,5 @@ public interface UserService {
 
     Optional<User> findById(UUID ownerId);
 
-    List<User> findAllUsers();
+    List<UserDTO> findAllUsers();
 }

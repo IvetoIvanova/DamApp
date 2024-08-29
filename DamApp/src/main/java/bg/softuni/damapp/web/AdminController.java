@@ -4,6 +4,7 @@ import bg.softuni.damapp.exception.RoleAlreadyExistsException;
 import bg.softuni.damapp.exception.RoleDoesNotExistsException;
 import bg.softuni.damapp.model.dto.ContactMessageDto;
 import bg.softuni.damapp.model.dto.ReplyContactMessageDto;
+import bg.softuni.damapp.model.dto.UserDTO;
 import bg.softuni.damapp.model.entity.ContactMessage;
 import bg.softuni.damapp.model.entity.Report;
 import bg.softuni.damapp.model.entity.User;
@@ -19,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,8 +47,16 @@ public class AdminController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String adminDashboard(Model model) {
-        List<User> users = userService.findAllUsers();
+    public String adminDashboard(@RequestParam(value = "email", required = false) String email, Model model) {
+        List<UserDTO> users;
+
+        if (email != null && !email.isEmpty()) {
+            UserDTO user = userService.findByEmail(email);
+            users = user != null ? Collections.singletonList(user) : Collections.emptyList();
+        } else {
+            users = userService.findAllUsers();
+        }
+
         List<UserRole> allRoles = roleService.findAllRolesOfUser();
         model.addAttribute("allRoles", allRoles);
         model.addAttribute("users", users);

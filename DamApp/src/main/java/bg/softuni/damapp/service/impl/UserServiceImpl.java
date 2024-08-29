@@ -129,8 +129,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> findAllUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -156,6 +159,7 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(role -> role.getRole().name())
                 .collect(Collectors.toList()));
+        userDTO.setActive(user.isActive());
         return userDTO;
     }
 }
