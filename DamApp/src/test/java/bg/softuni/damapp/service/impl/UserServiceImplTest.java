@@ -353,20 +353,38 @@ public class UserServiceImplTest {
     @Test
     public void testFindAllUsers_UsersExist() {
         User user1 = new User();
-        user1.setEmail(TEST_EMAIL);
-        user1.setPassword("Password1!");
+        user1.setId(UUID.randomUUID());
+        user1.setEmail("user1@example.com");
+        user1.setFirstName("John");
+        user1.setLastName("Doe");
+        user1.setActive(true);
+
         User user2 = new User();
+        user2.setId(UUID.randomUUID());
         user2.setEmail("user2@example.com");
-        user2.setPassword("Password2!");
+        user2.setFirstName("Jane");
+        user2.setLastName("Smith");
+        user2.setActive(true);
 
-        List<User> expectedUsers = List.of(user1, user2);
+        List<User> users = List.of(user1, user2);
 
-        when(mockUserRepository.findAll()).thenReturn(expectedUsers);
+        when(mockUserRepository.findAll()).thenReturn(users);
 
-        List<User> foundUsers = toTest.findAllUsers();
+        List<UserDTO> foundUsers = toTest.findAllUsers();
 
         Assertions.assertEquals(2, foundUsers.size());
-        Assertions.assertTrue(foundUsers.containsAll(expectedUsers));
+
+        Assertions.assertEquals(user1.getId(), foundUsers.get(0).getId());
+        Assertions.assertEquals(user1.getEmail(), foundUsers.get(0).getEmail());
+        Assertions.assertEquals(user1.getFirstName(), foundUsers.get(0).getFirstName());
+        Assertions.assertEquals(user1.getLastName(), foundUsers.get(0).getLastName());
+        Assertions.assertEquals(user1.isActive(), foundUsers.get(0).isActive());
+
+        Assertions.assertEquals(user2.getId(), foundUsers.get(1).getId());
+        Assertions.assertEquals(user2.getEmail(), foundUsers.get(1).getEmail());
+        Assertions.assertEquals(user2.getFirstName(), foundUsers.get(1).getFirstName());
+        Assertions.assertEquals(user2.getLastName(), foundUsers.get(1).getLastName());
+        Assertions.assertEquals(user2.isActive(), foundUsers.get(1).isActive());
     }
 
     @Test
