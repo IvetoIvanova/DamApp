@@ -27,47 +27,49 @@
         </button>
     </div>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Име</th>
-            <th>Имейл</th>
-            <th>Съобщение</th>
-            <th>Дата и час</th>
-            <th>Действия</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="message : ${messages}">
-            <td th:text="${message.name}"></td>
-            <td th:text="${message.email}"></td>
-            <td th:text="${message.message}"></td>
-            <td th:text="${#temporals.format(message.timestamp, 'dd-MM-yyyy HH:mm')}"></td>
-            <td>
-                <button type="button" class="btn btn-primary" data-toggle="modal"
-                        data-target="#replyModal"
-                        th:attr="data-email=${message.email}, data-message-id=${message.id}">
-                    Отговори
-                </button>
-            </td>
-            <td>
-                <button type="button" class="btn btn-primary" data-toggle="collapse"
-                        th:attr="data-target='#replies-' + ${message.id}, aria-controls='replies-' + ${message.id}"
-                        aria-expanded="false">
-                    Виж отговори
-                </button>
-                <div th:id="'replies-' + ${message.id}" class="collapse mt-2">
-                    <ul class="list-group">
-                        <li class="list-group-item" th:each="reply : ${message.replies}">
-                            <strong th:text="${#temporals.format(reply.timestamp, 'dd-MM-yyyy HH:mm')}"></strong>:
-                            <span th:text="${reply.replyMessage}"></span>
-                        </li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Име</th>
+                <th>Имейл</th>
+                <th>Съобщение</th>
+                <th>Дата и час</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="message : ${messages}">
+                <td th:text="${message.name}"></td>
+                <td th:text="${message.email}"></td>
+                <td th:text="${message.message}"></td>
+                <td th:text="${#temporals.format(message.timestamp, 'dd-MM-yyyy HH:mm')}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#replyModal"
+                            th:attr="data-email=${message.email}, data-message-id=${message.id}">
+                        Отговори
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-toggle="collapse"
+                            th:attr="data-target='#replies-' + ${message.id}, aria-controls='replies-' + ${message.id}"
+                            aria-expanded="false">
+                        Виж отговори
+                    </button>
+                    <div th:id="'replies-' + ${message.id}" class="collapse mt-2">
+                        <ul class="list-group">
+                            <li class="list-group-item" th:each="reply : ${message.replies}">
+                                <strong th:text="${#temporals.format(reply.timestamp, 'dd-MM-yyyy HH:mm')}"></strong>:
+                                <span th:text="${reply.replyMessage}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel"

@@ -1,8 +1,6 @@
 package bg.softuni.damapp.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -11,8 +9,6 @@ import java.time.LocalDateTime;
 public class Report extends BaseEntity {
 
     @Column(nullable = false)
-    private String reportingUserFullName;
-    @Column(nullable = false)
     private String reportedUser;
     @Column(nullable = false)
     private String message;
@@ -20,6 +16,9 @@ public class Report extends BaseEntity {
     private String adLink;
     @Column(nullable = false)
     private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "reporting_user_id", nullable = false)
+    private User reportingUser;
 
     public Report() {
     }
@@ -62,12 +61,11 @@ public class Report extends BaseEntity {
         this.createdAt = createdAt;
     }
 
-
-    public String getReportingUserFullName() {
-        return reportingUserFullName;
+    public User getReportingUser() {
+        return reportingUser;
     }
 
-    public void setReportingUserFullName(String reportingUserFullName) {
-        this.reportingUserFullName = reportingUserFullName;
+    public void setReportingUser(User reportingUser) {
+        this.reportingUser = reportingUser;
     }
 }

@@ -34,13 +34,17 @@
                             th:object="${reportDТО}"
                     >
                         <div class="form-group mb-3">
-                            <label for="reportingUserFullName">Вашето име:</label>
+                            <label for="reportingUser">Вашето име:</label>
                             <input type="text"
-                                   id="reportingUserFullName"
+                                   id="reportingUser"
                                    name="reportingUserFullName"
                                    class="form-control"
-                                   th:value="${reportDТО.getReportingUserFullName()}" readonly>
+                                   th:value="${reportDТО.reportingUser.firstName} + ' ' + ${reportDТО.reportingUser.lastName}"
+                                   readonly>
                         </div>
+                        <input type="hidden"
+                               name="reportingUser.id"
+                               th:value="${reportDТО.reportingUser.id}"/>
                         <div class="form-group mb-3">
                             <label for="reportedUser">Потребител, който искате да репортнете:</label>
                             <input type="text"

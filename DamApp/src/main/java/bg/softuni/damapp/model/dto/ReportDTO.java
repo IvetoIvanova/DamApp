@@ -1,5 +1,6 @@
 package bg.softuni.damapp.model.dto;
 
+import bg.softuni.damapp.model.entity.User;
 import jakarta.validation.constraints.NotBlank;
 
 public class ReportDTO {
@@ -10,8 +11,7 @@ public class ReportDTO {
     private String message;
     @NotBlank(message = "{validation.not_empty}")
     private String adLink;
-    @NotBlank
-    private String reportingUserFullName;
+    private User reportingUser;
 
     public String getAdLink() {
         return adLink;
@@ -37,11 +37,11 @@ public class ReportDTO {
         this.reportedUser = reportedUser;
     }
 
-    public String getReportingUserFullName() {
-        return reportingUserFullName;
+    public User getReportingUser() {
+        return reportingUser;
     }
 
-    public void setReportingUserFullName(String reportingUserFullName) {
-        this.reportingUserFullName = reportingUserFullName;
+    public void setReportingUser(User reportingUser) {
+        this.reportingUser = reportingUser;
     }
 }
