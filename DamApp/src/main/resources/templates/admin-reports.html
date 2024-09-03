@@ -2,7 +2,7 @@
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <title>Съобщения от репорти</title>
+    <title th:text="#{reports_title}">Съобщения от репорти</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -12,17 +12,17 @@
     <th:block th:replace="~{fragments/commons::nav}"></th:block>
 </header>
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Съобщения от репорти</h2>
+    <h2 class="text-center mb-4" th:text="#{reports_title}">Съобщения от репорти</h2>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Докладващ потребител</th>
-                <th>Email на докладващия потребител</th>
-                <th>Репортнат потребител</th>
-                <th>Линк към обявата</th>
-                <th>Описание на проблема</th>
-                <th>Дата на създаване</th>
+                <th th:text="#{reports_table_reportingUser}">Докладващ потребител</th>
+                <th th:text="#{reports_table_reportingUserEmail}">Email на докладващия потребител</th>
+                <th th:text="#{reports_table_reportedUser}">Репортнат потребител</th>
+                <th th:text="#{report_form_adLink}">Линк към обявата</th>
+                <th th:text="#{report_form_problemDescription}">Описание на проблема</th>
+                <th th:text="#{reports_table_creationDate}">Дата на създаване</th>
             </tr>
             </thead>
             <tbody>

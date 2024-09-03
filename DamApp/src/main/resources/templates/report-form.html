@@ -2,7 +2,7 @@
 <html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Форма за репорт</title>
+    <title th:text="#{report_form_title}">Форма за репорт</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -25,7 +25,7 @@
 
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Форма за репорт</h4>
+                    <h4 class="mb-0" th:text="#{report_form_title}">Форма за репорт</h4>
                 </div>
                 <div class="card-body">
                     <form
@@ -34,7 +34,7 @@
                             th:object="${reportDТО}"
                     >
                         <div class="form-group mb-3">
-                            <label for="reportingUser">Вашето име:</label>
+                            <label for="reportingUser" th:text="#{report_form_yourName}">Вашето име:</label>
                             <input type="text"
                                    id="reportingUser"
                                    name="reportingUserFullName"
@@ -46,34 +46,43 @@
                                name="reportingUser.id"
                                th:value="${reportDТО.reportingUser.id}"/>
                         <div class="form-group mb-3">
-                            <label for="reportedUser">Потребител, който искате да репортнете:</label>
+                            <label for="reportedUser"
+                                   th:text="#{report_form_userToReport}"
+                            >Потребител, който искате да репортнете:</label>
                             <input type="text"
                                    id="reportedUser"
                                    name="reportedUser"
                                    class="form-control"
                                    th:field="*{reportedUser}"
-                                   placeholder="Въведете потребителско име" required>
+                                   th:placeholder="#{report_form_placeholder_reportedUser}" required>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="adLink">Линк към обявата:</label>
+                            <label for="adLink" th:text="#{report_form_adLink}">Линк към обявата:</label>
                             <input type="text"
                                    id="adLink"
                                    name="adLink"
                                    class="form-control"
                                    th:field="*{adLink}"
-                                   placeholder="Въведете линк към обявата на потребителя" required>
+                                   th:placeholder="#{report_form_placeholder_adLink}" required>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="message">Описание на проблема:</label>
+                            <label for="message"
+                                   th:text="#{report_form_problemDescription}"
+                            >Описание на проблема:</label>
                             <textarea id="message"
                                       name="message"
                                       class="form-control"
                                       th:field="*{message}"
                                       rows="5"
-                                      placeholder="Опишете проблема" required></textarea>
+                                      th:placeholder="#{report_form_placeholder_problemDescription}"
+                                      required></textarea>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-success">Изпрати репорт</button>
+                            <button type="submit"
+                                    class="btn btn-success"
+                                    th:text="#{report_form_submit}"
+                            >Изпрати репорт
+                            </button>
                         </div>
                     </form>
                 </div>
