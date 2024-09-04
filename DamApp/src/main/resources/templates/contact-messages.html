@@ -12,7 +12,7 @@
     <th:block th:replace="~{fragments/commons::nav}"></th:block>
 </header>
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Съобщения от контакти</h2>
+    <h2 class="text-center mb-4" th:text="#{contact_messages_title}">Съобщения от контакти</h2>
 
     <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
         <p th:text="${successMessage}"></p>
@@ -31,11 +31,11 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Име</th>
-                <th>Имейл</th>
-                <th>Съобщение</th>
-                <th>Дата и час</th>
-                <th>Действия</th>
+                <th th:text="#{contact_messages_name}">Име</th>
+                <th th:text="#{contact_messages_email}">Имейл</th>
+                <th th:text="#{contact_messages_message}">Съобщение</th>
+                <th th:text="#{contact_messages_datetime}">Дата и час</th>
+                <th th:text="#{contact_messages_actions}">Действия</th>
             </tr>
             </thead>
             <tbody>
@@ -47,14 +47,16 @@
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal"
                             data-target="#replyModal"
-                            th:attr="data-email=${message.email}, data-message-id=${message.id}">
+                            th:attr="data-email=${message.email}, data-message-id=${message.id}"
+                            th:text="#{contact_messages_reply}">
                         Отговори
                     </button>
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="collapse"
                             th:attr="data-target='#replies-' + ${message.id}, aria-controls='replies-' + ${message.id}"
-                            aria-expanded="false">
+                            aria-expanded="false"
+                            th:text="#{contact_messages_viewReplies}">
                         Виж отговори
                     </button>
                     <div th:id="'replies-' + ${message.id}" class="collapse mt-2">
@@ -77,7 +79,10 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="replyModalLabel">Отговор на съобщението</h5>
+                <h5 class="modal-title"
+                    id="replyModalLabel"
+                    th:text="#{contact_messages_replyModalTitle}"
+                >Отговор на съобщението</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -88,17 +93,29 @@
                         th:method="post">
                     <input type="hidden" id="message-id" name="messageId">
                     <div class="form-group">
-                        <label for="recipient-email">Имейл на получателя:</label>
+                        <label for="recipient-email"
+                               th:text="#{contact_messages_recipientEmail}"
+                        >Имейл на получателя:
+                        </label>
                         <input type="email" class="form-control" id="recipient-email" name="recipientEmail" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="reply-message">Отговор:</label>
+                        <label for="reply-message"
+                               th:text="#{contact_messages_replyMessage}"
+                        >Отговор:</label>
                         <textarea class="form-control" id="reply-message" name="replyMessage" rows="4"
                                   required></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Откажи</button>
-                        <button type="submit" class="btn btn-primary">Изпрати</button>
+                        <button type="button"
+                                class="btn btn-secondary"
+                                data-dismiss="modal"
+                                th:text="#{contact_messages_cancel}">Откажи
+                        </button>
+                        <button type="submit"
+                                class="btn btn-primary"
+                                th:text="#{contact_messages_send}">Изпрати
+                        </button>
                     </div>
                 </form>
             </div>
