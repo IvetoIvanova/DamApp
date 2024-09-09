@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Разговор</title>
+    <title th:text="#{conversation_title}">Разговор</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -51,7 +51,9 @@
     <div class="row">
         <div class="col-12">
             <div class="mb-4">
-                <h1 class="text-center mb-4">Съобщения към разговора:</h1>
+                <h1 class="text-center mb-4"
+                    th:text="#{conversation_heading}"
+                >Съобщения към разговора:</h1>
             </div>
 
             <div class="message-list">
@@ -70,10 +72,16 @@
                 <form th:action="@{/messages/reply}" method="post">
                     <input type="hidden" name="conversationId" th:value="${conversation.conversationId}"/>
                     <div class="form-group">
-                        <textarea name="replyContent" class="form-control" placeholder="Въведете отговора си тук..."
+                        <textarea name="replyContent"
+                                  class="form-control"
+                                  th:placeholder="#{reply_form_placeholder}"
                                   required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary mb-3">Отговори</button>
+                    <button type="submit"
+                            class="btn btn-primary mb-3"
+                            th:text="#{reply_form_submit_button}"
+                    >Отговори
+                    </button>
                 </form>
             </div>
         </div>

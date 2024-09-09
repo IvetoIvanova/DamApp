@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Съобщения</title>
+    <title th:text="#{messages_title}">Съобщения</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -54,7 +54,9 @@
         </button>
     </div>
 
-    <h1 class="text-center mb-4">Разговори</h1>
+    <h1 class="text-center mb-4"
+        th:text="#{conversations_title}"
+    >Разговори</h1>
 
     <div class="row">
         <div class="col-md-8 mx-auto">
@@ -63,15 +65,17 @@
                     <div class="conversation-header">
                         <div class="conversation-title">
                             <a th:href="@{/messages/conversation/{id}(id=${conversation.conversationId})}"
-                               class="text-primary">
+                               class="text-primary"
+                               th:text="#{conversation_link_text}">
                                 Разговор
                             </a>
-                            за
+                            <span th:text="#{advertisement_link_text}">за</span>
                             <a th:href="@{/advertisement-add/{id}(id=${conversation.advertisementId})}"
                                class="text-secondary">
                                 <span th:text="${conversation.advertisementTitle}"></span>
                             </a>
-                            с <span th:text="${conversation.getOtherParticipantName()}"></span>
+                            <span th:text="#{conversation_with_text}">с</span>
+                            <span th:text="${conversation.getOtherParticipantName()}"></span>
                         </div>
                         <div class="conversation-actions">
                                 <span class="badge badge-warning"
@@ -79,7 +83,8 @@
                                       th:text="${conversation.unreadMessageCount}">0</span>
                             <a th:href="@{/messages/conversation/delete/{id}(id=${conversation.conversationId})}"
                                class="btn btn-danger btn-sm"
-                               onclick="return confirm('Сигурни ли сте, че искате да изтриете този разговор?');">
+                               onclick="return confirm('Сигурни ли сте, че искате да изтриете този разговор?');"
+                               th:text="#{delete_button_text}">
                                 Изтрий
                             </a>
                         </div>
