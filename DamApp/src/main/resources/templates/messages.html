@@ -83,7 +83,7 @@
                                       th:text="${conversation.unreadMessageCount}">0</span>
                             <a th:href="@{/messages/conversation/delete/{id}(id=${conversation.conversationId})}"
                                class="btn btn-danger btn-sm"
-                               onclick="return confirm('Сигурни ли сте, че искате да изтриете този разговор?');"
+                               th:attr="onclick='return confirm(\'' + #{delete_conversation_confirmation} + '\');'"
                                th:text="#{delete_button_text}">
                                 Изтрий
                             </a>

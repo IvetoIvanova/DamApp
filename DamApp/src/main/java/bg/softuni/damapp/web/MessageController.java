@@ -12,6 +12,7 @@ import bg.softuni.damapp.service.MessageService;
 import bg.softuni.damapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,12 +36,14 @@ public class MessageController {
     private final UserService userService;
     private final AdvertisementService advertisementService;
     private final ConversationService conversationService;
+    private final MessageSource messageSource;
 
-    public MessageController(MessageService messageService, UserService userService, AdvertisementService advertisementService, ConversationService conversationService) {
+    public MessageController(MessageService messageService, UserService userService, AdvertisementService advertisementService, ConversationService conversationService, MessageSource messageSource) {
         this.messageService = messageService;
         this.userService = userService;
         this.advertisementService = advertisementService;
         this.conversationService = conversationService;
+        this.messageSource = messageSource;
     }
 
     @GetMapping
@@ -57,7 +61,7 @@ public class MessageController {
         messageService.markMessagesAsRead(conversationId, userByEmail.getId());
         ConversationDTO conversationDTO = conversationService.getConversationById(conversationId);
 
-        if(conversationDTO == null){
+        if (conversationDTO == null) {
             return "redirect:/messages";
         }
 
@@ -68,12 +72,12 @@ public class MessageController {
     }
 
     @GetMapping("/conversation/delete/{id}")
-    public String deleteConversation(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
+    public String deleteConversation(@PathVariable UUID id, RedirectAttributes redirectAttributes, Locale locale) {
         try {
             conversationService.deleteConversation(id);
-            redirectAttributes.addFlashAttribute("message", "Разговорът беше успешно изтрит.");
+            redirectAttributes.addFlashAttribute("message", messageSource.getMessage("conversation_delete_success", null, locale));
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Възникна грешка при изтриването на разговора.");
+            redirectAttributes.addFlashAttribute("error", messageSource.getMessage("conversation_delete_error", null, locale));
         }
         return "redirect:/messages";
     }
