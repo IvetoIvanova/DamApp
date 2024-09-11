@@ -2,7 +2,7 @@
 <html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Любими продукти</title>
+    <title th:text="#{favorites_title}">Любими продукти</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -38,7 +38,7 @@
     <th:block th:replace="~{fragments/commons::nav}"></th:block>
 </header>
 <div class="container mt-4">
-    <h1 class="text-center mb-4">Любими продукти</h1>
+    <h1 class="text-center mb-4" th:text="#{favorites_title}">Любими продукти</h1>
     <div class="list-group" th:each="ad : ${favoriteAdvertisements}">
         <div class="list-group-item d-flex justify-content-between align-items-center mb-2">
             <div class="d-flex align-items-center">
@@ -48,7 +48,8 @@
                     <h5 class="mb-1" th:text="${ad.title()}"></h5>
                     <p class="mb-1 text-muted" th:text="${ad.category()}"></p>
                     <a th:href="@{/advertisement-add/{id}(id=${ad.id})}"
-                       class="btn btn-primary btn-sm">
+                       class="btn btn-primary btn-sm"
+                       th:text="#{favorites_link_to_ad_button}">
                         Линк към обявата
                     </a>
                 </div>
@@ -56,7 +57,8 @@
             <form th:action="@{/favorites/remove}" th:method="post" class="ml-3 d-flex align-items-center">
                 <input type="hidden" name="advertisementId" th:value="${ad.id}"/>
                 <button type="submit" class="btn btn-danger btn-sm"
-                        onclick="return confirm('Сигурни ли сте, че искате да премахнете тази обява от Любими?');">
+                        th:attr="onclick='return confirm(\'' + #{favorites_remove_confirmation} + '\');'"
+                        th:text="#{favorites_remove_button}">
                     Премахване от любими
                 </button>
             </form>
