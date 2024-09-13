@@ -3,7 +3,7 @@
       lang="bg">
 <head>
     <meta charset="UTF-8">
-    <title>Моят профил</title>
+    <title th:text="#{my_profile_title}">Моят профил</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -100,18 +100,18 @@
     </style>
     <script>
         function toggleEdit(field) {
-            var viewElement = document.getElementById(field + "-view");
-            var editElement = document.getElementById(field + "-edit");
-            var editButton = document.getElementById(field + "-edit-button");
+            const viewElement = document.getElementById(field + "-view");
+            const editElement = document.getElementById(field + "-edit");
+            const editButton = document.getElementById(field + "-edit-button");
             if (viewElement) viewElement.style.display = "none";
             if (editElement) editElement.style.display = "block";
             if (editButton) editButton.style.display = "none";
         }
 
         function cancelEdit(field) {
-            var viewElement = document.getElementById(field + "-view");
-            var editElement = document.getElementById(field + "-edit");
-            var editButton = document.getElementById(field + "-edit-button");
+            const viewElement = document.getElementById(field + "-view");
+            const editElement = document.getElementById(field + "-edit");
+            const editButton = document.getElementById(field + "-edit-button");
             if (viewElement) viewElement.style.display = "block";
             if (editElement) editElement.style.display = "none";
             if (editButton) editButton.style.display = "inline-block";
@@ -126,17 +126,18 @@
 <div class="container mt-5 mb-4 text-center"
      th:action="@{/my-profile}"
      th:method="post"
-     th:object="${userData}"
->
-    <h1 class="mb-3">Моят профил</h1>
+     th:object="${userData}">
+    <h1 class="mb-3" th:text="#{my_profile_title}">Моят профил</h1>
     <div class="my-profile-container">
         <div class="form-group">
-            <label class="font-weight-bold">Имейл:</label>
+            <label class="font-weight-bold"
+                   th:text="#{my_profile_email}">Имейл:</label>
             <span id="email-view" th:text="${userData.email}"></span>
             <button id="email-edit-button"
                     type="button"
                     class="edit-button"
-                    onclick="toggleEdit('email')">Промяна
+                    onclick="toggleEdit('email')"
+                    th:text="#{my_profile_edit_button}">Промяна
             </button>
             <form id="email-edit"
                   th:action="@{/my-profile/update-email}"
@@ -147,31 +148,51 @@
                         id="email"
                         name="email"
                         th:value="${userData.email}" required>
-                <button type="submit" class="mt-2">Запамети</button>
+                <button type="submit"
+                        class="mt-2"
+                        th:text="#{my_profile_save_button}">
+                    Запамети
+                </button>
                 <button type="button"
                         class="edit-button mt-2"
-                        onclick="cancelEdit('email')">Отказ
+                        onclick="cancelEdit('email')"
+                        th:text="#{my_profile_cancel_button}">
+                    Отказ
                 </button>
             </form>
         </div>
         <div class="form-group">
-            <label class="font-weight-bold">Име:</label>
+            <label class="font-weight-bold"
+                   th:text="#{my_profile_first_name}">
+                Име:
+            </label>
             <span th:text="${userData.firstName}"></span>
         </div>
         <div class="form-group">
-            <label class="font-weight-bold">Фамилия:</label>
+            <label class="font-weight-bold"
+                   th:text="#{my_profile_last_name}">
+                Фамилия:
+            </label>
             <span th:text="${userData.lastName}"></span>
         </div>
         <div class="form-group">
-            <label class="font-weight-bold">Роли:</label>
+            <label class="font-weight-bold"
+                   th:text="#{my_profile_roles}">
+                Роли:
+            </label>
             <span th:each="role : ${userData.roles}" th:text="${role}" class="role-item"></span>
         </div>
         <div class="form-group">
-            <label class="font-weight-bold">Промени паролата:</label>
+            <label class="font-weight-bold"
+                   th:text="#{my_profile_change_password}">
+                Промени паролата:
+            </label>
             <button id="password-edit-button"
                     type="button"
                     class="edit-button"
-                    onclick="toggleEdit('password')">Промяна
+                    onclick="toggleEdit('password')"
+                    th:text="#{my_profile_edit_button}">
+                Промяна
             </button>
             <form id="password-edit"
                   th:action="@{/my-profile/update-password}"
@@ -181,22 +202,32 @@
                         type="password"
                         id="current-password"
                         name="currentPassword"
-                        placeholder="Текуща парола" required>
+                        th:placeholder="#{my_profile_current_password}" required>
                 <input
                         type="password"
                         id="new-password"
                         name="newPassword"
-                        placeholder="Нова парола" required>
-                <button type="submit" class="mt-2">Запамети</button>
+                        th:placeholder="#{my_profile_new_password}" required>
+                <button type="submit"
+                        class="mt-2"
+                        th:text="#{my_profile_save_button}">
+                    Запамети
+                </button>
                 <button type="button"
                         class="edit-button mt-2"
-                        onclick="cancelEdit('password')">Отказ
+                        onclick="cancelEdit('password')"
+                        th:text="#{my_profile_cancel_button}">
+                    Отказ
                 </button>
             </form>
         </div>
         <form th:action="@{/my-profile/delete-account}"
               th:method="post" class="form-group">
-            <button type="submit" class="delete-button mt-4">Изтриване на акаунт</button>
+            <button type="submit"
+                    class="delete-button mt-4"
+                    th:text="#{my_profile_delete_account_button}">
+                Изтриване на акаунт
+            </button>
         </form>
         <div th:if="${message}" class="alert alert-success">
             <span th:text="${message}"></span>
