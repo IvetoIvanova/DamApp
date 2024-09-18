@@ -2,7 +2,7 @@
 <html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Изтрит профил</title>
+    <title th:text="#{profile_deleted_title}">Изтрит профил</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <style>
@@ -40,13 +40,13 @@
 </head>
 <body>
 <div class="container">
-    <h1>Профилът е изтрит</h1>
+    <h1 th:text="#{profile_deleted_heading}">Профилът е изтрит</h1>
     <img src="/images/goodbye.png" width="200" height="200" alt="An illustration of a waving hand for goodbye"/>
-    <p>Вашият профил е изтрит успешно.</p>
-    <p>Съжаляваме, че си отивате. Благодарим ви, че бяхте част от нашата общност и се надяваме, че сте имали положителни
+    <p th:text="#{profile_deleted_message_success}">Вашият профил е изтрит успешно.</p>
+    <p th:text="#{profile_deleted_message_sorry}">Съжаляваме, че си отивате. Благодарим ви, че бяхте част от нашата общност и се надяваме, че сте имали положителни
         моменти с нас.</p>
-    <p>Ако решите да се върнете, ние сме тук, за да ви посрещнем!</p>
-    <a th:href="@{/}">Отидете на началната страница</a>
+    <p th:text="#{profile_deleted_message_come_back}">Ако решите да се върнете, ние сме тук, за да ви посрещнем!</p>
+    <a th:href="@{/}" th:text="#{profile_deleted_link_home}">Отидете на началната страница</a>
 </div>
 </body>
 </html>
