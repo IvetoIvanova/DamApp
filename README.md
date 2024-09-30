@@ -3,7 +3,7 @@
   <img src="https://github.com/IvetoIvanova/DamApp/blob/main/images/logo.png" alt="DamApp's logo" width="40%">
   <p>Welcome to Dam Platform! 🌱
 
-Tha Dam Platform is a web application designed to facilitate the exchange and gifting of homegrown produce. Users can list their excess produce for sharing or sale, and others can search for ads based on category. The platform aims to reduce food waste and build a community of like-minded individuals.
+The Dam Platform is a web application designed to facilitate the exchange and gifting of homegrown produce. Users can list their excess produce for sharing or sale, and others can search for ads based on category. The platform aims to reduce food waste and build a community of like-minded individuals.
 
 This project utilizes a microservices architecture with REST APIs for communication between services.</p>
 </div>
