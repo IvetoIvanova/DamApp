@@ -227,6 +227,14 @@ body.about-bg {
     color: #495057;
 }
 
+.dropdown-item-btn:hover,
+.dropdown-item-btn:focus {
+    color: #fff;
+    background-color: #28a745;
+    outline: none;
+    box-shadow: none;
+}
+
 .dropdown-item-form {
     display: block;
     width: 100%;
