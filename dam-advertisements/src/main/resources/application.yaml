@@ -29,3 +29,6 @@ logging:
 
 server:
   port: ${server_port}
+
+jwt:
+  secret: ${jwt_key}
